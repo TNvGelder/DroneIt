@@ -273,3 +273,5 @@ __pycache__/
 
 # Cake - Uncomment if you are using it
 # tools/
+*DroneAPI/DroneAPI/bin/
+*DroneAPI/DroneAPI/obj/
