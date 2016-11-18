@@ -1,3 +1,3 @@
 cls
 @echo off
-start node.exe droneTest.js
+start node.exe drone.js
