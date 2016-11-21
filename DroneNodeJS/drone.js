@@ -2,6 +2,13 @@ var app = require('http').createServer();
 var io = require('socket.io').listen(app);
 var arDrone = require('ar-drone');
 var client  = arDrone.createClient();
+client
+.after(10000, function() {
+    this.stop();
+  })
+  .after(3000, function() {
+    this.land();
+/*
 
 app.listen(8000);
 console.log("listening on port 8000");
