@@ -2,13 +2,6 @@ var app = require('http').createServer();
 var io = require('socket.io').listen(app);
 var arDrone = require('ar-drone');
 var client  = arDrone.createClient();
-client
-.after(10000, function() {
-    this.stop();
-  })
-  .after(3000, function() {
-    this.land();
-/*
 
 app.listen(8000);
 console.log("listening on port 8000");
@@ -32,7 +25,7 @@ io.sockets.on('connection', function (socket) {
 		switch(action) {
 			// Turn
 			case "turn":
-				if(param == 45)
+				/*if(param == 45)
 					client.clockwise(0.175);
 				else if (param == 90)
 					client.clockwise(0.35);
@@ -43,7 +36,17 @@ io.sockets.on('connection', function (socket) {
 				else if (param == -90)
 					client.clockwise(-0.35);
 				else if (param == -180)
-					client.clockwise(-0.7);
+					client.clockwise(-0.7);*/
+					
+				while(clockwiseDegrees < param || clockwiseDegrees > (param - 180)){
+					this.clockwise(1);
+					console.log(clockwiseDegrees);
+				}
+				
+				while(clockwiseDegrees > param || clockwiseDegrees > (param + 180)){
+					this.clockwise(-1);
+					console.log(clockwiseDegrees);
+				}
 				
 				break;
 			
@@ -56,8 +59,8 @@ io.sockets.on('connection', function (socket) {
 				
 				break;
 				
-			// Backwards
-			case "backwards":
+			// Backward
+			case "backward":
 				client.back(0.5);
 				client.after(param * 1000, function() {
 					this.stop();
@@ -65,10 +68,7 @@ io.sockets.on('connection', function (socket) {
 				
 				break;
 		}
+		setTimeout(console.log('Action done'), 3000);
+		io.sockets.emit('done');
 	});
-	
-	// Send navdata
-	/*client.on('navdata', function (){
-		io.sockets.emit('navdata', data);
-	});*/
 });
