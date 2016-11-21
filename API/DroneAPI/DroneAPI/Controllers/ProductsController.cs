@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using DroneAPI.DAL;
 using DroneAPI.Models;
+using System.Web.Http.Cors;
 
 namespace DroneAPI.Migrations
 {
@@ -18,12 +19,14 @@ namespace DroneAPI.Migrations
         private DroneContext db = new DroneContext();
 
         // GET: api/Products
+        [EnableCors("*", "*", "GET")]
         public IQueryable<Product> GetProducts()
         {
             return db.Products;
         }
 
         // GET: api/Products/5
+        [EnableCors("*", "*", "GET")]
         [ResponseType(typeof(Product))]
         public IHttpActionResult GetProduct(int id)
         {
@@ -37,6 +40,7 @@ namespace DroneAPI.Migrations
         }
 
         // PUT: api/Products/5
+        [EnableCors("*", "*", "PUT")]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutProduct(int id, Product product)
         {
@@ -72,6 +76,7 @@ namespace DroneAPI.Migrations
         }
 
         // POST: api/Products
+        [EnableCors("*", "*", "POST")]
         [ResponseType(typeof(Product))]
         public IHttpActionResult PostProduct(Product product)
         {
@@ -87,6 +92,7 @@ namespace DroneAPI.Migrations
         }
 
         // DELETE: api/Products/5
+        [EnableCors("*", "*", "DELETE")]
         [ResponseType(typeof(Product))]
         public IHttpActionResult DeleteProduct(int id)
         {
