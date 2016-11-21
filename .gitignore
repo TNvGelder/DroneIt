@@ -28,3 +28,7 @@ API/DroneAPI/.vs/config/applicationhost.config
 API/DroneAPI/UpgradeLog.htm
 API/DroneAPI/DroneAPI/App_Data/DroneDatabase_log.ldf
 API/DroneAPI/DroneAPI/App_Data/DroneDatabase.mdf
+DroneNodeJS/DroneConnection/packages/*
+DroneNodeJS/DroneConnection/DroneConnection/*.cache
+DroneNodeJS/DroneConnection/DroneConnection/obj/Debug/*
+DroneNodeJS/DroneConnection/DroneConnection/bin/Debug/*
