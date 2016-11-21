@@ -1,29 +1,15 @@
-/*var arDrone = require('ar-drone');
-var client  = arDrone.createClient();
-
-client.config('general:navdata_demo', true);
-
-function test(data){
-	var demo = data.demo;
-	console.log(demo.controlState);
-}
-
-client.on('navdata', test);*/
-
 var arDrone = require('ar-drone');
-var droneClient = arDrone.createClient();
-//droneClient.config('general:navdata_demo', true);
+var client = arDrone.createClient();
 var clockwiseDegrees = 0;
 
 
-droneClient.on('navdata', function(navdata) {
+client.on('navdata', function(navdata) {
 	if(navdata.demo != null){
 		clockwiseDegrees = parseInt(navdata.demo.clockwiseDegrees);
-		
 	}
 });
 
-droneClient
+client
   .after(10, function() {
     this.takeoff();
   })
