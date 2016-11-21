@@ -7,7 +7,16 @@ namespace DroneAPI.Models
 {
     public class Node
     {
-        int x;
-        int y;
+        public int x;
+        public int y;
+        public List<Node> adj;
+        public Node prev;
+        public double dist;
+
+        public Node(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
     }
 }
