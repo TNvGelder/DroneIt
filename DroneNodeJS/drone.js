@@ -61,7 +61,7 @@ io.sockets.on('connection', function (socket) {
 	});
 	
 	// Send navdata
-	client.on('navdata', function (){
+	/*client.on('navdata', function (){
 		io.sockets.emit('navdata', data);
-	});
+	});*/
 });
