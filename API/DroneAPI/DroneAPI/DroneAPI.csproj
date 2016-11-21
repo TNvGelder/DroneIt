@@ -106,7 +106,6 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\ProductsController.cs" />
     <Compile Include="Models\Drone.cs" />
-    <Compile Include="Models\Node.cs" />
     <Compile Include="Models\Position.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
