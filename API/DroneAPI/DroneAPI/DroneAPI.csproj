@@ -100,6 +100,8 @@
     <Compile Include="DataStructures\GraphStructure\Graph.cs" />
     <Compile Include="DataStructures\GraphStructure\GraphNode.cs" />
     <Compile Include="DataStructures\GraphStructure\Path.cs" />
+    <Compile Include="Services\MathUtility.cs" />
+    <Compile Include="Services\MovementCommandFactory.cs" />
     <Compile Include="DataStructures\PriorityQueue\BinaryHeap.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -126,7 +128,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201611161210222_init.resx">
