@@ -4,6 +4,7 @@ var clockwiseDegrees = 0;
 
 
 client.on('navdata', function(navdata) {
+	console.log(navdata);
 	if(navdata.demo != null){
 		clockwiseDegrees = parseInt(navdata.demo.clockwiseDegrees);
 	}
@@ -16,7 +17,7 @@ client
   .after(1000, function() {
 	this.calibrate(0);
   })
-  .after(10000, function() {
+  /*.after(10000, function() {
 		while(clockwiseDegrees < 90){
 			this.clockwise(0.5);
 			console.log(clockwiseDegrees);
@@ -28,7 +29,7 @@ client
 		}
 		
 		console.log("done");
-  })
+  })*/
   /*.after(10000, function() {
     this.front(0.1);
   })*/
