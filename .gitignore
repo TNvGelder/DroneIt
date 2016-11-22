@@ -25,3 +25,4 @@ API/DroneAPI/packages/*
 API/DroneAPI/DroneAPI/obj/*
 API/DroneAPI/.vs/config/applicationhost.config
 *.suo
+*.suo
