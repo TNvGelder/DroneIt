@@ -23,6 +23,9 @@ namespace DroneConnection {
                 _socket.Connect();
             }
 
+            busy = true;
+            waitForDrone();
+
             _socket.On("done", () => {
                 Console.WriteLine(_name + ", is done!");
                 busy = false;
