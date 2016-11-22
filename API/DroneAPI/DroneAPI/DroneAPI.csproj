@@ -96,7 +96,11 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\QualityCheckController.cs" />
     <Compile Include="DAL\DroneContext.cs" />
-    <Compile Include="DataStructures\Node.cs" />
+    <Compile Include="DataStructures\GraphStructure\Edge.cs" />
+    <Compile Include="DataStructures\GraphStructure\Graph.cs" />
+    <Compile Include="DataStructures\GraphStructure\GraphNode.cs" />
+    <Compile Include="DataStructures\GraphStructure\Path.cs" />
+    <Compile Include="DataStructures\PriorityQueue\BinaryHeap.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
