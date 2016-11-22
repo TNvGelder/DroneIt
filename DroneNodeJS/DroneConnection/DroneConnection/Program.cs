@@ -9,11 +9,11 @@ namespace DroneConnection {
         static void Main(string[] args) {
             Drone drone = new Drone("Henk", "http://127.0.0.1:8000/");
             drone.Connect();
-            drone.Turn(90);
+            /*drone.Turn(90);
             drone.Forward(2);
             drone.Backward(2);
             drone.Turn(270);
-            drone.Turn(190);
+            drone.Turn(190);*/
 
             Console.Read();
         }
