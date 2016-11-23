@@ -29,59 +29,74 @@ client.on('navdata', function(navdata) {
 
 client
   .after(10, function() {
+	this.calibrate(0);
+  })
+  .after(5000, function() {
     this.takeoff();
   })
-  /*.after(1000, function() {
-	this.calibrate(0);
-  })*/
-  /*.after(10000, function() {
+  .after(20000, function() {
 	north = clockwiseDegrees;
 	console.log('Calibrate done');
-	this.stop();
-  })*/
-  /*.after(3000, function() {
-	  turnto = 90;
-	  turn = true;
-  })*/
-  /*.after(2000, function() {
-	this.up(0.5);
   })
-  .after(5 * 1000, function() {
-	this.stop();
-  })
-  .after(2000, function() {
+  .after(5000, function() {
 	this.front(0.2);
   })
   .after(5 * 1000, function() {
 	this.stop();
   })
-  .after(2000, function() {
+  .after(5000, function() {
+	  var param = 90;
+	  if(north >= 0){
+			param = (parseInt(param) + parseInt(north));
+		} else if(north < 0){
+			param = (parseInt(param) - (parseInt(north) * -1));
+		}
+		if(param > 180){
+			param = (parseInt(param) - 360);
+		}
+		
+		turnto = param;
+		turn = true;
+  })
+  /*.after(5000, function() {
+	this.up(0.5);
+  })
+  .after(5 * 1000, function() {
+	this.stop();
+  })*/
+  /*.after(5000, function() {
+	this.front(0.2);
+  })
+  .after(2 * 1000, function() {
+	this.stop();
+  })
+  .after(5000, function() {
 	this.left(0.2);
   })
-  .after(5 * 1000, function() {
+  .after(2 * 1000, function() {
 	this.stop();
   })
-  .after(2000, function() {
+  .after(5000, function() {
 	this.back(0.2);
   })
-  .after(5 * 1000, function() {
+  .after(2 * 1000, function() {
 	this.stop();
   })
-  .after(2000, function() {
+  .after(5000, function() {
 	this.right(0.2);
   })
-  .after(5 * 1000, function() {
+  .after(2 * 1000, function() {
 	this.stop();
-  })
-  .after(2000, function() {
+  })*/
+  /*.after(5000, function() {
 	this.down(0.5);
   })
   .after(5 * 1000, function() {
 	this.stop();
   })*/
-  .after(3000, function() {
+  .after(10000, function() {
     this.stop();
   })
-  .after(10000, function() {
+  .after(3000, function() {
     this.land();
   });
