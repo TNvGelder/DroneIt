@@ -104,7 +104,6 @@
     <Compile Include="Exceptions\NoSuchElementException.cs" />
     <Compile Include="Services\MathUtility.cs" />
     <Compile Include="Services\MovementCommandFactory.cs" />
-    <Compile Include="DataStructures\PriorityQueue\BinaryHeap.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
