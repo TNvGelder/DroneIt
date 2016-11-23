@@ -33,26 +33,40 @@ client.on('navdata', function(navdata) {
 io.sockets.on('connection', function (socket) {
 	console.log(socket.id + " connected");
 	
-	// Take off
-	client
-	  .after(10, function() {
-		this.takeoff();
-	  })
-	  .after(1000, function() {
-		this.calibrate(0);
-	  })
-	  .after(10000, function() {
-		north = clockwiseDegrees;  
-		io.sockets.emit('done');
-	  });
-	  
-	
-	
 	// Get action
 	socket.on('drone', function (action, param) {
 		console.log(action + " do " + param + ", received by " + socket.id);
 		
 		switch(action) {
+			// Start
+			case "start":			
+				client
+					.after(10, function() {
+						this.takeoff();
+					})
+					.after(1000, function() {
+						this.calibrate(0);
+					})
+					.after(10000, function() {
+						north = clockwiseDegrees;
+						console.log('Calibrate done');
+						io.sockets.emit('done');
+					});		
+				
+				break;
+				
+			// Land
+			case "land":			
+				client
+					.after(10000, function() {
+						this.stop();
+					})
+					.after(3000, function() {
+						this.land();
+					});		
+				
+				break;
+			
 			// Turn
 			case "turn":			
 				turn = true;
@@ -62,25 +76,61 @@ io.sockets.on('connection', function (socket) {
 			
 			// Forward
 			case "forward":
-				client.front(0.5);
+				client.front(0.2);
 				client.after(param * 1000, function() {
-					client.stop();
+					this.stop();
 				});
 				
 				break;
 				
 			// Backward
 			case "backward":
-				client.back(0.5);
+				client.back(0.2);
 				client.after(param * 1000, function() {
-					client.stop();
+					this.stop();
 				});
+				
+				break;
+				
+			// Left
+			case "left":
+				client.left(0.2);
+				client.after(param * 1000, function() {
+					this.stop();
+				});
+				
+				break;
+			
+			// Right
+			case "right":
+				client.right(0.2);
+				client.after(param * 1000, function() {
+					this.stop();
+				});
+				
+				break;
+				
+			// Rise
+			case "rise":			
+				client.up(0.5);
+				client.after(param * 1000, function() {
+					this.stop();
+				});		
+				
+				break;
+				
+			// Fall
+			case "fall":			
+				client.down(0.5);
+				client.after(param * 1000, function() {
+					this.stop();
+				});		
 				
 				break;
 		}
 		
 		if(!turn){
-			setTimeout(console.log('Action done'), 3000);
+			console.log('Action done');
 			io.sockets.emit('done');
 		}
 	});

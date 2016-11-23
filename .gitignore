@@ -22,13 +22,6 @@ API/DroneAPI/DroneAPI/obj/Debug/DroneAPI.Migrations.init.resources
 API/DroneAPI/DroneAPI/obj/Debug/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
 API/DroneAPI/packages/*
 API/DroneAPI/DroneAPI/obj/*
-<<<<<<< HEAD
-API/DroneAPI/.vs/config/applicationhost.config
-*.suo
-*.suo
-*.suo
-API/DroneAPI/.vs/DroneAPI/v14/.suo
-=======
 API/DroneAPI/DroneAPI/bin/System.Web.Http.Cors.xml
 API/DroneAPI/.vs/config/applicationhost.config
 API/DroneAPI/.vs/config/applicationhost.config
@@ -39,4 +32,3 @@ DroneNodeJS/DroneConnection/packages/*
 DroneNodeJS/DroneConnection/DroneConnection/*.cache
 DroneNodeJS/DroneConnection/DroneConnection/obj/Debug/*
 DroneNodeJS/DroneConnection/DroneConnection/bin/Debug/*
->>>>>>> refs/remotes/origin/master
