@@ -28,3 +28,5 @@ API/DroneAPI/.vs/config/applicationhost.config
 *.suo
 *.suo
 API/DroneAPI/.vs/DroneAPI/v14/.suo
+*.mdf
+API/DroneAPI/DroneAPI/App_Data/DroneDatabase_log.ldf
