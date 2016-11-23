@@ -1,0 +1,38 @@
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Producten
+        </h1>
+    </div>
+</div>
+
+<a href="#/add" class="btn btn btn-primary">Toevoegen</a>
+
+<div class="row">
+    <div class="col-lg-12">
+    	<table class="table table-bordered table-hover table-striped" style="width:100%;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Naam</th>
+                    <th>Locatie</th>
+                    <th>Actie's</th>
+                </tr>
+            </thead>
+            <tbody>
+				<tr ng-repeat="product in products">
+					<td>{{product.Id}}</td>
+					<td>{{product.Name}}</td>
+					<td>{{product.Locatie}}</td>
+					<td>
+						<div class="btn-group">
+							<a class="btn btn-warning" ng-click="EditProduct(product.Id)">Wijzigen</a>
+							<a class="btn btn-danger" ng-click="DeleteProduct(product.Id)">Verwijderen</a>
+						</div>
+					</td>
+				</tr>
+            </tbody>
+        </table>
+    </div>
+</div>
