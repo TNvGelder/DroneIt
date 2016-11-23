@@ -14,7 +14,7 @@ namespace DroneAPI.Processors
         {
             DroneProcessor processor = new DroneProcessor(drone);
 
-            IDroneCommand t1 = new TakeOffCommand(processor);
+            IDroneCommand t1 = new StartCommand(processor);
             IDroneCommand t2 = new TurnCommand(processor, 90);
             IDroneCommand t3 = new LandCommand(processor);
   

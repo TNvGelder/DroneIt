@@ -40,7 +40,7 @@ namespace DroneAPI.Processors.DroneProcessors
             });
         }
 
-        public void sendData(string action, string data)
+        public void sendData(string action, string data = "")
         {
             if (_drone.busy) return;
 

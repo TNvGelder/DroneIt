@@ -17,16 +17,36 @@ namespace DroneAPI.Processors.DroneProcessors
             _connectionProcessor.Connect();
         }
 
-        public void Forwards(int miliseconds)
+        public void Forwards(int squares)
         {
             if (_drone.Flying)
-                _connectionProcessor.sendData("forward", miliseconds.ToString());
+                _connectionProcessor.sendData("forward", squares.ToString());
         }
 
-        public void Backwards(int miliseconds)
+        public void Backwards(int squares)
         {
             if (_drone.Flying)
-                _connectionProcessor.sendData("backward", miliseconds.ToString());
+                _connectionProcessor.sendData("backward", squares.ToString());
+        }
+
+        public void Left(int squares) {
+            if (_drone.Flying)
+                _connectionProcessor.sendData("left", squares.ToString());
+        }
+
+        public void Right(int squares) {
+            if (_drone.Flying)
+                _connectionProcessor.sendData("right", squares.ToString());
+        }
+
+        public void Rise(int squares) {
+            if (_drone.Flying)
+                _connectionProcessor.sendData("rise", squares.ToString());
+        }
+
+        public void Fall(int squares) {
+            if (_drone.Flying)
+                _connectionProcessor.sendData("fall", squares.ToString());
         }
 
         public void Turn(int degrees)
@@ -35,11 +55,11 @@ namespace DroneAPI.Processors.DroneProcessors
                 _connectionProcessor.sendData("turn", degrees.ToString());
         }
 
-        public void TakeOff()
+        public void Start()
         {
             if (!_drone.Flying)
             {
-                _connectionProcessor.sendData("takeoff", "");
+                _connectionProcessor.sendData("start");
                 _drone.Flying = true;
             }
 
@@ -48,7 +68,7 @@ namespace DroneAPI.Processors.DroneProcessors
         {
             if (_drone.Flying)
             {
-                _connectionProcessor.sendData("land", "");
+                _connectionProcessor.sendData("land");
                 _drone.Flying = false;
             }
         }

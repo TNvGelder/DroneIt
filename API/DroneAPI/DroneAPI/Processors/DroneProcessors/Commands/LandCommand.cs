@@ -17,7 +17,7 @@ namespace DroneAPI.Processors.DroneProcessors.Commands
 
         public void Undo()
         {
-            _processor.TakeOff();
+            _processor.Start();
         }
 
         public LandCommand(DroneProcessor processor)

@@ -38,8 +38,8 @@ io.sockets.on('connection', function (socket) {
 		console.log(action + " do " + param + ", received by " + socket.id);
 		
 		switch(action) {
-			// Take off
-			case "takeoff":			
+			// Start
+			case "start":			
 				client
 					.after(10, function() {
 						this.takeoff();

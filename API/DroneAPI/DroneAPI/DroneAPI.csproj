@@ -129,11 +129,12 @@
     <Compile Include="Models\Node.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Processors\Drone command executer.cs" />
-    <Compile Include="Processors\DroneProcessors\Commands\BackwardsCommand.cs" />
+    <Compile Include="Processors\DroneProcessors\Commands\BackwardCommand.cs" />
     <Compile Include="Processors\DroneProcessors\Commands\ForwardCommand.cs" />
     <Compile Include="Processors\DroneProcessors\Commands\IDroneCommand.cs" />
     <Compile Include="Processors\DroneProcessors\Commands\LandCommand.cs" />
-    <Compile Include="Processors\DroneProcessors\Commands\TakeOffCommand.cs" />
+    <Compile Include="Processors\DroneProcessors\Commands\LeftCommand.cs" />
+    <Compile Include="Processors\DroneProcessors\Commands\StartCommand.cs" />
     <Compile Include="Processors\DroneProcessors\Commands\TurnCommand.cs" />
     <Compile Include="Processors\DroneProcessors\DroneConnectionProcessor.cs" />
     <Compile Include="Processors\DroneProcessors\DroneProcessor.cs" />
