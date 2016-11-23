@@ -52,7 +52,7 @@ namespace DroneConnection {
         }
 
         public void Turn(int direction) {
-            direction = direction > 180 ? direction - 360 : direction;
+            //direction = direction > 180 ? direction - 360 : direction;
             sendData("turn", direction.ToString());
         }
 

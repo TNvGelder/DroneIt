@@ -18,13 +18,17 @@ client.on('navdata', function(navdata) {
 	}
 	
 	if(turn){							
-		if(clockwiseDegrees < turnto || clockwiseDegrees > (turnto - 180)){
-			client.clockwise(0.2);
+		if(clockwiseDegrees > turnto && clockwiseDegrees > (turnto - 180)){
+			client.clockwise(0.1);
 			console.log('go right');
 		}
-		if(clockwiseDegrees > turnto || clockwiseDegrees > (turnto + 180)){
-			client.clockwise(-0.2);
+		else if(clockwiseDegrees < turnto && clockwiseDegrees < (turnto + 180)){
+			client.clockwise(-0.1);
 			console.log('go left'); 
+		} else {
+			turn = false;
+			client.stop();
+			console.log("Turning done");
 		}
 		console.log(clockwiseDegrees);
 	}
@@ -57,20 +61,27 @@ io.sockets.on('connection', function (socket) {
 				
 			// Land
 			case "land":			
-				client
-					.after(10000, function() {
-						this.stop();
-					})
-					.after(3000, function() {
-						this.land();
-					});		
+				client.stop();
+				client.after(3000, function() {
+					this.land();
+				});
 				
 				break;
 			
 			// Turn
-			case "turn":			
+			case "turn":
+				north = -60;
+				if(north >= 0){
+					param = (parseInt(param) + parseInt(north));
+				} else if(north < 0){
+					param = (parseInt(param) - (parseInt(north) * -1));
+				}
+				if(param > 180){
+					param = (parseInt(param) - 360);
+				}
+				
+				turnto = param;
 				turn = true;
-				turnto = param;		
 				
 				break;
 			
