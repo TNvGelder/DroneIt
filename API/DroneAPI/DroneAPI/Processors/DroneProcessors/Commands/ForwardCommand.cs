@@ -8,7 +8,7 @@ namespace DroneAPI.Processors.DroneProcessors.Commands
     public class ForwardCommand : IDroneCommand
     {
         private DroneProcessor _processor { get; set; }
-        private int _squares { get; set; }
+        private double _squares { get; set; }
 
         public void Execute()
         {
@@ -20,7 +20,7 @@ namespace DroneAPI.Processors.DroneProcessors.Commands
             _processor.Backwards(_squares);
         }
 
-        public ForwardCommand(DroneProcessor processor, int squares)
+        public ForwardCommand(DroneProcessor processor, double squares)
         {
             _processor = processor;
             _squares = squares;

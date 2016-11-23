@@ -22,34 +22,34 @@ namespace DroneAPI.Processors.DroneProcessors
             return _drone.busy;
         }
 
-        public void Forwards(int squares)
+        public void Forwards(double squares)
         {
             if (_drone.Flying)
                 _connectionProcessor.sendData("forward", squares.ToString());
         }
 
-        public void Backwards(int squares)
+        public void Backwards(double squares)
         {
             if (_drone.Flying)
                 _connectionProcessor.sendData("backward", squares.ToString());
         }
 
-        public void Left(int squares) {
+        public void Left(double squares) {
             if (_drone.Flying)
                 _connectionProcessor.sendData("left", squares.ToString());
         }
 
-        public void Right(int squares) {
+        public void Right(double squares) {
             if (_drone.Flying)
                 _connectionProcessor.sendData("right", squares.ToString());
         }
 
-        public void Rise(int squares) {
+        public void Rise(double squares) {
             if (_drone.Flying)
                 _connectionProcessor.sendData("rise", squares.ToString());
         }
 
-        public void Fall(int squares) {
+        public void Fall(double squares) {
             if (_drone.Flying)
                 _connectionProcessor.sendData("fall", squares.ToString());
         }
