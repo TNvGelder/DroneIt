@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 app.controller("ProductOverviewController", function ($scope, $http, $location) {
     $scope.products = [];
 
