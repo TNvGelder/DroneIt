@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DroneAPI.Processors.DroneProcessors.Commands
 {
-    interface IDroneCommand
+    public interface IDroneCommand
     {
         void Execute();
         void Undo();

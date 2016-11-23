@@ -17,6 +17,11 @@ namespace DroneAPI.Processors.DroneProcessors
             _connectionProcessor.Connect();
         }
 
+        public bool DroneIsBusy()
+        {
+            return _drone.busy;
+        }
+
         public void Forwards(int squares)
         {
             if (_drone.Flying)

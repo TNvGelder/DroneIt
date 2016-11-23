@@ -10,19 +10,22 @@ namespace DroneAPI.Processors
 {
     public class Drone_command_executer
     {
-        public Drone_command_executer(Drone drone)
+        public Drone_command_executer()
         {
-            DroneProcessor processor = new DroneProcessor(drone);
+            Drone drone = new Drone();
+            drone.Name = "";
 
-            IDroneCommand t1 = new StartCommand(processor);
-            IDroneCommand t2 = new TurnCommand(processor, 90);
-            IDroneCommand t3 = new LandCommand(processor);
-  
-            t1.Execute();
-            //while (drone.busy) ;
-            t2.Execute();
-           // while (drone.busy) ;
-            t3.Execute();
+            DroneProcessor droneProcessor = new DroneProcessor(drone);
+
+            DroneCommandProcessor cmdProcessor = new DroneCommandProcessor(drone);
+
+            cmdProcessor.AddCommand(new StartCommand(droneProcessor));
+            cmdProcessor.AddCommand(new ForwardCommand(droneProcessor, 50));
+            cmdProcessor.AddCommand(new LeftCommand(droneProcessor, 20));
+            cmdProcessor.AddCommand(new LandCommand(droneProcessor));
+
+            cmdProcessor.Execute();
+
         }
     }
 }
