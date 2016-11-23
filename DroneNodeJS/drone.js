@@ -76,7 +76,7 @@ io.sockets.on('connection', function (socket) {
 			
 			// Forward
 			case "forward":
-				client.front(0.5);
+				client.front(0.2);
 				client.after(param * 1000, function() {
 					this.stop();
 				});
@@ -85,7 +85,7 @@ io.sockets.on('connection', function (socket) {
 				
 			// Backward
 			case "backward":
-				client.back(0.5);
+				client.back(0.2);
 				client.after(param * 1000, function() {
 					this.stop();
 				});
@@ -94,7 +94,7 @@ io.sockets.on('connection', function (socket) {
 				
 			// Left
 			case "left":
-				client.left(0.5);
+				client.left(0.2);
 				client.after(param * 1000, function() {
 					this.stop();
 				});
@@ -103,7 +103,7 @@ io.sockets.on('connection', function (socket) {
 			
 			// Right
 			case "right":
-				client.right(0.5);
+				client.right(0.2);
 				client.after(param * 1000, function() {
 					this.stop();
 				});
