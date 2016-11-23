@@ -26,3 +26,5 @@ API/DroneAPI/DroneAPI/obj/*
 API/DroneAPI/.vs/config/applicationhost.config
 *.suo
 *.suo
+*.suo
+API/DroneAPI/.vs/DroneAPI/v14/.suo
