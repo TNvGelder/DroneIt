@@ -11,5 +11,10 @@ namespace DroneAPI.DataStructures
         public GraphNode Destination { get; set; }
         public double Cost { get; set; }
 
+        public Edge(GraphNode destination, double cost)
+        {
+            Destination = destination;
+            Cost = cost;
+        }
     }
 }

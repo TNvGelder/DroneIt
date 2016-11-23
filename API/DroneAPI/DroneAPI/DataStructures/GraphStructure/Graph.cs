@@ -5,6 +5,7 @@ using System.Web;
 using DroneAPI.DataStructures.PriorityQueue;
 using DroneAPI.Exceptions;
 using DroneAPI.Models;
+using DroneAPI.Services;
 
 namespace DroneAPI.DataStructures.GraphStructure
 {
@@ -16,7 +17,9 @@ namespace DroneAPI.DataStructures.GraphStructure
         {
             GraphNode startNode = getNode(start);
             GraphNode destNode = getNode(destination);
-            //v.adj.add(new Edge(w, cost));
+            double cost = MathUtility.CalculateDistance(start, destination);
+            startNode.Adjacent.Add(new Edge(destNode, cost));
+            destNode.Adjacent.Add(new Edge(startNode, cost));
         }
 
         public void Dijkstra(Position startPosition, Position endPosition)
@@ -45,6 +48,10 @@ namespace DroneAPI.DataStructures.GraphStructure
                 {
                     node.Scratch = 1;
                     nodesSeen++;
+                    if (node.Position.Equals(endPosition))
+                    {
+                        
+                    }
                     foreach (Edge e in node.Adjacent)
                     {
                         GraphNode adjacentNode = e.Destination;
