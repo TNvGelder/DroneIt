@@ -29,9 +29,9 @@ namespace DroneAPI.Controllers
 
         }
         
-        // GET: api/FlyShortestPath
+        // GET: api/QualityCheck
         // Dient als een soort van Main
-        public string FlyShortestPath()
+        public string GetShortestPath()
         {
             Pathfinder pathfinder = new Pathfinder();
             Position a = new Position {X=0, Y=0};
