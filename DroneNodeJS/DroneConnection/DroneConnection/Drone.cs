@@ -22,9 +22,11 @@ namespace DroneConnection {
             } else {
                 _socket.Connect();
             }
-
-            busy = true;
-            waitForDrone();
+            Start();
+            Console.WriteLine("Starting drone wait 30 sec");
+            System.Threading.Thread.Sleep(30000);
+            /*busy = true;
+            waitForDrone();*/
 
             _socket.On("done", () => {
                 Console.WriteLine(_name + ", is done!");
@@ -81,7 +83,7 @@ namespace DroneConnection {
         }
 
         public void Start() {
-            sendData("takeoff");
+            sendData("start");
         }
 
         public void Land() {

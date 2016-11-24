@@ -51,7 +51,7 @@ io.sockets.on('connection', function (socket) {
 		
 		switch(action) {
 			// Start
-			case "start":			
+			case "start":		
 				client
 					.after(1000, function() {
 						this.calibrate(0);
