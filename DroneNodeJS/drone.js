@@ -64,7 +64,6 @@ io.sockets.on('connection', function (socket) {
 					.after(20000, function() {
 						north = clockwiseDegrees;
 						console.log('Calibrate done');
-						io.sockets.emit('done');
 					});		
 				
 				break;
