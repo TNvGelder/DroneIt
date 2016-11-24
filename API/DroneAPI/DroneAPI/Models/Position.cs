@@ -14,5 +14,10 @@ namespace DroneAPI.Models
         {
             return (X.Equals(other.X) && Y.Equals(other.Y));
         }
+
+        public override string ToString()
+        {
+            return "(" + X + "," + Y + ")";
+        }
     }
 }

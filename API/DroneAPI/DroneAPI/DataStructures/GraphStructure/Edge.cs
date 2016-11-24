@@ -6,12 +6,12 @@ using DroneAPI.Models;
 
 namespace DroneAPI.DataStructures
 {
-    public class Edge
+    public class Edge<T>
     {
-        public GraphNode Destination { get; set; }
+        public GraphNode<T> Destination { get; set; }
         public double Cost { get; set; }
 
-        public Edge(GraphNode destination, double cost)
+        public Edge(GraphNode<T> destination, double cost)
         {
             Destination = destination;
             Cost = cost;
