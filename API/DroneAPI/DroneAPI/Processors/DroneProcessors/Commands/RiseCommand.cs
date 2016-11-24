@@ -4,21 +4,21 @@ using System.Linq;
 using System.Web;
 
 namespace DroneAPI.Processors.DroneProcessors.Commands {
-    public class LeftCommand : IDroneCommand {
+    public class RiseCommand : IDroneCommand {
         private DroneProcessor _processor { get; set; }
         private double _squares { get; set; }
 
-        public LeftCommand(DroneProcessor processor, double squares) {
+        public RiseCommand(DroneProcessor processor, double squares) {
             _processor = processor;
             _squares = squares;
         }
 
         public void Execute() {
-            _processor.Left(_squares);
+            _processor.Rise(_squares);
         }
 
         public void Undo() {
-            _processor.Right(_squares);
+            _processor.Fall(_squares);
         }
     }
 }

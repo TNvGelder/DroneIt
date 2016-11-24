@@ -18,8 +18,8 @@ namespace DroneAPI.Processors.DroneProcessors.Commands
 
         public void Undo()
         {
-            _processor.Turn(-_degrees);
-
+            // Doesn't work!
+            _processor.Turn(_degrees);
         }
 
         public TurnCommand(DroneProcessor processor, int degrees)
