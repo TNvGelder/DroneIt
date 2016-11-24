@@ -32,7 +32,7 @@ namespace DroneConnection {
             });
         }
 
-        private void sendData(string action, string data = "") {
+        private void sendData(string action, string data) {
             busy = true;
             string[] arrayData = { action, data };
             _socket.Emit("drone", arrayData);
@@ -52,7 +52,7 @@ namespace DroneConnection {
         }
 
         public void Turn(int direction) {
-            //direction = direction > 180 ? direction - 360 : direction;
+            direction = direction > 180 ? direction - 360 : direction;
             sendData("turn", direction.ToString());
         }
 
@@ -62,30 +62,6 @@ namespace DroneConnection {
 
         public void Backward(int fields) {
             sendData("backward", fields.ToString());
-        }
-
-        public void Left(int fields) {
-            sendData("left", fields.ToString());
-        }
-
-        public void Right(int fields) {
-            sendData("right", fields.ToString());
-        }
-
-        public void Rise(int meters) {
-            sendData("rise", meters.ToString());
-        }
-
-        public void Fall(int meters) {
-            sendData("fall", meters.ToString());
-        }
-
-        public void Start() {
-            sendData("takeoff");
-        }
-
-        public void Land() {
-            sendData("land");
         }
     }
 }
