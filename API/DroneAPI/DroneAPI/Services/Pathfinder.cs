@@ -7,14 +7,19 @@ using DroneAPI.Models;
 
 namespace DroneAPI.Services
 {
+
+
     public class Pathfinder
     {
         private Graph<Position> _pathGraph;
-
+        
+        //Creates
         public Pathfinder()
         {
             _pathGraph = new Graph<Position>();
         }
+
+        //Adds a bidirectional path to the graph from startposition to endposition
         public void AddPath(Position startPosition, Position endPosition)
         {
             double cost = MathUtility.CalculateDistance(startPosition, endPosition);
