@@ -117,7 +117,6 @@
     <Compile Include="DataStructures\GraphStructure\Edge.cs" />
     <Compile Include="DataStructures\GraphStructure\Graph.cs" />
     <Compile Include="DataStructures\GraphStructure\GraphNode.cs" />
-    <Compile Include="DataStructures\GraphStructure\GraphPath.cs" />
     <Compile Include="DataStructures\PriorityQueue\BinaryHeap.cs" />
     <Compile Include="Exceptions\NoSuchElementException.cs" />
     <Compile Include="Processors\DroneProcessors\DroneCommandProcessor.cs" />

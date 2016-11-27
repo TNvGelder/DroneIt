@@ -9,10 +9,15 @@ using DroneAPI.Services;
 
 namespace DroneAPI.DataStructures.GraphStructure
 {
+    /// <summary>
+    /// The graph class can be used to store values in a graph and to look for the shortest path between points in the graph.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class Graph<T>
     {
         private Dictionary<T, GraphNode<T>> _nodeDictionary = new Dictionary<T, GraphNode<T>>();
 
+        //Adds an edge between two nodes with the given cost.
         public void AddEdge(T start, T destination, double cost)
         {
             GraphNode<T> startNode = getNode(start);
@@ -20,10 +25,18 @@ namespace DroneAPI.DataStructures.GraphStructure
             startNode.Adjacent.Add(new Edge<T>(destNode, cost));
         }
 
+        
+        /// <summary>
+        /// Algorithm to find the shortest weighted path in a graph. (Shortest distance)
+        /// This method uses a startvalue as well as an end value that need to be given.
+        /// If the endpoint is reached in the algorithm the distance to nodes further away will not be determined.
+        /// </summary>
+        /// <param name="startValue"></param>
+        /// <param name="endValue"></param>
         private void Dijkstra(T startValue, T endValue)
         {
             
-            BinaryHeap<GraphPath<T>> priorityQueue = new BinaryHeap<GraphPath<T>>();
+            BinaryHeap<Edge<T>> priorityQueue = new BinaryHeap<Edge<T>>();
 
             if (!_nodeDictionary.ContainsKey(startValue) || !_nodeDictionary.ContainsKey(endValue))
             {
@@ -35,12 +48,12 @@ namespace DroneAPI.DataStructures.GraphStructure
             }
             
             GraphNode<T> start = _nodeDictionary[startValue];
-            priorityQueue.Add(new GraphPath<T>(start, 0));
+            priorityQueue.Add(new Edge<T>(start, 0));
             start.Distance = 0;
             int nodesSeen = 0;
             while (!priorityQueue.IsEmpty && nodesSeen < _nodeDictionary.Count)
             {
-                GraphPath<T> minPath = priorityQueue.DeleteMin();
+                Edge<T> minPath = priorityQueue.DeleteMin();
                 GraphNode<T> node = minPath.Destination;
 
                 if (node.Scratch == 0)//Not yet processed node
@@ -60,13 +73,18 @@ namespace DroneAPI.DataStructures.GraphStructure
                         {
                             adjacentNode.Distance = node.Distance + edgeCost;
                             adjacentNode.Prev = node;
-                            priorityQueue.Add(new GraphPath<T>(adjacentNode, adjacentNode.Distance));
+                            priorityQueue.Add(new Edge<T>(adjacentNode, adjacentNode.Distance));
                         }
                     }
                 }
             }
 
             
+        }
+
+        public bool ContainsValue(T value)
+        {
+            return _nodeDictionary.ContainsKey(value);
         }
 
         //Returns all the values from the shortest path from the startValue to endValue. The linkedlist will start with the startValue.
@@ -89,6 +107,7 @@ namespace DroneAPI.DataStructures.GraphStructure
             return result;
         }
 
+        //Returns the node or creates the node if it does not exist.
         private GraphNode<T> getNode(T value)
         {
             if (_nodeDictionary.ContainsKey(value))

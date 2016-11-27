@@ -4,6 +4,7 @@ using DroneAPI.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using DroneAPI.DataStructures;
 using DroneAPI.Processors.DroneProcessors;
 using DroneAPI.Processors.DroneProcessors.Commands;
 using DroneAPI.Services;
@@ -63,17 +64,19 @@ namespace DroneAPI.Controllers
 
 			// start command
             _cmdProcessor.AddCommand(new StartCommand(_droneProcessor));
-            for (LinkedListNode<Position> currentNode = path.First;
-                currentNode.Next != null;
-                currentNode = currentNode.Next)
-            {
-                Position start = currentNode.Value;
-                Position end = currentNode.Next.Value;
-                // Turn command. This sets the drone in the right direction.
-                _cmdProcessor.AddCommand(new TurnCommand(_droneProcessor, Services.MathUtility.CalculateAngle(start, end)));
-                // Forward command. The meters the drone should travel to reach the next position.
-                _cmdProcessor.AddCommand(new ForwardCommand(_droneProcessor, Services.MathUtility.CalculateDistance(start, end)));
-            }
+            MovementCommandFactory factory = new MovementCommandFactory();
+            _cmdProcessor.AddListCommand(factory.GetMovementCommands(path));
+            //for (LinkedListNode<Position> currentNode = path.First;
+            //    currentNode.Next != null;
+            //    currentNode = currentNode.Next)
+            //{
+            //    Position start = currentNode.Value;
+            //    Position end = currentNode.Next.Value;
+            //    // Turn command. This sets the drone in the right direction.
+            //    _cmdProcessor.AddCommand(new TurnCommand(_droneProcessor, Services.MathUtility.CalculateAngle(start, end)));
+            //    // Forward command. The meters the drone should travel to reach the next position.
+            //    _cmdProcessor.AddCommand(new ForwardCommand(_droneProcessor, Services.MathUtility.CalculateDistance(start, end)));
+            //}
             
             // land command
             _cmdProcessor.AddCommand(new LandCommand(_droneProcessor));   
