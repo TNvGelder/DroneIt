@@ -3,6 +3,7 @@ using DroneAPI.Processors.DroneProcessors.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace DroneAPI.Processors.DroneProcessors
@@ -35,21 +36,20 @@ namespace DroneAPI.Processors.DroneProcessors
 
         public async void Execute()
         {
-            while(true)
-            {
-                if(_droneProcessor.DroneIsBusy() == false)
-                {
-                    if(this._commands.Count > 0)
-                    {
+            await Task.Run(() => asyncExecute());
+        }
+
+        public async void asyncExecute() {
+            while (true) {
+                if (_droneProcessor.DroneIsBusy() == false) {
+                    if (this._commands.Count > 0) {
                         IDroneCommand nextCommand = this._commands.Dequeue();
                         nextCommand.Execute();
-                    } else
-                    {
+                    } else {
                         break;
                     }
-                } else
-                {
-                    await System.Threading.Tasks.Task.Delay(25);
+                } else {
+                    await Task.Delay(25);
                 }
             }
         }
