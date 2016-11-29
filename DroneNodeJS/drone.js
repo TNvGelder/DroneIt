@@ -32,7 +32,7 @@ client.on('navdata', function(navdata) {
 		}
 		else if(clockwiseDegrees < turnto && clockwiseDegrees < (turnto + 180)){
 			client.clockwise(-0.1);
-			console.log('go left'); 
+			console.log('go left');
 		} else {
 			turn = false;
 			client.stop();
@@ -51,7 +51,7 @@ io.sockets.on('connection', function (socket) {
 		
 		switch(action) {
 			// Start
-			case "start":		
+			case "start":
 				client
 					.after(1000, function() {
 						this.calibrate(0);
