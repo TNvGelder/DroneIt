@@ -33,20 +33,7 @@ namespace DroneAPI.Processors.DroneProcessors
                 this.AddCommand(command);
             }
         }
-
-        /*public void Execute() {
-            while (true) {
-                if (_droneProcessor.DroneIsBusy() == false) {
-                    if (this._commands.Count > 0) {
-                        IDroneCommand nextCommand = this._commands.Dequeue();
-                        nextCommand.Execute();
-                    } else {
-                        break;
-                    }
-                }
-            }
-        }*/
-
+        
         public async void Execute()
         {
             await Task.Run(() => asyncExecute()).ConfigureAwait(false);

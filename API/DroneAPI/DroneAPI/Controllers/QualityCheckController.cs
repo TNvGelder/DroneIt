@@ -8,22 +8,15 @@ using DroneAPI.DataStructures;
 using DroneAPI.Processors.DroneProcessors;
 using DroneAPI.Processors.DroneProcessors.Commands;
 using DroneAPI.Services;
+using DroneAPI.Factorys;
 
 namespace DroneAPI.Controllers
 {
     public class QualityCheckController : ApiController
     {
-		private Drone _drone;
         private DroneProcessor _droneProcessor;
-        private DroneCommandProcessor _cmdProcessor;
-
-        public QualityCheckController()
-        {
-            this._drone = new Drone();
-            this._droneProcessor = new DroneProcessor(_drone);
-            this._cmdProcessor = new DroneCommandProcessor(_drone);
-        }
-
+        private DroneCommandProcessor _droneCommandProcessor;
+        
         // POST api/CheckProduct/5
         public void CheckProduct(int productId)
         {
@@ -34,9 +27,11 @@ namespace DroneAPI.Controllers
         // Dient als een soort van Main
         public string GetShortestPath()
         {
+            _droneProcessor = DroneFactory.getDroneProcessor();
+            _droneCommandProcessor = new DroneCommandProcessor(_droneProcessor);
             Pathfinder pathfinder = new Pathfinder();
-            Position a = new Position {X=0, Y=0};
-            Position b = new Position { X=1, Y=3};
+            Position a = new Position { X=0, Y=0 };
+            Position b = new Position { X=1, Y=3 };
             Position c = new Position { X = 4, Y = 0 }; ;
             Position d = new Position { X = 3, Y = 1 }; ;
             Position e = new Position { X = 4, Y = 4 }; ;
@@ -62,25 +57,15 @@ namespace DroneAPI.Controllers
 
             LinkedList < Position > path = pathfinder.GetPath(a, j);
 
-			// start command
-            _cmdProcessor.AddCommand(new StartCommand(_droneProcessor));
+            // start command
+            _droneCommandProcessor.AddCommand(new StartCommand(_droneProcessor));
+
             MovementCommandFactory factory = new MovementCommandFactory();
-            _cmdProcessor.AddListCommand(factory.GetMovementCommands(path));
-            //for (LinkedListNode<Position> currentNode = path.First;
-            //    currentNode.Next != null;
-            //    currentNode = currentNode.Next)
-            //{
-            //    Position start = currentNode.Value;
-            //    Position end = currentNode.Next.Value;
-            //    // Turn command. This sets the drone in the right direction.
-            //    _cmdProcessor.AddCommand(new TurnCommand(_droneProcessor, Services.MathUtility.CalculateAngle(start, end)));
-            //    // Forward command. The meters the drone should travel to reach the next position.
-            //    _cmdProcessor.AddCommand(new ForwardCommand(_droneProcessor, Services.MathUtility.CalculateDistance(start, end)));
-            //}
-            
+            _droneCommandProcessor.AddListCommand(factory.GetMovementCommands(path));
+
             // land command
-            _cmdProcessor.AddCommand(new LandCommand(_droneProcessor));   
-            _cmdProcessor.Execute();
+            _droneCommandProcessor.AddCommand(new LandCommand(_droneProcessor));
+            _droneCommandProcessor.Execute();
             return this.GenerateDirections(path);
         }
 
