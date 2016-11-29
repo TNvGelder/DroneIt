@@ -6,18 +6,19 @@ using DroneAPI.DataStructures;
 
 namespace DroneAPI.Models
 {
-    public class GraphNode
+    public class GraphNode<T>
     {
-        public Position Position { get; set; }
-        public List<Edge> Adjacent { get; set; }
-        public GraphNode Prev { get; set; }
+        public T Value { get; set; }
+        public List<Edge<T>> Adjacent { get; set; }
+        public GraphNode<T> Prev { get; set; }
         public double Distance { get; set; }
-        private static double _unknownDist = -1;
+        private static double _unknownDist = double.MaxValue;
         public int Scratch { get; set; }
 
-        public GraphNode(Position position)
+        public GraphNode(T value)
         {
-            this.Position = position;
+            this.Value = value;
+            Adjacent = new List<Edge<T>>();
         }
 
         public void Reset()

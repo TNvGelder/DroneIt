@@ -9,22 +9,20 @@ namespace DroneAPI.Processors.DroneProcessors
 {
     public class DroneConnectionProcessor
     {
-        private Drone _drone { get; set; }
+        public Drone Drone { get; private set; }
         private Socket _socket { get; set; }
-
 
         public DroneConnectionProcessor(Drone drone)
         {
-            _drone = drone;
-            _drone.busy = false;
+            Drone = drone;
+            Drone.Busy = false;
         }
 
         public void Connect()
         {
-            _drone.busy = true;
             if(_socket == null)
             {
-                _socket = IO.Socket(_drone.NodeJsIp);
+                _socket = IO.Socket(Drone.NodeJsIp);
             }
             else
             {
@@ -32,16 +30,14 @@ namespace DroneAPI.Processors.DroneProcessors
             }
 
             _socket.On("done", () => {
-                Console.WriteLine(_drone.Name + ", is done!");
-                _drone.busy = false;
+                Console.WriteLine(Drone.Name + ", is done!");
+                Drone.Busy = false;
             });
         }
 
         public void sendData(string action, string data = "")
         {
-            if (_drone.busy) return;
-
-            _drone.busy = true;
+            Drone.Busy = true;
             string[] arrayData = { action, data };
             _socket.Emit("drone", arrayData);
         }     

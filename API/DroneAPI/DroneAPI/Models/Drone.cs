@@ -7,9 +7,15 @@ namespace DroneAPI.Models
 {
     public class Drone
     {
-        public string Name { get; set; }
-        public string NodeJsIp { get; set; }
+        public string Name { get; private set; }
+        public string NodeJsIp { get; private set; }
         public bool Flying { get; set; } = false;
-        public bool busy { get; set; }
+        public bool Busy { get; set; } = false;
+
+        public Drone(string name, string ip)
+        {
+            this.NodeJsIp = ip;
+            this.Name = name;
+        }
     }
 }

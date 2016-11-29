@@ -12,7 +12,7 @@ namespace DroneAPI.Processors
     {
         public Drone_command_executer()
         {
-            Drone drone = new Drone();
+            /*Drone drone = new Drone();
             drone.Name = "";
 
             DroneProcessor droneProcessor = new DroneProcessor(drone);
@@ -25,7 +25,7 @@ namespace DroneAPI.Processors
             cmdProcessor.AddCommand(new LandCommand(droneProcessor));
 
             cmdProcessor.Execute();
-
+            */
         }
     }
 }

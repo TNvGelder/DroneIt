@@ -3,6 +3,7 @@ using DroneAPI.Processors.DroneProcessors.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace DroneAPI.Processors.DroneProcessors
@@ -13,9 +14,9 @@ namespace DroneAPI.Processors.DroneProcessors
 
         private Queue<IDroneCommand> _commands;
 
-        public DroneCommandProcessor(Drone drone)
+        public DroneCommandProcessor(DroneProcessor droneProcessor)
         {
-            this._droneProcessor = new DroneProcessor(drone);
+            this._droneProcessor = droneProcessor;
 
             this._commands = new Queue<IDroneCommand>();
         }
@@ -32,24 +33,23 @@ namespace DroneAPI.Processors.DroneProcessors
                 this.AddCommand(command);
             }
         }
-
+        
         public async void Execute()
         {
-            while(true)
-            {
-                if(_droneProcessor.DroneIsBusy() == false)
-                {
-                    if(this._commands.Count > 0)
-                    {
+            await Task.Run(() => asyncExecute()).ConfigureAwait(false);
+        }
+
+        public async void asyncExecute() {
+            while (true) {
+                if (_droneProcessor.DroneIsBusy() == false) {
+                    if (this._commands.Count > 0) {
                         IDroneCommand nextCommand = this._commands.Dequeue();
                         nextCommand.Execute();
-                    } else
-                    {
+                    } else {
                         break;
                     }
-                } else
-                {
-                    await System.Threading.Tasks.Task.Delay(25);
+                } else {
+                    await Task.Delay(500);
                 }
             }
         }

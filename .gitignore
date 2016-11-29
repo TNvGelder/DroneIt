@@ -1,3 +1,4 @@
+
 *.dll
 API/DroneAPI/DroneAPI/bin/DroneAPI.dll.config
 *.pdb
@@ -20,13 +21,18 @@ API/DroneAPI/DroneAPI/obj/Debug/DroneAPI.csproj.FileListAbsolute.txt
 API/DroneAPI/DroneAPI/obj/Debug/DroneAPI.csproj.GenerateResource.Cache
 API/DroneAPI/DroneAPI/obj/Debug/DroneAPI.Migrations.init.resources
 API/DroneAPI/DroneAPI/obj/Debug/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
+
 API/DroneAPI/packages/*
 API/DroneAPI/DroneAPI/obj/*
+API/DroneAPI/.vs/config/applicationhost.config
+API/DroneAPI/.vs/DroneAPI/v14/.suo
+*.mdf
+API/DroneAPI/DroneAPI/App_Data/DroneDatabase_log.ldf
+
 API/DroneAPI/DroneAPI/bin/System.Web.Http.Cors.xml
 API/DroneAPI/.vs/config/applicationhost.config
-API/DroneAPI/.vs/config/applicationhost.config
+
 API/DroneAPI/UpgradeLog.htm
-API/DroneAPI/DroneAPI/App_Data/DroneDatabase_log.ldf
 API/DroneAPI/DroneAPI/App_Data/DroneDatabase.mdf
 DroneNodeJS/DroneConnection/packages/*
 DroneNodeJS/DroneConnection/DroneConnection/*.cache

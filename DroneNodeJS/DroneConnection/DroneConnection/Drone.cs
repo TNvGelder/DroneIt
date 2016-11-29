@@ -3,31 +3,34 @@ using Quobject.SocketIoClientDotNet.Client;
 using System.Threading.Tasks;
 
 namespace DroneConnection {
-    class Drone {
-        private string _name { get; set; }
+    public class Drone {
+        public string Name { get; set; }
         private int _degrees { get; set; }
-        private string _connectionString { get; set; }
+        public string NodeJsIp { get; set; }
         private Socket _socket { get; set; }
-        public bool busy { get; private set; }
+        public bool busy { get; set; }
+        public bool Flying { get; set; }
 
         public Drone(string name, string connectionString) {
-            _name = name;
-            _connectionString = connectionString;
+            Name = name;
+            NodeJsIp = connectionString;
             busy = false;
         }
 
         public void Connect() {
             if (_socket == null) {
-                _socket = IO.Socket(_connectionString);
+                _socket = IO.Socket(NodeJsIp);
             } else {
                 _socket.Connect();
             }
-
-            busy = true;
-            waitForDrone();
+            Start();
+            Console.WriteLine("Starting drone wait 30 sec");
+            System.Threading.Thread.Sleep(30000);
+            /*busy = true;
+            waitForDrone();*/
 
             _socket.On("done", () => {
-                Console.WriteLine(_name + ", is done!");
+                Console.WriteLine(Name + ", is done!");
                 busy = false;
             });
         }
@@ -52,7 +55,7 @@ namespace DroneConnection {
         }
 
         public void Turn(int direction) {
-            direction = direction > 180 ? direction - 360 : direction;
+            //direction = direction > 180 ? direction - 360 : direction;
             sendData("turn", direction.ToString());
         }
 
@@ -81,7 +84,7 @@ namespace DroneConnection {
         }
 
         public void Start() {
-            sendData("takeoff");
+            sendData("start");
         }
 
         public void Land() {
