@@ -38,13 +38,19 @@ client
 	north = clockwiseDegrees;
 	console.log('Calibrate done');
   })
-  .after(5000, function() {
+  /*.after(5000, function() {
 	this.front(0.2);
   })
   .after(5 * 1000, function() {
 	this.stop();
   })
   .after(5000, function() {
+	this.back(0.2);
+  })
+  .after(5 * 1000, function() {
+	this.stop();
+  })*/
+  /*.after(5000, function() {
 	  var param = 90;
 	  if(north >= 0){
 			param = (parseInt(param) + parseInt(north));
@@ -57,7 +63,7 @@ client
 		
 		turnto = param;
 		turn = true;
-  })
+  })*/
   /*.after(5000, function() {
 	this.up(0.5);
   })
@@ -94,7 +100,7 @@ client
   .after(5 * 1000, function() {
 	this.stop();
   })*/
-  .after(10000, function() {
+  .after(20000, function() {
     this.stop();
   })
   .after(3000, function() {
