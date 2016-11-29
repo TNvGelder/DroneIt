@@ -17,8 +17,11 @@ namespace DroneAPI.DataStructures
         {
             get { return _factory; }
         }
-        private DroneCommandProcessor _cmdProcessor;
         private DroneProcessor _droneProcessor;
+
+        public MovementCommandFactory(DroneProcessor _droneProcessor) {
+            this._droneProcessor = _droneProcessor;
+        }
 
         /// <summary>
         /// Creates different dronecommands based on the given path.

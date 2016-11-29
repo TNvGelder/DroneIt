@@ -49,7 +49,7 @@ namespace DroneAPI.Processors.DroneProcessors
                         break;
                     }
                 } else {
-                    await Task.Delay(25);
+                    await Task.Delay(500);
                 }
             }
         }

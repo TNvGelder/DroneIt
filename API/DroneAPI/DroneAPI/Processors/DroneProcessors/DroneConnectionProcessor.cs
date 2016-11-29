@@ -20,14 +20,9 @@ namespace DroneAPI.Processors.DroneProcessors
 
         public void Connect()
         {
-            Drone.Busy = true;
             if(_socket == null)
             {
-                try
-                {
-                    _socket = IO.Socket(Drone.NodeJsIp);
-                }
-                catch (Exception e) { }
+                _socket = IO.Socket(Drone.NodeJsIp);
             }
             else
             {

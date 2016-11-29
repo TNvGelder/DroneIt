@@ -60,7 +60,7 @@ namespace DroneAPI.Controllers
             // start command
             _droneCommandProcessor.AddCommand(new StartCommand(_droneProcessor));
 
-            MovementCommandFactory factory = new MovementCommandFactory();
+            MovementCommandFactory factory = new MovementCommandFactory(_droneProcessor);
             _droneCommandProcessor.AddListCommand(factory.GetMovementCommands(path));
 
             // land command

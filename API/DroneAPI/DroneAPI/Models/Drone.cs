@@ -14,7 +14,8 @@ namespace DroneAPI.Models
 
         public Drone(string name, string ip)
         {
-
+            this.NodeJsIp = ip;
+            this.Name = name;
         }
     }
 }
