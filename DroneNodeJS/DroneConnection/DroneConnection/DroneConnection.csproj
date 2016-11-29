@@ -60,9 +60,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackwardCommand.cs" />
     <Compile Include="Drone.cs" />
+    <Compile Include="DroneCommandProcessor.cs" />
+    <Compile Include="DroneConnectionProcessor.cs" />
+    <Compile Include="DroneProcessor.cs" />
+    <Compile Include="FallCommand.cs" />
+    <Compile Include="ForwardCommand.cs" />
+    <Compile Include="IDroneCommand.cs" />
+    <Compile Include="LandCommand.cs" />
+    <Compile Include="LeftCommand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RightCommand.cs" />
+    <Compile Include="RiseCommand.cs" />
+    <Compile Include="StartCommand.cs" />
+    <Compile Include="TurnCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
