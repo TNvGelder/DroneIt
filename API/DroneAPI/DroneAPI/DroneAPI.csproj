@@ -128,17 +128,13 @@
     <Compile Include="DataStructures\PriorityQueue\BinaryHeap.cs" />
     <Compile Include="Factorys\DroneFactory.cs" />
     <Compile Include="Factorys\PathfinderFactory.cs" />
-    <Compile Include="Migrations\201612011008186_warehouse_models.cs" />
-    <Compile Include="Migrations\201612011008186_warehouse_models.Designer.cs">
-      <DependentUpon>201612011008186_warehouse_models.cs</DependentUpon>
+    <Compile Include="Migrations\201612011333521_initial.cs" />
+    <Compile Include="Migrations\201612011333521_initial.Designer.cs">
+      <DependentUpon>201612011333521_initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201612011018508_warehouse_models_edges.cs" />
-    <Compile Include="Migrations\201612011018508_warehouse_models_edges.Designer.cs">
-      <DependentUpon>201612011018508_warehouse_models_edges.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612011058329_warehouse_StartNode.cs" />
-    <Compile Include="Migrations\201612011058329_warehouse_StartNode.Designer.cs">
-      <DependentUpon>201612011058329_warehouse_StartNode.cs</DependentUpon>
+    <Compile Include="Migrations\201612011343155_fix_warehouse_models.cs" />
+    <Compile Include="Migrations\201612011343155_fix_warehouse_models.Designer.cs">
+      <DependentUpon>201612011343155_fix_warehouse_models.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\District.cs" />
     <Compile Include="Models\EdgeDal.cs" />
@@ -152,10 +148,6 @@
     <Compile Include="Factorys\MovementCommandFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611161210222_init.cs" />
-    <Compile Include="Migrations\201611161210222_init.Designer.cs">
-      <DependentUpon>201611161210222_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Drone.cs" />
@@ -187,17 +179,11 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611161210222_init.resx">
-      <DependentUpon>201611161210222_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201612011333521_initial.resx">
+      <DependentUpon>201612011333521_initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612011008186_warehouse_models.resx">
-      <DependentUpon>201612011008186_warehouse_models.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612011018508_warehouse_models_edges.resx">
-      <DependentUpon>201612011018508_warehouse_models_edges.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612011058329_warehouse_StartNode.resx">
-      <DependentUpon>201612011058329_warehouse_StartNode.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201612011343155_fix_warehouse_models.resx">
+      <DependentUpon>201612011343155_fix_warehouse_models.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

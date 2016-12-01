@@ -7,13 +7,13 @@ namespace DroneAPI.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class warehouse_models_edges : IMigrationMetadata
+    public sealed partial class initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(warehouse_models_edges));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "201612011018508_warehouse_models_edges"; }
+            get { return "201612011333521_initial"; }
         }
         
         string IMigrationMetadata.Source

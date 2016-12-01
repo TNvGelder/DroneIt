@@ -8,7 +8,7 @@ namespace DroneAPI.Models
     public class EdgeDal
     {
         public int Id { get; set; }
-        public virtual GraphNodeDal SourceGraphNode { get; set; }
+        public int GraphNodeDal_Id { get; set; }
         public virtual GraphNodeDal DestinationGraphNode { get; set; }
 
     }

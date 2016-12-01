@@ -13,5 +13,6 @@ namespace DroneAPI.Models
 
         public virtual ICollection<EdgeDal> Edges { get; set; }
         public virtual District District { get; set; }
+        
     }
 }
