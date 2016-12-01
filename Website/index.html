@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <meta charset="utf-8"> 
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" href="styles/bootstrap-3-3-7.css">
+
+		<script src="scripts/jquery-3.1.1.min.js"></script>
+
+		<!-- Latest compiled JavaScript -->
+		<script src="scripts/bootstrap-3-3-7.min.js"></script>
+		<script type="text/javascript" src="scripts/angular-1.5.8.js"></script>
+		<script type="text/javascript" src="scripts/angular-route.js"></script>
+	</head>
+	<body ng-app="DroneApp">
+	    <div id="wrapper">
+	        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	            <div class="navbar-header">
+	                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+	                    <span class="sr-only">Toggle navigation</span>
+	                    <span class="icon-bar"></span>
+	                    <span class="icon-bar"></span>
+	                    <span class="icon-bar"></span>
+	                </button>
+	                <a class="navbar-brand" href="index.html">Drone controller</a>
+	            </div>
+	            <div class="collapse navbar-collapse navbar-ex1-collapse">
+	                <ul class="nav navbar-nav side-nav">
+	                    <li class="active">
+	                        <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Producten</a>
+	                    </li>
+	                    
+	                </ul>
+	            </div>
+	        </nav>
+
+	        <div id="page-wrapper">
+           	 	<div class="container-fluid" style="padding:60px;">
+					<div ng-view></div>
+            	</div>
+	        </div>
+	    </div>
+		<label ng-model="msg"></label>
+		<script>
+			//Set up Angular App and Route Config
+			var app = angular.module("DroneApp", ["ngRoute"]);
+			app.config(function($routeProvider) {
+			    $routeProvider
+			    .when("/", {
+			        templateUrl : "pages/ProductOverview.html", 
+			        controller : "ProductOverviewController"
+			    })
+			    .when("/add", {
+			        templateUrl : "pages/AddProduct.html", 
+			        controller : "AddProductController"
+			    })
+			    .when("/edit/:Id", {
+			        templateUrl : "pages/EditProduct.html", 
+			        controller : "EditProductController"
+			    });
+			});
+		</script>
+
+		<script type="text/javascript" src="controllers/ProductOverviewController.js"></script>
+		<script type="text/javascript" src="controllers/AddProductController.js"></script>
+		<script type="text/javascript" src="controllers/EditProductController.js"></script>
+	</body>
+</html>
