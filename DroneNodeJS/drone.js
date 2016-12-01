@@ -23,24 +23,40 @@ function ActionDone(){
 client.on('navdata', function(navdata) {
 	if(navdata.demo != null){
 		clockwiseDegrees = parseInt(navdata.demo.clockwiseDegrees);
+		if(north == 0)
+			north = clockwiseDegrees;
 	}
 	
 	if(turn){							
-		if(clockwiseDegrees > turnto && clockwiseDegrees > (turnto - 180)){
-			client.clockwise(0.1);
+		if(clockwiseDegrees < turnto && clockwiseDegrees > (turnto - 180)){
+			//client.clockwise(0.1);
 			console.log('go right');
 		}
 		else if(clockwiseDegrees < turnto && clockwiseDegrees < (turnto + 180)){
-			client.clockwise(-0.1);
+			//client.clockwise(-0.1);
 			console.log('go left');
 		} else {
 			turn = false;
-			client.stop();
+			//client.stop();
 			ActionDone();
 		}
 		console.log(clockwiseDegrees);
 	}
 });
+
+setTimeout(function () {
+	var param = 90;
+	if(north > 0){
+		param = (parseInt(param) + parseInt(north));
+	} else if(north < 0){
+		param = (parseInt(param) - (parseInt(north) * -1));
+	}
+	if(param > 180){
+		param = (parseInt(param) - 360);
+	}
+	turnto = param;
+	turn = true;
+}, 5000);
 
 io.sockets.on('connection', function (socket) {
 	console.log(socket.id + " connected");
