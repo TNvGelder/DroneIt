@@ -12,7 +12,7 @@ namespace DroneAPI.Services
     public class Pathfinder
     {
         private Graph<Position> _pathGraph;
-        
+
         //Creates
         public Pathfinder()
         {

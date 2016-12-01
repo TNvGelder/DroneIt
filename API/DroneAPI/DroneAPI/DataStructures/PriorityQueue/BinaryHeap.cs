@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using DroneAPI.Exceptions;
 using DroneAPI.Models;
 
 namespace DroneAPI.DataStructures.PriorityQueue
@@ -29,7 +28,7 @@ namespace DroneAPI.DataStructures.PriorityQueue
             get
             {
                 if (IsEmpty)
-                    throw new NoSuchElementException();
+                    throw new Exception();
                 return _array[1];
             }
         }
