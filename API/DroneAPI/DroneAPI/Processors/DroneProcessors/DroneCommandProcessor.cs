@@ -34,24 +34,9 @@ namespace DroneAPI.Processors.DroneProcessors
             }
         }
         
-        public async void Execute()
+        public void Execute()
         {
-            await Task.Run(() => asyncExecute()).ConfigureAwait(false);
-        }
-
-        public async void asyncExecute() {
-            while (true) {
-                if (_droneProcessor.DroneIsBusy() == false) {
-                    if (this._commands.Count > 0) {
-                        IDroneCommand nextCommand = this._commands.Dequeue();
-                        nextCommand.Execute();
-                    } else {
-                        break;
-                    }
-                } else {
-                    await Task.Delay(500);
-                }
-            }
+            
         }
     }
 }
