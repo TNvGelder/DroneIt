@@ -38,3 +38,5 @@ DroneNodeJS/DroneConnection/packages/*
 DroneNodeJS/DroneConnection/DroneConnection/*.cache
 DroneNodeJS/DroneConnection/DroneConnection/obj/Debug/*
 DroneNodeJS/DroneConnection/DroneConnection/bin/Debug/*
+API/DroneAPI/DroneAPITests/obj/Debug/DroneAPITests.csproj.FileListAbsolute.txt
+*.cache
