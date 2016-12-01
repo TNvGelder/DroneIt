@@ -114,6 +114,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\QualityCheckController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="DAL\DroneContext.cs" />
     <Compile Include="DataStructures\GraphStructure\Edge.cs" />
     <Compile Include="DataStructures\GraphStructure\Graph.cs" />
@@ -152,7 +153,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="ClassDiagram1.cd" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
