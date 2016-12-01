@@ -33,7 +33,7 @@ namespace DroneAPI.Controllers
             {
                 case 1:
                     Position a = new Position { X = 0, Y = 0 };
-                    Position b = new Position { X = 0, Y = 3 };
+                    Position b = new Position { X = 0, Y = 1 };
             
                     pathfinder.AddPath(a, b);
                     path = pathfinder.GetPath(a, b);
