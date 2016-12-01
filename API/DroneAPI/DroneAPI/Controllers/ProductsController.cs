@@ -22,6 +22,7 @@ namespace DroneAPI.Migrations
         [EnableCors("*", "*", "GET")]
         public IQueryable<Product> GetProducts()
         {
+            Warehouse wr = db.Warehouses.FirstOrDefault();
             return db.Products;
         }
 

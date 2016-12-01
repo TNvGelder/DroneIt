@@ -3,7 +3,7 @@ namespace DroneAPI.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initial : DbMigration
+    public partial class init : DbMigration
     {
         public override void Up()
         {
@@ -49,10 +49,16 @@ namespace DroneAPI.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         DestinationGraphNode_Id = c.Int(),
+                        GraphNodeDal_Id = c.Int(),
+                        GraphNodeDal_Id1 = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.GraphNodeDal", t => t.DestinationGraphNode_Id)
-                .Index(t => t.DestinationGraphNode_Id);
+                .ForeignKey("dbo.GraphNodeDal", t => t.GraphNodeDal_Id)
+                .ForeignKey("dbo.GraphNodeDal", t => t.GraphNodeDal_Id1)
+                .Index(t => t.DestinationGraphNode_Id)
+                .Index(t => t.GraphNodeDal_Id)
+                .Index(t => t.GraphNodeDal_Id1);
             
             CreateTable(
                 "dbo.Product",
@@ -89,10 +95,14 @@ namespace DroneAPI.Migrations
             DropForeignKey("dbo.District", "StartGraphNode_Id", "dbo.GraphNodeDal");
             DropForeignKey("dbo.Product", "District_Id", "dbo.District");
             DropForeignKey("dbo.District", "EndGraphNode_Id", "dbo.GraphNodeDal");
+            DropForeignKey("dbo.EdgeDal", "GraphNodeDal_Id1", "dbo.GraphNodeDal");
+            DropForeignKey("dbo.EdgeDal", "GraphNodeDal_Id", "dbo.GraphNodeDal");
             DropForeignKey("dbo.EdgeDal", "DestinationGraphNode_Id", "dbo.GraphNodeDal");
             DropForeignKey("dbo.GraphNodeDal", "District_Id", "dbo.District");
             DropIndex("dbo.Warehouse", new[] { "StartNode_Id" });
             DropIndex("dbo.Product", new[] { "District_Id" });
+            DropIndex("dbo.EdgeDal", new[] { "GraphNodeDal_Id1" });
+            DropIndex("dbo.EdgeDal", new[] { "GraphNodeDal_Id" });
             DropIndex("dbo.EdgeDal", new[] { "DestinationGraphNode_Id" });
             DropIndex("dbo.GraphNodeDal", new[] { "District_Id" });
             DropIndex("dbo.District", new[] { "Warehouse_Id" });
