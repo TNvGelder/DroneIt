@@ -128,6 +128,7 @@
     <Compile Include="DataStructures\PriorityQueue\BinaryHeap.cs" />
     <Compile Include="Exceptions\NoSuchElementException.cs" />
     <Compile Include="Factorys\DroneFactory.cs" />
+    <Compile Include="Models\Command.cs" />
     <Compile Include="Processors\DroneProcessors\Commands\FallCommand.cs" />
     <Compile Include="Processors\DroneProcessors\Commands\RightCommand.cs" />
     <Compile Include="Processors\DroneProcessors\Commands\RiseCommand.cs" />

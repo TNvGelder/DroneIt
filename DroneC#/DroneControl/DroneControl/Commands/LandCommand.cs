@@ -3,34 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace DroneAPI.Processors.DroneProcessors.Commands
+namespace DroneControl.Commands
 {
-    public class StartCommand : IDroneCommand
+    public class LandCommand : IDroneCommand
     {
-        private DroneProcessor _processor { get; set; }
+        //private DroneProcessor _processor { get; set; }
         private int _degrees { get; set; }
 
         public void Execute()
         {
-            _processor.Start();
+            //_processor.Land();
         }
 
         public void Undo()
         {
-            _processor.Land();
-        }
-
-        public StartCommand(DroneProcessor processor)
-        {
-            _processor = processor;
+            //_processor.Start();
         }
 
         public string GetName() {
-            return "Start";
+            return "Backward";
         }
 
         public double GetValue() {
             return _degrees;
+        }
+
+        public LandCommand()
+        {
+            //_processor = processor;
         }
     }
 }

@@ -61,7 +61,7 @@ namespace DroneAPI.Processors.DroneProcessors
                     Console.WriteLine("Socket connected to {0}", sender.RemoteEndPoint.ToString());
 
                     // Encode the data string into a byte array.
-                    string msgJson = new JavaScriptSerializer().Serialize(_commands);
+                    string msgJson = new JavaScriptSerializer().Serialize(commandList());
                     Console.WriteLine(msgJson);
                     byte[] msg = Encoding.ASCII.GetBytes(msgJson + "<EOF>");
 
@@ -75,7 +75,6 @@ namespace DroneAPI.Processors.DroneProcessors
                     // Release the socket.
                     sender.Shutdown(SocketShutdown.Both);
                     sender.Close();
-
                 } catch (ArgumentNullException ane) {
                     Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
                 } catch (SocketException se) {
@@ -83,14 +82,19 @@ namespace DroneAPI.Processors.DroneProcessors
                 } catch (Exception e) {
                     Console.WriteLine("Unexpected exception : {0}", e.ToString());
                 }
-
             } catch (Exception e) {
                 Console.WriteLine(e.ToString());
             }
         }
 
-        public override string ToString() {
-            return "Werkt!";
+        public List<Command> commandList() {
+            List<Command> commands = new List<Command>();
+
+            foreach (IDroneCommand dc in _commands) {
+                commands.Add(new Command { name = dc.GetName(), value = dc.GetValue() });
+            }
+
+            return commands;
         }
     }
 }
