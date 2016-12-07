@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DroneControl.Commands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -80,10 +81,11 @@ namespace DroneControl
                     Console.WriteLine(data.Substring(0, data.Length - 5));
 
                     List<Command> commandList = new JavaScriptSerializer().Deserialize<List<Command>>(data.Substring(0, data.Length - 5));
-                    Queue<Command> commandQueue = new Queue<Command>();
+                    Queue<IDroneCommand> commandQueue = new Queue<IDroneCommand>();
+                    CommandFactory commandFactory = new CommandFactory(null);
 
                     foreach (Command c in commandList) {
-                        commandQueue.Enqueue(c);
+                        commandQueue.Enqueue(commandFactory.makeCommand(c.name, c.value));
                     }
 
                     // Echo the data back to the client.

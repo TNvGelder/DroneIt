@@ -15,25 +15,24 @@ namespace DroneControl {
 
         private Queue<IDroneCommand> _commands;
 
-        public DroneCommandProcessor()
-        {
+        public DroneCommandProcessor() {
             this._commands = new Queue<IDroneCommand>();
         }
 
-        public void AddCommand(IDroneCommand command)
-        {
+        public void AddCommand(IDroneCommand command) {
             this._commands.Enqueue(command);
         }
 
         public void AddListCommand(List<IDroneCommand> commands) {
-            foreach(IDroneCommand command in commands)
-            {
+            foreach(IDroneCommand command in commands) {
                 this.AddCommand(command);
             }
         }
         
         public void Execute() {
-            
+            while (_commands.Count > 0) {
+                _commands.Dequeue().Execute();
+            }
         }
 
         public List<Command> commandList() {

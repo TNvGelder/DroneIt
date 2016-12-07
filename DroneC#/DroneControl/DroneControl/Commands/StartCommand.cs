@@ -7,8 +7,12 @@ namespace DroneControl.Commands
 {
     public class StartCommand : IDroneCommand
     {
-        //private DroneProcessor _processor { get; set; }
+        private object _controller { get; set; }
         private int _degrees { get; set; }
+
+        public StartCommand(object controller) {
+            _controller = controller;
+        }
 
         public void Execute()
         {
@@ -18,11 +22,6 @@ namespace DroneControl.Commands
         public void Undo()
         {
             //_processor.Land();
-        }
-
-        public StartCommand()
-        {
-            //_processor = processor;
         }
 
         public string GetName() {

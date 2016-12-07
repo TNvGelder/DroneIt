@@ -7,8 +7,13 @@ namespace DroneControl.Commands
 {
     public class TurnCommand : IDroneCommand
     {
-        //private DroneProcessor _processor { get; set; }
+        private object _controller { get; set; }
         private int _degrees { get; set; }
+
+        public TurnCommand(object controller, int degrees) {
+            _controller = controller;
+            _degrees = degrees;
+        }
 
         public void Execute()
         {
@@ -27,12 +32,6 @@ namespace DroneControl.Commands
 
         public double GetValue() {
             return _degrees;
-        }
-
-        public TurnCommand(int degrees)
-        {
-            _processor = processor;
-            _degrees = degrees;   
         }
     }
 }

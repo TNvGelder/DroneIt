@@ -5,12 +5,12 @@ using System.Web;
 
 namespace DroneControl.Commands {
     public class RiseCommand : IDroneCommand {
-        //private DroneProcessor _processor { get; set; }
-        private double _squares { get; set; }
+        private object _controller { get; set; }
+        private double _meters { get; set; }
 
-        public RiseCommand(double squares) {
-            //_processor = processor;
-            _squares = squares;
+        public RiseCommand(object controller, double meters) {
+            _controller = controller;
+            _meters = meters;
         }
 
         public void Execute() {
@@ -26,7 +26,7 @@ namespace DroneControl.Commands {
         }
 
         public double GetValue() {
-            return _squares;
+            return _meters;
         }
     }
 }

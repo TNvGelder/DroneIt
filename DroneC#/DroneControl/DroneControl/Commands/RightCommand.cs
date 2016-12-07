@@ -6,12 +6,12 @@ using System.Web;
 namespace DroneControl.Commands
 {
 	public class RightCommand : IDroneCommand {
-        //private DroneProcessor _processor { get; set; }
+        private object _controller { get; set; }
         private double _squares { get; set; }
 
-        public RightCommand(double squares) {
-            //_processor = processor;
-            _squares = squares;
+        public RightCommand(object controller, double meters) {
+            _controller = controller;
+            _squares = meters;
         }
 
         public void Execute() {

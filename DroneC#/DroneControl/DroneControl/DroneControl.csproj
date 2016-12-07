@@ -59,6 +59,7 @@
     <Compile Include="Commands\TurnCommand.cs" />
     <Compile Include="ConnectionSocket.cs" />
     <Compile Include="DroneCommandProcessor.cs" />
+    <Compile Include="Factories\CommandFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
