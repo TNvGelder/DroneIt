@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
@@ -60,6 +61,7 @@
     <Compile Include="ConnectionSocket.cs" />
     <Compile Include="DroneCommandProcessor.cs" />
     <Compile Include="Factories\CommandFactory.cs" />
+    <Compile Include="DroneController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -75,9 +77,25 @@
       <Project>{56DBF8E3-28A6-4C27-BA0A-B32352608F44}</Project>
       <Name>AR.Drone.Client</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AR.Drone.Data\AR.Drone.Data.csproj">
+      <Project>{7d1b0b10-82f9-413f-bee9-0174753d93a1}</Project>
+      <Name>AR.Drone.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AR.Drone.Infrastructure\AR.Drone.Infrastructure.csproj">
       <Project>{5BE68B3D-1112-464D-8C17-844E834BB3BA}</Project>
       <Name>AR.Drone.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AR.Drone.Media\AR.Drone.Media.csproj">
+      <Project>{dd02db21-14cf-4e03-bee2-afb2b1c49a4d}</Project>
+      <Name>AR.Drone.Media</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AR.Drone.Video\AR.Drone.Video.csproj">
+      <Project>{36c63293-4c2d-41ec-b231-faf55845c014}</Project>
+      <Name>AR.Drone.Video</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AR.Drone.WinApp\AR.Drone.WinApp.csproj">
+      <Project>{78c83708-bf89-4a5d-b823-21d06eed6a6b}</Project>
+      <Name>AR.Drone.WinApp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -17,6 +17,7 @@ namespace AR.Drone.Data.Navigation
             var ctrlState = (CTRL_STATES) (navdataBag.demo.ctrl_state >> 0x10);
             UpdateStateUsing(ctrlState, ref navigationData.State);
 
+            navigationData.Degrees = (navdataBag.demo.psi / 1000.0f);
             navigationData.Yaw = DegreeToRadian*(navdataBag.demo.psi/1000.0f);
             navigationData.Pitch = DegreeToRadian*(navdataBag.demo.theta/1000.0f);
             navigationData.Roll = DegreeToRadian*(navdataBag.demo.phi/1000.0f);

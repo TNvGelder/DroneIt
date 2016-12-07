@@ -16,5 +16,13 @@ namespace DroneControl {
 
             Console.Read();
         }
+
+        //DroneController ctrl = new DroneController();
+        //ctrl.Start(1000);
+        //
+        //ctrl.Turn(20);
+        //
+        //ctrl.Stop(1000);
+            
     }
 }
