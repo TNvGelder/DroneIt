@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
 namespace DroneAPI.Models
 {
-    public class Product
+    public class GraphNodeDal
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public double X { get; set; }
+        public double Y { get; set; }
 
+        public virtual ICollection<EdgeDal> Edges { get; set; }
         public virtual District District { get; set; }
+        
     }
 }

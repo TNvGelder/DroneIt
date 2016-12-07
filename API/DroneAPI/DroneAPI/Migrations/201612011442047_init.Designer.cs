@@ -13,7 +13,7 @@ namespace DroneAPI.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201611161210222_init"; }
+            get { return "201612011442047_init"; }
         }
         
         string IMigrationMetadata.Source

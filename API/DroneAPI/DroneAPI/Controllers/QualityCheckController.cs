@@ -30,16 +30,16 @@ namespace DroneAPI.Controllers
             _droneProcessor = DroneFactory.getDroneProcessor();
             _droneCommandProcessor = new DroneCommandProcessor(_droneProcessor);
             Pathfinder pathfinder = new Pathfinder();
-            Position a = new Position { X=0,    Y=0 };
-            Position b = new Position { X=1,    Y=3 };
-            Position c = new Position { X = 4,  Y = 0 }; ;
-            Position d = new Position { X = 3,  Y = 1 }; ;
-            Position e = new Position { X = 4,  Y = 4 }; ;
-            Position f = new Position { X = 3,  Y = 7 }; ;
-            Position g = new Position { X = 6,  Y = 6 }; ;
-            Position h = new Position { X = 8,  Y = 5 }; ;
-            Position i = new Position { X = 7,  Y = 8 }; ;
-            Position j = new Position { X = 9,  Y = 9 }; ;
+            Position a = new Position { X=0, Y=0 };
+            Position b = new Position { X=1, Y=3 };
+            Position c = new Position { X = 4, Y = 0 }; ;
+            Position d = new Position { X = 3, Y = 1 }; ;
+            Position e = new Position { X = 4, Y = 4 }; ;
+            Position f = new Position { X = 3, Y = 7 }; ;
+            Position g = new Position { X = 6, Y = 6 }; ;
+            Position h = new Position { X = 8, Y = 5 }; ;
+            Position i = new Position { X = 7, Y = 8 }; ;
+            Position j = new Position { X = 9, Y = 9 }; ;
 
             pathfinder.AddPath(a, b);
             pathfinder.AddPath(a, c);

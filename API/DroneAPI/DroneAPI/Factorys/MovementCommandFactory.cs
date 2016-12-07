@@ -6,10 +6,8 @@ using System.Web;
 using DroneAPI.Processors.DroneProcessors;
 using DroneAPI.Processors.DroneProcessors.Commands;
 
-namespace DroneAPI.DataStructures
+namespace DroneAPI.Factorys
 {
-
-
     public class MovementCommandFactory
     {
         private static MovementCommandFactory _factory;

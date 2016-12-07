@@ -39,3 +39,5 @@ DroneC#/DroneControl/DroneControl/*.cache
 DroneC#/DroneControl/DroneControl/obj/*
 DroneC#/DroneControl/DroneControl/bin/*
 DroneC#/DroneControl/DroneControl/obj/Debug/*
+API/DroneAPI/DroneAPITests/obj/Debug/DroneAPITests.csproj.FileListAbsolute.txt
+*.cache
