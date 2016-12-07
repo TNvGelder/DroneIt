@@ -9,7 +9,7 @@ namespace DroneControl.Commands {
         private int _squares { get; set; }
 
         public FallCommand(int squares) {
-            _//processor = processor;
+            //processor = processor;
             _squares = squares;
         }
 

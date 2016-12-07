@@ -31,7 +31,7 @@ namespace DroneControl.Commands
 
         public TurnCommand(int degrees)
         {
-            _processor = processor;
+            //_processor = processor;
             _degrees = degrees;   
         }
     }

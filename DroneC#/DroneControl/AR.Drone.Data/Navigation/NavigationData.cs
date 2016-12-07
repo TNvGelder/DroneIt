@@ -5,6 +5,7 @@ namespace AR.Drone.Data.Navigation
     public class NavigationData
     {
         public NavigationState State;
+        public float Degrees;
         public float Yaw; // radians - Yaw - Z
         public float Pitch; // radians - Pitch - Y
         public float Roll; // radians - Roll - X
