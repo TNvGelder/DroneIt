@@ -81,12 +81,13 @@ namespace DroneControl
                     Console.WriteLine(data.Substring(0, data.Length - 5));
 
                     List<Command> commandList = new JavaScriptSerializer().Deserialize<List<Command>>(data.Substring(0, data.Length - 5));
-                    Queue<IDroneCommand> commandQueue = new Queue<IDroneCommand>();
                     CommandFactory commandFactory = new CommandFactory(new DroneController());
+                    DroneCommandProcessor droneCommandProcessor = new DroneCommandProcessor();
 
                     foreach (Command c in commandList) {
-                        commandQueue.Enqueue(commandFactory.makeCommand(c.name, c.value));
+                        droneCommandProcessor.AddCommand(commandFactory.makeCommand(c.name, c.value));
                     }
+                    droneCommandProcessor.Execute();
 
                     // Echo the data back to the client.
                     byte[] msg = Encoding.ASCII.GetBytes(data);

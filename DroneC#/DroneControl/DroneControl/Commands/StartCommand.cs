@@ -15,6 +15,8 @@ namespace DroneControl.Commands
         }
 
         public void Execute() {
+            _controller.Start();
+            _controller.Calibrate();
             _controller.Takeoff();
         }
 

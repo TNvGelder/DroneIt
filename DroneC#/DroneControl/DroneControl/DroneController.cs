@@ -81,7 +81,7 @@ namespace DroneControl
         /// This method will start the drone
         /// </summary>
         /// <param name="time"></param>
-        public void Start(int time)
+        public void Start(int time = 1000)
         {
             _droneClient.Start();
             System.Threading.Thread.Sleep(time);
@@ -174,7 +174,7 @@ namespace DroneControl
         /// The parameter time is the Threading time for wait.
         /// </summary>
         /// <param name="time"></param>
-        public void Takeoff(int time = 3000)
+        public void Takeoff(int time = 15000)
         {
             _droneClient.Takeoff();
             System.Threading.Thread.Sleep(time);
@@ -208,7 +208,7 @@ namespace DroneControl
         /// The speed is the speed of the propellors and the time is the duration of the action.
         /// </summary>
         /// <param name="meters"></param>
-        public void Up(float meters)
+        public void Rise(float meters)
         {
             int Time = Convert.ToInt16((meters / Speed) * 1000);
             _droneClient.Progress(FlightMode.Progressive, gaz: this.Speed);
@@ -221,7 +221,7 @@ namespace DroneControl
         /// The speed is het speed of the propellors and the time is the duration of the action.
         /// </summary>
         /// <param name="meters"></param>
-        public void Down(float meters)
+        public void Fall(float meters)
         {
             int Time = Convert.ToInt16((meters / Speed) * 1000);
             _droneClient.Progress(FlightMode.Progressive, gaz: -Speed);
