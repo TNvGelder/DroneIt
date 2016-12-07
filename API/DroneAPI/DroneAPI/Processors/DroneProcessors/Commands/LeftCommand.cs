@@ -20,5 +20,13 @@ namespace DroneAPI.Processors.DroneProcessors.Commands {
         public void Undo() {
             _processor.Right(_squares);
         }
+
+        public string GetName() {
+            return "Left";
+        }
+
+        public double GetValue() {
+            return _squares;
+        }
     }
 }

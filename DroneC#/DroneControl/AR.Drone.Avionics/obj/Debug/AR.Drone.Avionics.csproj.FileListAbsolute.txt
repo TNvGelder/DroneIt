@@ -1,0 +1,11 @@
+C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Avionics\bin\Debug\AR.Drone.Avionics.dll
+C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Avionics\bin\Debug\AR.Drone.Avionics.pdb
+C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Avionics\bin\Debug\AR.Drone.Client.dll
+C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Avionics\bin\Debug\AR.Drone.Data.dll
+C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Avionics\bin\Debug\AR.Drone.Infrastructure.dll
+C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Avionics\bin\Debug\AR.Drone.Client.pdb
+C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Avionics\bin\Debug\AR.Drone.Data.pdb
+C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Avionics\bin\Debug\AR.Drone.Infrastructure.pdb
+C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Avionics\obj\Debug\AR.Drone.Avionics.csprojResolveAssemblyReference.cache
+C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Avionics\obj\Debug\AR.Drone.Avionics.dll
+C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Avionics\obj\Debug\AR.Drone.Avionics.pdb

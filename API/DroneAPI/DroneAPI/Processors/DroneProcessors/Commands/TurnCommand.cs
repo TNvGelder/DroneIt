@@ -22,6 +22,14 @@ namespace DroneAPI.Processors.DroneProcessors.Commands
             _processor.Turn(_degrees);
         }
 
+        public string GetName() {
+            return "Turn";
+        }
+
+        public double GetValue() {
+            return _degrees;
+        }
+
         public TurnCommand(DroneProcessor processor, int degrees)
         {
             _processor = processor;

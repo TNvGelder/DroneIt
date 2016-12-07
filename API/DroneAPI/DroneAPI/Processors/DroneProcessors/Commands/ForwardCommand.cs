@@ -20,6 +20,14 @@ namespace DroneAPI.Processors.DroneProcessors.Commands
             _processor.Backwards(_squares);
         }
 
+        public string GetName() {
+            return "Forward";
+        }
+
+        public double GetValue() {
+            return _squares;
+        }
+
         public ForwardCommand(DroneProcessor processor, double squares)
         {
             _processor = processor;

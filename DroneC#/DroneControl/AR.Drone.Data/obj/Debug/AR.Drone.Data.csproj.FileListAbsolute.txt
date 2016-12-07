@@ -1,0 +1,5 @@
+C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Data\bin\Debug\AR.Drone.Data.dll
+C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Data\bin\Debug\AR.Drone.Data.pdb
+C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Data\obj\Debug\AR.Drone.Data.csprojResolveAssemblyReference.cache
+C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Data\obj\Debug\AR.Drone.Data.dll
+C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Data\obj\Debug\AR.Drone.Data.pdb
