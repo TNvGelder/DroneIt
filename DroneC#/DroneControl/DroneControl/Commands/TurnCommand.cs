@@ -7,23 +7,21 @@ namespace DroneControl.Commands
 {
     public class TurnCommand : IDroneCommand
     {
-        private object _controller { get; set; }
+        private DroneController _controller { get; set; }
         private int _degrees { get; set; }
 
-        public TurnCommand(object controller, int degrees) {
+        public TurnCommand(DroneController controller, int degrees) {
             _controller = controller;
             _degrees = degrees;
         }
 
-        public void Execute()
-        {
-            //_processor.Turn(_degrees);
+        public void Execute() {
+            _controller.Turn(_degrees);
         }
 
-        public void Undo()
-        {
+        public void Undo() {
             // Doesn't work!
-            //_processor.Turn(_degrees);
+            _controller.Turn(_degrees);
         }
 
         public string GetName() {

@@ -11,7 +11,7 @@ using System.Web.Script.Serialization;
 
 namespace DroneControl
 {
-    class ConnectionSocket
+    public class ConnectionSocket
     {
         private static volatile ConnectionSocket _instance;
         private static object syncRoot = new Object();
@@ -82,7 +82,7 @@ namespace DroneControl
 
                     List<Command> commandList = new JavaScriptSerializer().Deserialize<List<Command>>(data.Substring(0, data.Length - 5));
                     Queue<IDroneCommand> commandQueue = new Queue<IDroneCommand>();
-                    CommandFactory commandFactory = new CommandFactory(null);
+                    CommandFactory commandFactory = new CommandFactory(new DroneController());
 
                     foreach (Command c in commandList) {
                         commandQueue.Enqueue(commandFactory.makeCommand(c.name, c.value));

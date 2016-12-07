@@ -8,9 +8,9 @@ namespace DroneControl
 {
     public class CommandFactory
     {
-        private object _droneController { get; set; }
+        private DroneController _droneController { get; set; }
 
-        public CommandFactory(object droneProcessor) {
+        public CommandFactory(DroneController droneProcessor) {
             _droneController = droneProcessor;
         }
 

@@ -5,20 +5,20 @@ using System.Web;
 
 namespace DroneControl.Commands {
     public class FallCommand : IDroneCommand {
-        private object _controller { get; set; }
+        private DroneController _controller { get; set; }
         private double _meters { get; set; }
 
-        public FallCommand(object controller, double meters) {
+        public FallCommand(DroneController controller, double meters) {
             _controller = controller;
             _meters = meters;
         }
 
         public void Execute() {
-            //_processor.Fall(_squares);
+            _controller.Down((float)_meters);
         }
 
         public void Undo() {
-            //_processor.Rise(_squares);
+            _controller.Up((float)_meters);
         }
 
         public string GetName() {

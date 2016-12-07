@@ -15,7 +15,7 @@ using System.IO;
 
 namespace DroneControl
 {
-    class DroneController
+    public class DroneController
     {
         public readonly float Speed = 0.25F;
         private DroneClient _droneClient;
@@ -26,8 +26,7 @@ namespace DroneControl
                 return _droneClient.NavigationData.State != NavigationState.Hovering;
             }
         }
-
-
+        
         public NavigationData _navigationData { get; private set; }
         private NavigationPacket _navigationPacket;
         public int North { get; private set; }
@@ -103,6 +102,13 @@ namespace DroneControl
             this.Hover();
         }
 
+        public void Backward(float meters) {
+            float Time = meters / this.Speed * 1000;
+            _droneClient.Progress(FlightMode.Progressive, pitch: -this.Speed);
+            System.Threading.Thread.Sleep(Convert.ToInt16(Time));
+            this.Hover();
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -168,7 +174,7 @@ namespace DroneControl
         /// The parameter time is the Threading time for wait.
         /// </summary>
         /// <param name="time"></param>
-        public void Takeoff(int time)
+        public void Takeoff(int time = 3000)
         {
             _droneClient.Takeoff();
             System.Threading.Thread.Sleep(time);
@@ -191,7 +197,7 @@ namespace DroneControl
         /// The given time is the threading wait time
         /// </summary>
         /// <param name="time"></param>
-        public void Land(int time)
+        public void Land(int time = 3000)
         {
             _droneClient.Land();
             System.Threading.Thread.Sleep(time);

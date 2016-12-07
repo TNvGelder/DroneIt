@@ -7,22 +7,22 @@ namespace DroneControl.Commands
 {
     public class BackwardCommand : IDroneCommand
     {
-        private object _controller { get; set; }
+        private DroneController _controller { get; set; }
         private double _meters { get; set; }
 
-        public BackwardCommand(object controller, double meters) {
+        public BackwardCommand(DroneController controller, double meters) {
             _controller = controller;
             _meters = meters;
         }
 
         public void Execute()
         {
-            //_processor.Backwards(_squares);
+            _controller.Backward((float)_meters);
         }
 
         public void Undo()
         {
-            //_processor.Forwards(_squares);
+            _controller.Forward((float)_meters);
         }
 
         public string GetName() {
