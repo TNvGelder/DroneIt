@@ -21,7 +21,7 @@ namespace DroneAPI.Processors.DroneProcessors.Commands
         }
 
         public string GetName() {
-            return "Backward";
+            return "Land";
         }
 
         public double GetValue() {

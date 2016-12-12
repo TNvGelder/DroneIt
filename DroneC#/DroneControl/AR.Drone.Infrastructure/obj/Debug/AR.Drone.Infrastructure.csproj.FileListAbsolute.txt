@@ -1,5 +1,0 @@
-C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Infrastructure\bin\Debug\AR.Drone.Infrastructure.dll
-C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Infrastructure\bin\Debug\AR.Drone.Infrastructure.pdb
-C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Infrastructure\obj\Debug\AR.Drone.Infrastructure.csprojResolveAssemblyReference.cache
-C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Infrastructure\obj\Debug\AR.Drone.Infrastructure.dll
-C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Infrastructure\obj\Debug\AR.Drone.Infrastructure.pdb

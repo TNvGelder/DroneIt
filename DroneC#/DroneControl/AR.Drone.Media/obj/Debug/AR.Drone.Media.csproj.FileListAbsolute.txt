@@ -1,9 +1,0 @@
-C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Media\bin\Debug\AR.Drone.Media.dll
-C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Media\bin\Debug\AR.Drone.Media.pdb
-C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Media\bin\Debug\AR.Drone.Data.dll
-C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Media\bin\Debug\AR.Drone.Infrastructure.dll
-C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Media\bin\Debug\AR.Drone.Data.pdb
-C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Media\bin\Debug\AR.Drone.Infrastructure.pdb
-C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Media\obj\Debug\AR.Drone.Media.csprojResolveAssemblyReference.cache
-C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Media\obj\Debug\AR.Drone.Media.dll
-C:\Users\Gerhard\Dropbox\Windesheim\KBS\KBS 3.1 DroneIt\DroneIt\DroneC#\DroneControl\AR.Drone.Media\obj\Debug\AR.Drone.Media.pdb
