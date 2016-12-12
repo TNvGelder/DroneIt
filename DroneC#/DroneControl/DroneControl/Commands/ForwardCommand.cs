@@ -17,12 +17,12 @@ namespace DroneControl.Commands
 
         public void Execute()
         {
-            _controller.Rise((float)_meters);
+            _controller.Forward((float)_meters);
         }
 
         public void Undo()
         {
-            _controller.Fall((float)_meters);
+            _controller.Backward((float)_meters);
         }
 
         public string GetName() {

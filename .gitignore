@@ -1,4 +1,7 @@
+bin/
+obj/
 *.dll
+*.cache
 API/DroneAPI/DroneAPI/bin/DroneAPI.dll.config
 *.pdb
 *.suo
@@ -40,4 +43,7 @@ DroneC#/DroneControl/DroneControl/obj/*
 DroneC#/DroneControl/DroneControl/bin/*
 DroneC#/DroneControl/DroneControl/obj/Debug/*
 API/DroneAPI/DroneAPITests/obj/Debug/DroneAPITests.csproj.FileListAbsolute.txt
-*.cache
+DroneC#/DroneControl/AR.Drone.WinApp/obj/*
+DroneC#/DroneControl/AR.Drone.Video/obj/*
+DroneC#/DroneControl/AR.Drone.WinApp/bin/*
+DroneC#/DroneControl/AR.Drone.Video/obj/*
