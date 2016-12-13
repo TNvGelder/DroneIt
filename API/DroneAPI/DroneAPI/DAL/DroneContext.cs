@@ -9,6 +9,10 @@ namespace DroneAPI.DAL
         public DroneContext() : base("DroneDatabase") { }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<District> Districts { get; set; }
+        public DbSet<EdgeDal> Edges { get; set; }
+        public DbSet<GraphNodeDal> GraphNodes { get; set; }
+        public DbSet<Warehouse> Warehouses { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

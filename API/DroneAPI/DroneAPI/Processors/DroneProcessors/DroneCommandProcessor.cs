@@ -3,8 +3,12 @@ using DroneAPI.Processors.DroneProcessors.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Script.Serialization;
 
 namespace DroneAPI.Processors.DroneProcessors
 {
@@ -34,24 +38,63 @@ namespace DroneAPI.Processors.DroneProcessors
             }
         }
         
-        public async void Execute()
+        public void Execute()
         {
-            await Task.Run(() => asyncExecute()).ConfigureAwait(false);
+            // Data buffer for incoming data.
+            byte[] bytes = new byte[1048576];
+
+            // Connect to a remote device.
+            try {
+                // Establish the remote endpoint for the socket.
+                // This example uses port 11000 on the local computer.
+                IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
+                IPAddress ipAddress = ipHostInfo.AddressList[0];
+                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
+
+                // Create a TCP/IP  socket.
+                Socket sender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+                // Connect the socket to the remote endpoint. Catch any errors.
+                try {
+                    sender.Connect(remoteEP);
+
+                    Console.WriteLine("Socket connected to {0}", sender.RemoteEndPoint.ToString());
+
+                    // Encode the data string into a byte array.
+                    string msgJson = new JavaScriptSerializer().Serialize(commandList());
+                    Console.WriteLine(msgJson);
+                    byte[] msg = Encoding.ASCII.GetBytes(msgJson + "<EOF>");
+
+                    // Send the data through the socket.
+                    int bytesSent = sender.Send(msg);
+
+                    // Receive the response from the remote device.
+                    int bytesRec = sender.Receive(bytes);
+                    Console.WriteLine("Server message: {0}", Encoding.ASCII.GetString(bytes, 0, bytesRec));
+
+                    // Release the socket.
+                    sender.Shutdown(SocketShutdown.Both);
+                    sender.Close();
+                } catch (ArgumentNullException ane) {
+                    Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
+                } catch (SocketException se) {
+                    Console.WriteLine("SocketException : {0}", se.ToString());
+                } catch (Exception e) {
+                    Console.WriteLine("Unexpected exception : {0}", e.ToString());
+                }
+            } catch (Exception e) {
+                Console.WriteLine(e.ToString());
+            }
         }
 
-        public async void asyncExecute() {
-            while (true) {
-                if (_droneProcessor.DroneIsBusy() == false) {
-                    if (this._commands.Count > 0) {
-                        IDroneCommand nextCommand = this._commands.Dequeue();
-                        nextCommand.Execute();
-                    } else {
-                        break;
-                    }
-                } else {
-                    await Task.Delay(500);
-                }
+        public List<Command> commandList() {
+            List<Command> commands = new List<Command>();
+
+            foreach (IDroneCommand dc in _commands) {
+                commands.Add(new Command { name = dc.GetName(), value = dc.GetValue() });
             }
+
+            return commands;
         }
     }
 }

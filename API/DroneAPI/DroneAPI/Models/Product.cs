@@ -8,8 +8,9 @@ namespace DroneAPI.Models
 {
     public class Product
     {
-        [Key]
         public int Id { get; set; }
-        public String Name { get; set; }
+        public string Name { get; set; }
+
+        public virtual District District { get; set; }
     }
 }

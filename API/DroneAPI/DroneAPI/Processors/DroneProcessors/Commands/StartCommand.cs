@@ -24,5 +24,13 @@ namespace DroneAPI.Processors.DroneProcessors.Commands
         {
             _processor = processor;
         }
+
+        public string GetName() {
+            return "Start";
+        }
+
+        public double GetValue() {
+            return _degrees;
+        }
     }
 }

@@ -10,5 +10,7 @@ namespace DroneAPI.Processors.DroneProcessors.Commands
     {
         void Execute();
         void Undo();
+        string GetName();
+        double GetValue();
     }
 }

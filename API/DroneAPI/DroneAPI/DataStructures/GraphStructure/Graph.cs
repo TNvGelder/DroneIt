@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using DroneAPI.DataStructures.PriorityQueue;
-using DroneAPI.Exceptions;
 using DroneAPI.Models;
 using DroneAPI.Services;
 
@@ -40,7 +39,7 @@ namespace DroneAPI.DataStructures.GraphStructure
 
             if (!_nodeDictionary.ContainsKey(startValue) || !_nodeDictionary.ContainsKey(endValue))
             {
-                throw new NoSuchElementException();
+                throw new Exception();
             }
             foreach (GraphNode<T> node in _nodeDictionary.Values)
             {
