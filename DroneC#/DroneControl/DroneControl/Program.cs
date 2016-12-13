@@ -16,7 +16,6 @@ namespace DroneControl {
             ConnectionSocket cs = ConnectionSocket.Instance;
             LineProcessor.ProcessLine();
 
-
             DroneController dc = new DroneController();
             dc.Start();
 

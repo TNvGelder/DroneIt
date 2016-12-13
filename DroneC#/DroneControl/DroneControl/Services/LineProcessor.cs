@@ -26,7 +26,7 @@ namespace LineTrackingTest.Services
             CvInvoke.Blur(img, img, new Size(50, 50), new Point());
 
             int regionHeight = 100;
-            img.ROI = new Rectangle(0, img.Height / 2 - regionHeight / 2, img.Size.Width, regionHeight);
+            img.ROI = new Rectangle(0, img.Height/2 - regionHeight/2, img.Size.Width, regionHeight);
 
             Image<Gray, Byte>[] channels = img.Split();
             Image<Gray, Byte> imgHue = channels[0];
@@ -58,6 +58,6 @@ namespace LineTrackingTest.Services
             //hueFilter.Save("../../TestImage/FilteredImage.png");
             img.Save("../../TestImage/OutputImage.png");
 
-
         }
+    }
 }
