@@ -15,6 +15,7 @@ namespace DroneControl {
         static void Main(string[] args) {
             ConnectionSocket cs = ConnectionSocket.Instance;
             LineProcessor.ProcessLine();
+			
             Console.Read();
         }
 

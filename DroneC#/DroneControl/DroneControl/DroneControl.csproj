@@ -63,6 +63,7 @@
     <Compile Include="Commands\RightCommand.cs" />
     <Compile Include="Commands\RiseCommand.cs" />
     <Compile Include="Commands\StartCommand.cs" />
+    <Compile Include="Commands\TakePictureCommand.cs" />
     <Compile Include="Commands\TurnCommand.cs" />
     <Compile Include="ConnectionSocket.cs" />
     <Compile Include="DroneCommandProcessor.cs" />
