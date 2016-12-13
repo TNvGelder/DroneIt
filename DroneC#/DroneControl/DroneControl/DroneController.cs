@@ -12,6 +12,7 @@ using System.Drawing;
 using AR.Drone.Media;
 using AR.Drone.WinApp;
 using System.IO;
+using System.Threading;
 
 namespace DroneControl
 {
@@ -50,6 +51,16 @@ namespace DroneControl
             _droneClient.NavigationDataAcquired += data => _navigationData = data;
             StartRecording();
 
+            Thread th = new Thread(takePicture);
+            th.Start();
+        }
+
+        private void takePicture() {
+            while (true) {
+                System.Threading.Thread.Sleep(100);
+                this.SaveImage();
+                Console.WriteLine("Save Image");
+            }
         }
 
         private void StopRecording()
@@ -72,7 +83,7 @@ namespace DroneControl
         {
             StopRecording();
 
-            _recorderStream = new FileStream("test.log", FileMode.OpenOrCreate);
+            _recorderStream = new FileStream("test.bmp", FileMode.OpenOrCreate);
             _packetRecorderWorker = new PacketRecorder(_recorderStream);
             _packetRecorderWorker.Start();
         }
@@ -85,8 +96,6 @@ namespace DroneControl
         {
             _droneClient.Start();
             System.Threading.Thread.Sleep(time);
-            this.North = Convert.ToInt16(_navigationData.Degrees);
-            this.Hover();
         }
 
         /// <summary>
@@ -178,6 +187,7 @@ namespace DroneControl
         {
             _droneClient.Takeoff();
             System.Threading.Thread.Sleep(time);
+            North = Convert.ToInt16(_navigationData.Degrees);
             this.Hover();
         }
 
@@ -297,6 +307,7 @@ namespace DroneControl
         /// <param name="frame"></param>
         private void OnVideoPacketDecoded(VideoFrame frame)
         {
+            Console.WriteLine("OnVideoPacketDecoded");
             _frame = frame;
             SaveImage();
         }
@@ -314,8 +325,14 @@ namespace DroneControl
                 _frameBitmap = VideoHelper.CreateBitmap(ref _frame);
             else
                 VideoHelper.UpdateBitmap(ref _frameBitmap, ref _frame);
+            Console.WriteLine("Save image");
 
-            _frameBitmap.Save("/Data/Test.jpg");
+            string subPath = "Data";
+            bool exists = System.IO.Directory.Exists(subPath);
+            if (!exists)
+                System.IO.Directory.CreateDirectory(subPath);
+
+            _frameBitmap.Save("Data/Test.jpg");
         }
     }
 }

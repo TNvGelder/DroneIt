@@ -12,7 +12,10 @@ using System.Net.Sockets;
 namespace DroneControl {
     class Program {
         static void Main(string[] args) {
-            ConnectionSocket cs = ConnectionSocket.Instance;
+            //ConnectionSocket cs = ConnectionSocket.Instance;
+
+            DroneController dc = new DroneController();
+            dc.Start();
 
             Console.Read();
         }
