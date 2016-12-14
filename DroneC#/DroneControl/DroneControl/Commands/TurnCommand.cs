@@ -17,6 +17,7 @@ namespace DroneControl.Commands
 
         public void Execute() {
             _controller.Turn(_degrees);
+            _controller.Hover();
         }
 
         public void Undo() {

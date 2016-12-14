@@ -60,8 +60,23 @@ namespace DroneAPI.Controllers
             // start command
             _droneCommandProcessor.AddCommand(new StartCommand(_droneProcessor));
 
-            MovementCommandFactory factory = new MovementCommandFactory(_droneProcessor);
-            _droneCommandProcessor.AddListCommand(factory.GetMovementCommands(path));
+            /*MovementCommandFactory factory = new MovementCommandFactory(_droneProcessor);
+            _droneCommandProcessor.AddListCommand(factory.GetMovementCommands(path));*/
+            _droneCommandProcessor.AddCommand(new RiseCommand(_droneProcessor, 2));
+            _droneCommandProcessor.AddCommand(new FallCommand(_droneProcessor, 2));
+            //_droneCommandProcessor.AddCommand(new TurnCommand(_droneProcessor, 270));
+
+            //_droneCommandProcessor.AddCommand(new TurnCommand(_droneProcessor, 0));
+            
+            //_droneCommandProcessor.AddCommand(new ForwardCommand(_droneProcessor, 2));
+            //_droneCommandProcessor.AddCommand(new TurnCommand(_droneProcessor, 180));
+
+            //_droneCommandProcessor.AddCommand(new ForwardCommand(_droneProcessor, 2));
+            //_droneCommandProcessor.AddCommand(new TurnCommand(_droneProcessor, 90));
+
+            //_droneCommandProcessor.AddCommand(new ForwardCommand(_droneProcessor, 2));
+            //_droneCommandProcessor.AddCommand(new TurnCommand(_droneProcessor, 0));
+
 
             // land command
             _droneCommandProcessor.AddCommand(new LandCommand(_droneProcessor));
