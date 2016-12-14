@@ -9,6 +9,7 @@ using DroneAPI.Processors.DroneProcessors;
 using DroneAPI.Processors.DroneProcessors.Commands;
 using DroneAPI.Services;
 using DroneAPI.Factorys;
+using DroneAPI.DAL;
 
 namespace DroneAPI.Controllers
 {
@@ -20,7 +21,13 @@ namespace DroneAPI.Controllers
         // POST api/CheckProduct/5
         public void CheckProduct(int productId)
         {
+            
+        }
 
+        public string CheckCommands()
+        {
+            DroneContext dc = new DroneContext();
+            return "";
         }
         
         // GET: api/QualityCheck
@@ -66,6 +73,8 @@ namespace DroneAPI.Controllers
             // land command
             _droneCommandProcessor.AddCommand(new LandCommand(_droneProcessor));
             _droneCommandProcessor.Execute();
+
+            // return directions in text. Temporary
             return this.GenerateDirections(path);
         }
 
@@ -86,6 +95,11 @@ namespace DroneAPI.Controllers
                 text += "p1: " + start.ToString() + " p2: "+end.ToString()+" ,";
                 text += Services.MathUtility.CalculateDistance(start, end) + " : " + Services.MathUtility.CalculateAngle(start, end) + "| ";
             }
+
+            // Check turncommands to calculate orientation.
+            text += this.CheckCommands();
+
+            // return text
             return text;
         }
     }
