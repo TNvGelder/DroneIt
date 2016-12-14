@@ -127,15 +127,20 @@
     <Compile Include="DataStructures\GraphStructure\GraphNode.cs" />
     <Compile Include="DataStructures\PriorityQueue\BinaryHeap.cs" />
     <Compile Include="Factorys\DroneFactory.cs" />
-    <Compile Include="Migrations\201612141040404_Init.cs" />
-    <Compile Include="Migrations\201612141040404_Init.Designer.cs">
-      <DependentUpon>201612141040404_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201612011442047_init.cs" />
+    <Compile Include="Migrations\201612011442047_init.Designer.cs">
+      <DependentUpon>201612011442047_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612141240278_productlocation.cs" />
+    <Compile Include="Migrations\201612141240278_productlocation.Designer.cs">
+      <DependentUpon>201612141240278_productlocation.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Command.cs" />
     <Compile Include="Factorys\PathfinderFactory.cs" />
     <Compile Include="Models\District.cs" />
     <Compile Include="Models\EdgeDal.cs" />
     <Compile Include="Models\GraphNodeDal.cs" />
+    <Compile Include="Models\ProductLocation.cs" />
     <Compile Include="Models\Warehouse.cs" />
     <Compile Include="Processors\DroneProcessors\Commands\FallCommand.cs" />
     <Compile Include="Processors\DroneProcessors\Commands\RightCommand.cs" />
@@ -176,8 +181,11 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201612141040404_Init.resx">
-      <DependentUpon>201612141040404_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201612011442047_init.resx">
+      <DependentUpon>201612011442047_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612141240278_productlocation.resx">
+      <DependentUpon>201612141240278_productlocation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

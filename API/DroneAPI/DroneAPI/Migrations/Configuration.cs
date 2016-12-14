@@ -84,17 +84,30 @@ namespace DroneAPI.Migrations
                 context.SaveChanges();
 
                 // Add some products
-                //Product p1 = new Product() { Name = "iMac 27 (2016)", Column = 2, Row = 2, District = district3};
-                //Product p2 = new Product() { Name = "iPod", Column = 6, Row = 1, District = district3};
-                //Product p3 = new Product() { Name = "iPhone 7", Column = 4, Row = 1, District = district3};
-                //Product p4 = new Product() { Name = "iPhone 6s", Column = 1, Row = 2, District = district2};
-                //Product p5 = new Product() { Name = "Apple TV", Column = 5, Row = 2, District = district2 };
-                //Product p6 = new Product() { Name = "iMac 21 (2012)", Column = 3, Row = 3, District = district2 };
-                //Product p7 = new Product() { Name = "iPad Air 2", Column = 4, Row = 1, District = district1 };
-                //Product p8 = new Product() { Name = "MacBook Pro Retina (2015)", Column = 8, Row = 3, District = district1 };
+                Product p1 = new Product() { Name = "iMac 27 (2016)" };
+                Product p2 = new Product() { Name = "iPod" };
+                Product p3 = new Product() { Name = "iPhone 7" };
+                Product p4 = new Product() { Name = "iPhone 6s" };
+                Product p5 = new Product() { Name = "Apple TV" };
+                Product p6 = new Product() { Name = "iMac 21 (2012)" };
+                Product p7 = new Product() { Name = "iPad Air 2" };
+                Product p8 = new Product() { Name = "MacBook Pro Retina (2015)" };
 
-                //context.Products.AddOrUpdate(p1, p2, p3, p4, p5, p6, p7, p8);
-                //context.SaveChanges();
+                context.Products.AddOrUpdate(p1, p2, p3, p4, p5, p6, p7, p8);
+                context.SaveChanges();
+
+                // Assign locations to the products
+                ProductLocation pl1 = new ProductLocation() { Product = p1, Column = 2, Row = 2, District = district3 };
+                ProductLocation pl2 = new ProductLocation() { Product = p2, Column = 6, Row = 1, District = district3 };
+                ProductLocation pl3 = new ProductLocation() { Product = p3, Column = 4, Row = 1, District = district3 };
+                ProductLocation pl4 = new ProductLocation() { Product = p4, Column = 1, Row = 2, District = district2 };
+                ProductLocation pl5 = new ProductLocation() { Product = p5, Column = 5, Row = 2, District = district2 };
+                ProductLocation pl6 = new ProductLocation() { Product = p6, Column = 3, Row = 3, District = district2 };
+                ProductLocation pl7 = new ProductLocation() { Product = p7, Column = 4, Row = 1, District = district1 };
+                ProductLocation pl8 = new ProductLocation() { Product = p8, Column = 8, Row = 3, District = district1 };
+
+                context.Locations.AddOrUpdate(pl1, pl2, pl3, pl4, pl5, pl6, pl7, pl8);
+                context.SaveChanges();
             }
 
             //  This method will be called after migrating to the latest version.
