@@ -33,13 +33,5 @@ namespace DroneControl.Commands {
             if (!File.Exists(_subDestPath + _frameNumber + ".png"))
                 File.Delete(_subDestPath + _frameNumber + ".png");
         }
-
-        public string GetName() {
-            return "Picture";
-        }
-
-        public double GetValue() {
-            return 0;
-        }
     }
 }

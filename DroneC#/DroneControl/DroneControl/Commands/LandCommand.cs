@@ -25,13 +25,5 @@ namespace DroneControl.Commands
             _controller.Takeoff();
             _controller.Hover();
         }
-
-        public string GetName() {
-            return "Backward";
-        }
-
-        public double GetValue() {
-            return _degrees;
-        }
     }
 }
