@@ -8,5 +8,10 @@ namespace LineTrackingTest.Models
 {
     enum PositioningState
     {
+        Correct,
+        Left,
+        Right,
+        WrongRotation,
+        Lost
     }
 }
