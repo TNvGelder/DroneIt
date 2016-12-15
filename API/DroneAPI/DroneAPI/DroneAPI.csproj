@@ -140,6 +140,7 @@
     <Compile Include="Processors\DroneProcessors\Commands\FallCommand.cs" />
     <Compile Include="Processors\DroneProcessors\Commands\RightCommand.cs" />
     <Compile Include="Processors\DroneProcessors\Commands\RiseCommand.cs" />
+    <Compile Include="Processors\DroneProcessors\Commands\TakePictureCommand.cs" />
     <Compile Include="Processors\DroneProcessors\DroneCommandProcessor.cs" />
     <Compile Include="Services\MathUtility.cs" />
     <Compile Include="Factorys\MovementCommandFactory.cs" />
