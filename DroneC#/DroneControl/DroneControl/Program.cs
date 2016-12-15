@@ -10,6 +10,7 @@ using System.Net;
 using System.Net.Sockets;
 using AR.Drone.Infrastructure;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace DroneControl {
     class Program {
@@ -36,7 +37,9 @@ namespace DroneControl {
             cs.Start();
 
             /*DroneController dc = DroneController.Instance;
-            dc.Start();*/
+            dc.Start();
+            Bitmap bm = dc.getBitmapFromBottomCam();
+            bm.Save("Data/bottom.png");*/
 
             Console.Read();
         }

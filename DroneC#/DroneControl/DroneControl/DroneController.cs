@@ -9,6 +9,7 @@ using AR.Drone.Media;
 using AR.Drone.WinApp;
 using System.IO;
 using System.Threading;
+using AR.Drone.Client.Configuration;
 
 namespace DroneControl {
     public class DroneController
@@ -334,6 +335,16 @@ namespace DroneControl {
                 degrees = (degrees + 360);
             }
             return degrees;
+        }
+
+        public Bitmap getBitmapFromBottomCam() {
+            var configuration = new Settings();
+            configuration.Video.Channel = VideoChannelType.Next;
+            _droneClient.Send(configuration);
+            int frameNumber = (int)FrameNumber + 5;
+
+            System.Threading.Thread.Sleep(250);
+            return new Bitmap("Data/" + frameNumber + ".png");
         }
     }
 }
