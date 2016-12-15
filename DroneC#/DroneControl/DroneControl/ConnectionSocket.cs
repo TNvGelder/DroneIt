@@ -21,7 +21,6 @@ namespace DroneControl
         private ConnectionSocket() {
             _port = 11000;
             th = new Thread(StartListening);
-            th.Start();
         }
 
         public static ConnectionSocket Instance {
@@ -36,7 +35,11 @@ namespace DroneControl
             }
         }
 
-        public void StartListening() {
+        public void Start() {
+            th.Start();
+        }
+
+        private void StartListening() {
             // Data buffer for incoming data.
             byte[] bytes = new Byte[1048576];
 
@@ -50,8 +53,7 @@ namespace DroneControl
             Console.WriteLine(Dns.GetHostName());
 
             // Create a TCP/IP socket.
-            Socket listener = new Socket(AddressFamily.InterNetwork,
-                SocketType.Stream, ProtocolType.Tcp);
+            Socket listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             // Bind the socket to the local endpoint and 
             // listen for incoming connections.
@@ -81,7 +83,7 @@ namespace DroneControl
                     Console.WriteLine(data.Substring(0, data.Length - 5));
 
                     List<Command> commandList = new JavaScriptSerializer().Deserialize<List<Command>>(data.Substring(0, data.Length - 5));
-                    CommandFactory commandFactory = new CommandFactory(new DroneController());
+                    CommandFactory commandFactory = new CommandFactory(DroneController.Instance);
                     DroneCommandProcessor droneCommandProcessor = new DroneCommandProcessor();
 
                     foreach (Command c in commandList) {
