@@ -25,6 +25,7 @@ namespace DroneControl.Commands {
             if (!Directory.Exists(_subDestPath))
                 Directory.CreateDirectory(_subDestPath);
 
+            System.Threading.Thread.Sleep(250);
             if (!File.Exists(_subSourcePath + _frameNumber + ".png"))
                 File.Copy(_subSourcePath + _frameNumber + ".png", _subDestPath + _frameNumber + ".png");
         }
