@@ -10,7 +10,6 @@ namespace AR.Drone.Video
     public class VideoPacketDecoderWorker : WorkerBase
     {
         private const int SkipFramesThreshold = 1;
-
         private readonly bool _skipFrames;
         private readonly Action<VideoFrame> _onFrameDecoded;
         private readonly ConcurrentQueue<VideoPacket> _packetQueue;
@@ -46,8 +45,7 @@ namespace AR.Drone.Video
                     if (_packetQueue.TryDequeue(out packet))
                     {
                         VideoFrame frame;
-                        if (videoDecoder.TryDecode(ref packet, out frame))
-                        {
+                        if (videoDecoder.TryDecode(ref packet, out frame)) {
                             _onFrameDecoded(frame);
                         }
                     }

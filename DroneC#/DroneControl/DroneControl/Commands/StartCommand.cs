@@ -18,6 +18,7 @@ namespace DroneControl.Commands
             _controller.Start();
             _controller.Calibrate();
             _controller.Takeoff();
+            _controller.Hover();
         }
 
         public void Undo() {

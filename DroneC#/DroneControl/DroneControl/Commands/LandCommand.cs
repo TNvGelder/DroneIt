@@ -17,11 +17,13 @@ namespace DroneControl.Commands
         public void Execute()
         {
             _controller.Land();
+            _controller.Hover();
         }
 
         public void Undo()
         {
             _controller.Takeoff();
+            _controller.Hover();
         }
 
         public string GetName() {
