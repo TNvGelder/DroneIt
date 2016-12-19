@@ -21,41 +21,60 @@ namespace DroneControl.Commands
 
         public void Execute()
         {
+            followLine(true);
+            
+        }
+
+        public void Undo()
+        {
+            followLine(false);
+        }
+
+        //private void 
+
+        private void followLine(bool isForward)
+        {
             //_controller.Forward();
-            bool nodeReached = false;
+            bool lineEndReached = false;
             PositioningState prevState = PositioningState.Correct;
-            while (!nodeReached)
+            while (lineEndReached)
             {
                 //getbitmap
                 Bitmap bmp = new Bitmap("");
                 PositioningState state = LineProcessor.ProcessLine(bmp);
+                int startPointOfView = _controller.PointOfView;
                 if (state != prevState)
                 {
                     switch (state)
                     {
                         case PositioningState.Correct:
-                            //_controller.Forward();
+                            if (isForward)
+                            {
+                                _controller.Forward();
+                            }
+                            else
+                            {
+                                _controller.Backward();
+                            }
                             break;
                         case PositioningState.Lost:
+                            lineEndReached = true;
                             _controller.Land();
                             break;
                         case PositioningState.Left:
-                            //_controller.Right()
+                            _controller.Turn(startPointOfView);
+                            _controller.Right();
                             break;
                         case PositioningState.Right:
-                            //_controller.Left()
+                            _controller.Turn(startPointOfView);
+                            _controller.Left();
                             break;
                     }
-                }
-                
-                
-            }
-            
-    }
 
-        public void Undo()
-        {
-            _controller.Backward((float)_meters);
+
+                }
+
+            }
         }
 
         public string GetName()

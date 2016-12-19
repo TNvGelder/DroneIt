@@ -86,7 +86,15 @@ namespace DroneControl {
         }
 
         /// <summary>
-        /// Let the drone fly for a give amount of meters. 
+        /// Lets the drone fly forward
+        /// </summary>
+        public void Forward()
+        {
+            _droneClient.Progress(FlightMode.Progressive, pitch: -this.Speed);
+        }
+
+        /// <summary>
+        /// Lets the drone fly forward and waits until it has flown the given amount of meters
         /// The speed if from a constant value
         /// </summary>
         /// <param name="meters"></param>
@@ -95,28 +103,67 @@ namespace DroneControl {
             Console.WriteLine("For" + meters);
             float Time = meters / this.Speed * 200;
             Console.WriteLine(Time);
-            _droneClient.Progress(FlightMode.Progressive, pitch: -this.Speed);
+            Forward();
             System.Threading.Thread.Sleep((int)Time);
         }
 
+        /// <summary>
+        /// Lets the drone fly backwards.
+        /// </summary>
+        public void Backward()
+        {
+            _droneClient.Progress(FlightMode.Progressive, pitch: this.Speed);
+        }
+
+        /// <summary>
+        /// Lets the drone fly backwards and waits until it has flown the given amount of meters
+        /// The speed if from a constant value 
+        /// </summary>
+        /// <param name="meters"></param>
         public void Backward(float meters) {
             Console.WriteLine("Back");
             float Time = meters / this.Speed * 200;
-            _droneClient.Progress(FlightMode.Progressive, pitch: this.Speed);
+            Backward();
             System.Threading.Thread.Sleep(Convert.ToInt16(Time));
         }
 
+        /// <summary>
+        /// Lets the drone fly to the left.
+        /// </summary>
+        public void Left()
+        {
+            _droneClient.Progress(FlightMode.Progressive, roll: this.Speed);
+        }
+
+        /// <summary>
+        /// Lets the drone fly to the left and waits until it has flown the given amount of meters
+        /// The speed if from a constant value 
+        /// </summary>
+        /// <param name="meters"></param>
         public void Left(float meters) {
             Console.WriteLine("Left");
             float Time = meters / this.Speed * 200;
-            _droneClient.Progress(FlightMode.Progressive, roll: this.Speed);
+            Left();
             System.Threading.Thread.Sleep(Convert.ToInt16(Time));
         }
 
+        /// <summary>
+        /// Lets the drone fly to the right.
+        /// </summary>
+        public void Right()
+        {
+            _droneClient.Progress(FlightMode.Progressive, roll: -this.Speed);
+        }
+
+        /// <summary>
+        /// Lets the drone fly to the right and waits until it has flown the given amount of meters
+        /// The speed if from a constant value 
+        /// </summary>
+        /// <param name="meters"></param>
         public void Right(float meters) {
             Console.WriteLine("Left");
             float Time = meters / this.Speed * 200;
-            _droneClient.Progress(FlightMode.Progressive, roll: -this.Speed);
+            Right();
             System.Threading.Thread.Sleep(Convert.ToInt16(Time));
         }
 
