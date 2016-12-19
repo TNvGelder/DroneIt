@@ -324,12 +324,17 @@ namespace DroneControl {
             else
                 VideoHelper.UpdateBitmap(ref _frameBitmap, ref _frame);
 
-            string subPath = "Data";
-            bool exists = System.IO.Directory.Exists(subPath);
-            if (!exists)
+            string subPath = "Data/";
+            if (!Directory.Exists(subPath))
                 System.IO.Directory.CreateDirectory(subPath);
 
-            _frameBitmap.Save(subPath + "/" + FrameNumber + ".png");
+            _frameBitmap.Save(subPath + FrameNumber + ".png");
+
+            string livePath = "Live/";
+            if (!Directory.Exists(livePath))
+                System.IO.Directory.CreateDirectory(livePath);
+
+            _frameBitmap.Save(subPath + livePath + "live.png");
         }
 
         private int degreesConverter(int degrees) {
@@ -355,6 +360,21 @@ namespace DroneControl {
 
         public Bitmap getBitmapFromBottomCam() {
             checkCameraTo(DroneCamera.Bottom);
+
+            int frameNumber = (int)FrameNumber + 5;
+            Bitmap bm;
+
+            while (true) {
+                try {
+                    bm = new Bitmap("Data/" + frameNumber + ".png");
+                    break;
+                } catch (IOException) { }
+            }
+            return bm;
+        }
+
+        public Bitmap getBitmapFromFrontCam() {
+            checkCameraTo(DroneCamera.Front);
 
             int frameNumber = (int)FrameNumber + 5;
             Bitmap bm;

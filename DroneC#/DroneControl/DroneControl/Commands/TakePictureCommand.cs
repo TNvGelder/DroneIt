@@ -9,27 +9,25 @@ namespace DroneControl.Commands {
     class TakePictureCommand : IDroneCommand {
         private DroneController _controller { get; set; }
         private int _id { get; set; }
+        private Bitmap _bitmap;
         private int _frameNumber;
-        private string _subSourcePath;
         private string _subDestPath;
 
         public TakePictureCommand(DroneController controller, int id) {
             _controller = controller;
             _id = id;
-            _subSourcePath = "Data/";
-            _subDestPath = "Images/";
+            _subDestPath = "Images/" + _id + "/";
         }
 
         public void Execute() {
             _controller.Start();
+            _bitmap = _controller.getBitmapFromFrontCam();
             _frameNumber = (int)_controller.FrameNumber;
             
             if (!Directory.Exists(_subDestPath))
                 Directory.CreateDirectory(_subDestPath);
 
-            System.Threading.Thread.Sleep(250);
-            if (!File.Exists(_subSourcePath + _frameNumber + ".png"))
-                File.Copy(_subSourcePath + _frameNumber + ".png", _subDestPath + _frameNumber + ".png");
+            _bitmap.Save(_subDestPath + _frameNumber + ".png");
         }
 
         public void Undo() {
