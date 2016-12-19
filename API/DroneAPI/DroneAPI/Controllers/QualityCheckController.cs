@@ -25,19 +25,13 @@ namespace DroneAPI.Controllers
         // GET api/QualityCheck/5
         [EnableCors("*", "*", "GET")]
         [HttpGet]
-        public IHttpActionResult GetQualityCheck(int productId)
+        public IHttpActionResult GetQualityCheck(int id)
         {
-            Product product = db.Products.Find(productId);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            //Check if product has any locations
-            DataRow[] result = db.Locations.Select("Product_Id = "+productId);
+            ProductLocation pl = db.Locations.Find(id);
 
-            Product returnProduct = new Product() { Id = product.Id, Name = product.Name };
+            // logic to start the whole process
             
-            return Ok(returnProduct);
+            return Ok();
         }
 
         // GET: api/QualityCheck
