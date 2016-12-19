@@ -12,6 +12,8 @@ using System.Threading;
 using AR.Drone.Client.Configuration;
 
 namespace DroneControl {
+    enum DroneCamera { Front, Bottom }
+
     public class DroneController
     {
         private static volatile DroneController _instance;
@@ -337,14 +339,33 @@ namespace DroneControl {
             return degrees;
         }
 
-        public Bitmap getBitmapFromBottomCam() {
+        private void switchCamera() {
             var configuration = new Settings();
             configuration.Video.Channel = VideoChannelType.Next;
             _droneClient.Send(configuration);
-            int frameNumber = (int)FrameNumber + 5;
+        }
 
-            System.Threading.Thread.Sleep(250);
-            return new Bitmap("Data/" + frameNumber + ".png");
+        private void checkCameraTo(DroneCamera camera) {
+            if (camera == DroneCamera.Front && _frameBitmap.Width != 1280) {
+                switchCamera();
+            } else if (camera == DroneCamera.Bottom && _frameBitmap.Width != 640) {
+                switchCamera();
+            }
+        }
+
+        public Bitmap getBitmapFromBottomCam() {
+            checkCameraTo(DroneCamera.Bottom);
+
+            int frameNumber = (int)FrameNumber + 5;
+            Bitmap bm;
+
+            while (true) {
+                try {
+                    bm = new Bitmap("Data/" + frameNumber + ".png");
+                    break;
+                } catch (IOException) { }
+            }
+            return bm;
         }
     }
 }
