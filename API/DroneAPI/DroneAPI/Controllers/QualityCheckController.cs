@@ -66,7 +66,7 @@ namespace DroneAPI.Controllers
             _droneCommandProcessor.AddCommand(new FallCommand(_droneProcessor, 2));*/
             //_droneCommandProcessor.AddCommand(new TurnCommand(_droneProcessor, 270));
 
-            _droneCommandProcessor.AddCommand(new TakePictureCommand(_droneProcessor));
+            _droneCommandProcessor.AddCommand(new TakePictureCommand(_droneProcessor, 1));
             
             //_droneCommandProcessor.AddCommand(new ForwardCommand(_droneProcessor, 2));
             //_droneCommandProcessor.AddCommand(new TurnCommand(_droneProcessor, 180));
