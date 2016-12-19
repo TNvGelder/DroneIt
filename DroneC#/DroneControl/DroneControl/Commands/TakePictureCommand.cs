@@ -8,12 +8,14 @@ using System.Text;
 namespace DroneControl.Commands {
     class TakePictureCommand : IDroneCommand {
         private DroneController _controller { get; set; }
+        private int _id { get; set; }
         private int _frameNumber;
         private string _subSourcePath;
         private string _subDestPath;
 
-        public TakePictureCommand(DroneController controller) {
+        public TakePictureCommand(DroneController controller, int id) {
             _controller = controller;
+            _id = id;
             _subSourcePath = "Data/";
             _subDestPath = "Images/";
         }
