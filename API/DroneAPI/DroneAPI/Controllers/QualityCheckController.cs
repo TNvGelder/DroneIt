@@ -10,6 +10,9 @@ using DroneAPI.Processors.DroneProcessors.Commands;
 using DroneAPI.Services;
 using DroneAPI.Factorys;
 using DroneAPI.DAL;
+using System.Web.Http.Cors;
+using System.Web.Http.Description;
+using System.Data;
 
 namespace DroneAPI.Controllers
 {
@@ -17,22 +20,28 @@ namespace DroneAPI.Controllers
     {
         private DroneProcessor _droneProcessor;
         private DroneCommandProcessor _droneCommandProcessor;
-        
-        // POST api/CheckProduct/5
-        public void CheckProduct(int productId)
+        private DroneContext db = new DroneContext();
+
+        // GET api/QualityCheck/5
+        [EnableCors("*", "*", "GET")]
+        [HttpGet]
+        public IHttpActionResult GetQualityCheck(int productId)
         {
+            Product product = db.Products.Find(productId);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            //Check if product has any locations
+            DataRow[] result = db.Locations.Select("Product_Id = "+productId);
+
+            Product returnProduct = new Product() { Id = product.Id, Name = product.Name };
             
+            return Ok(returnProduct);
         }
 
-        public string CheckCommands()
-        {
-            DroneContext dc = new DroneContext();
-            return "";
-        }
-        
         // GET: api/QualityCheck
-        // Dient als een soort van Main
-        public string GetShortestPath()
+        private string CreateCommands()
         {
             _droneProcessor = DroneFactory.getDroneProcessor();
             _droneCommandProcessor = new DroneCommandProcessor(_droneProcessor);
@@ -79,7 +88,7 @@ namespace DroneAPI.Controllers
         }
 
         // Generates directions as Commands for the drone
-        public string GenerateDirections(LinkedList<Position> pList)
+        private string GenerateDirections(LinkedList<Position> pList)
         {
             string text = "";
             if (pList.Count < 2)
@@ -95,10 +104,6 @@ namespace DroneAPI.Controllers
                 text += "p1: " + start.ToString() + " p2: "+end.ToString()+" ,";
                 text += Services.MathUtility.CalculateDistance(start, end) + " : " + Services.MathUtility.CalculateAngle(start, end) + "| ";
             }
-
-            // Check turncommands to calculate orientation.
-            text += this.CheckCommands();
-
             // return text
             return text;
         }
