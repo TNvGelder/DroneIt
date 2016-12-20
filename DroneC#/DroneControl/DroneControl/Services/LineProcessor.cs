@@ -18,10 +18,10 @@ namespace LineTrackingTest.Services
         public static double _minPosRatio = .45;
 
         private static int _regionHeight = 100;
-        private static int _hue1 = 10;//170, 0
-        private static int _hue2 = 30;//180, 10
+        private static int _hue1 = 160;//170, 0
+        private static int _hue2 = 180;//180, 10
         private static int _sat1 = 100;//100, 150
-        private static int _sat2 = 230;//200, 255
+        private static int _sat2 = 200;//200, 255
 
         private static LineSegment2D[] filterLines(Image<Bgr, Byte> img)
         {
@@ -51,6 +51,7 @@ namespace LineTrackingTest.Services
                 img.Draw(line, new Bgr(Color.Green), 3);
             }
             img.Save("../../TestImage/OutputImage.png");
+            
             return lines;
         }
 
