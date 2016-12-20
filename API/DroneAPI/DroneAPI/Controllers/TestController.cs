@@ -2,7 +2,6 @@
 using DroneAPI.Factorys;
 using DroneAPI.Models;
 using DroneAPI.Processors.DroneProcessors;
-using DroneAPI.Processors.DroneProcessors.Commands;
 using DroneAPI.Services;
 using System;
 using System.Collections.Generic;
@@ -17,15 +16,13 @@ namespace DroneAPI.Controllers
 {
     public class TestController : ApiController
     {
-        private DroneProcessor _droneProcessor;
         private DroneCommandProcessor _droneCommandProcessor;
         
         [EnableCors("*", "*", "GET")]
         [ResponseType(typeof(string))]
         public string GetProduct(int id)
         {
-            _droneProcessor = DroneFactory.getDroneProcessor();
-            _droneCommandProcessor = new DroneCommandProcessor(_droneProcessor);
+            _droneCommandProcessor = new DroneCommandProcessor();
             Pathfinder pathfinder = new Pathfinder();
             LinkedList<Position> path = new LinkedList<Position>();
 
@@ -55,13 +52,13 @@ namespace DroneAPI.Controllers
             }
 
             // start command
-            _droneCommandProcessor.AddCommand(new StartCommand(_droneProcessor));
+            _droneCommandProcessor.AddCommand(new Command { name = "Start" });
 
-            MovementCommandFactory factory = new MovementCommandFactory(_droneProcessor);
+            MovementCommandFactory factory = new MovementCommandFactory();
             _droneCommandProcessor.AddListCommand(factory.GetMovementCommands(path));
 
             // land command
-            _droneCommandProcessor.AddCommand(new LandCommand(_droneProcessor));
+            _droneCommandProcessor.AddCommand(new Command { name = "Land" });
             _droneCommandProcessor.Execute();
             return "true";
         }

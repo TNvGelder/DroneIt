@@ -126,7 +126,6 @@
     <Compile Include="DataStructures\GraphStructure\Graph.cs" />
     <Compile Include="DataStructures\GraphStructure\GraphNode.cs" />
     <Compile Include="DataStructures\PriorityQueue\BinaryHeap.cs" />
-    <Compile Include="Factorys\DroneFactory.cs" />
     <Compile Include="Models\Command.cs" />
     <Compile Include="Factorys\PathfinderFactory.cs" />
     <Compile Include="Migrations\201612011442047_init.cs" />
