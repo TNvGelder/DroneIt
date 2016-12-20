@@ -23,13 +23,5 @@ namespace DroneControl.Commands
             _controller.Left((int)_meters);
             _controller.Hover();
         }
-
-        public string GetName() {
-            return "Right";
-        }
-
-        public double GetValue() {
-            return _meters;
-        }
     }
 }

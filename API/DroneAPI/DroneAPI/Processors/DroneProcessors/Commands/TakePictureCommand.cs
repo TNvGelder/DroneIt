@@ -6,9 +6,11 @@ using System.Web;
 namespace DroneAPI.Processors.DroneProcessors.Commands {
     public class TakePictureCommand : IDroneCommand {
         private DroneProcessor _processor { get; set; }
+        private int _id { get; set; }
 
-        public TakePictureCommand(DroneProcessor processor) {
+        public TakePictureCommand(DroneProcessor processor, int id) {
             _processor = processor;
+            _id = id;
         }
 
         public void Execute() {
@@ -24,7 +26,7 @@ namespace DroneAPI.Processors.DroneProcessors.Commands {
         }
 
         public double GetValue() {
-            return 0;
+            return _id;
         }
     }
 }

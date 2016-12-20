@@ -58,7 +58,7 @@ namespace DroneAPI.Controllers
             LinkedList < Position > path = pathfinder.GetPath(a, j);
 
             // start command
-            //_droneCommandProcessor.AddCommand(new StartCommand(_droneProcessor));
+            _droneCommandProcessor.AddCommand(new StartCommand(_droneProcessor));
 
             /*MovementCommandFactory factory = new MovementCommandFactory(_droneProcessor);
             _droneCommandProcessor.AddListCommand(factory.GetMovementCommands(path));*/
@@ -66,7 +66,7 @@ namespace DroneAPI.Controllers
             _droneCommandProcessor.AddCommand(new FallCommand(_droneProcessor, 2));*/
             //_droneCommandProcessor.AddCommand(new TurnCommand(_droneProcessor, 270));
 
-            _droneCommandProcessor.AddCommand(new TakePictureCommand(_droneProcessor));
+            _droneCommandProcessor.AddCommand(new TakePictureCommand(_droneProcessor, 1));
             
             //_droneCommandProcessor.AddCommand(new ForwardCommand(_droneProcessor, 2));
             //_droneCommandProcessor.AddCommand(new TurnCommand(_droneProcessor, 180));
@@ -79,7 +79,7 @@ namespace DroneAPI.Controllers
 
 
             // land command
-            //_droneCommandProcessor.AddCommand(new LandCommand(_droneProcessor));
+            _droneCommandProcessor.AddCommand(new LandCommand(_droneProcessor));
             _droneCommandProcessor.Execute();
             return this.GenerateDirections(path);
         }

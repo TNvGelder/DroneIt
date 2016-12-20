@@ -12,6 +12,7 @@ using System.Net.Sockets;
 using LineTrackingTest.Services;
 using AR.Drone.Infrastructure;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace DroneControl {
     class Program {
@@ -43,7 +44,11 @@ namespace DroneControl {
             cs.Start();
 
             /*DroneController dc = DroneController.Instance;
-            dc.Start();*/
+            dc.Start();
+            Bitmap bm0 = dc.getBitmapFromBottomCam();
+            bm0.Save("0bottom.png");
+            Bitmap bm1 = dc.getBitmapFromFrontCam();
+            bm1.Save("0front.png");*/
 
             Console.Read();
         }

@@ -40,15 +40,5 @@ namespace DroneControl {
                 _commands.Dequeue().Execute();
             }
         }
-
-        public List<Command> commandList() {
-            List<Command> commands = new List<Command>();
-
-            foreach (IDroneCommand dc in _commands) {
-                commands.Add(new Command { name = dc.GetName(), value = dc.GetValue() });
-            }
-
-            return commands;
-        }
     }
 }

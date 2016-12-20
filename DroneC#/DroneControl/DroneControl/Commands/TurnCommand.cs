@@ -26,13 +26,5 @@ namespace DroneControl.Commands
             _controller.Turn(_UndoDegrees);
             _controller.Hover();
         }
-
-        public string GetName() {
-            return "Turn";
-        }
-
-        public double GetValue() {
-            return _degrees;
-        }
     }
 }

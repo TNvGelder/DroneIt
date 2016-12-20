@@ -9,8 +9,11 @@ using AR.Drone.Media;
 using AR.Drone.WinApp;
 using System.IO;
 using System.Threading;
+using AR.Drone.Client.Configuration;
 
 namespace DroneControl {
+    enum DroneCamera { Front, Bottom }
+
     public class DroneController
     {
         private static volatile DroneController _instance;
@@ -23,6 +26,9 @@ namespace DroneControl {
         private Bitmap _frameBitmap;
         public uint FrameNumber { get; private set; }
         private Thread _th;
+        public string DataPath { get; private set; }
+        public string LivePath { get; private set; }
+        private DroneCamera _camera { get; set; }
         public NavigationData _navigationData { get; private set; }
         public int North { get; private set; }
         public static DroneController Instance
@@ -55,6 +61,9 @@ namespace DroneControl {
 
         private DroneController()
         {
+            DataPath = "Data/";
+            LivePath = DataPath + "Live/";
+
             _videoPacketDecoderWorker = new VideoPacketDecoderWorker(PixelFormat.BGR24, true, OnVideoPacketDecoded);
             _videoPacketDecoderWorker.Start();
 
@@ -367,13 +376,16 @@ namespace DroneControl {
                 _frameBitmap = VideoHelper.CreateBitmap(ref _frame);
             else
                 VideoHelper.UpdateBitmap(ref _frameBitmap, ref _frame);
+            
+            if (!Directory.Exists(DataPath))
+                System.IO.Directory.CreateDirectory(DataPath);
+            
+            _frameBitmap.Save(DataPath + FrameNumber + ".png");
+            
+            if (!Directory.Exists(LivePath))
+                System.IO.Directory.CreateDirectory(LivePath);
 
-            string subPath = "Data";
-            bool exists = System.IO.Directory.Exists(subPath);
-            if (!exists)
-                System.IO.Directory.CreateDirectory(subPath);
-
-            _frameBitmap.Save(subPath + "/" + FrameNumber + ".png");
+            _frameBitmap.Save(LivePath + "live.png");
         }
 
         private int degreesConverter(int degrees) {
@@ -381,6 +393,55 @@ namespace DroneControl {
                 degrees = (degrees + 360);
             }
             return degrees;
+        }
+
+        private void switchCamera(VideoChannelType vct) {
+            var configuration = new Settings();
+            configuration.Video.Channel = vct;
+            _droneClient.Send(configuration);
+            System.Threading.Thread.Sleep(100);
+        }
+
+        private void setCameraTo(DroneCamera camera) {
+            if (camera == DroneCamera.Front) {
+                switchCamera(VideoChannelType.Horizontal);
+            } else {
+                switchCamera(VideoChannelType.Vertical);
+            }
+        }
+
+        public Bitmap getBitmapFromBottomCam() {
+            setCameraTo(DroneCamera.Bottom);
+
+            int frameNumber = (int)FrameNumber + 5;
+            Bitmap bm;
+            
+            while (true) {
+                try {
+                    bm = new Bitmap("Data/" + frameNumber + ".png");
+                    break;
+                } catch (Exception) {
+                    System.Threading.Thread.Sleep(100);
+                }
+            }
+            return bm;
+        }
+
+        public Bitmap getBitmapFromFrontCam() {
+            setCameraTo(DroneCamera.Front);
+
+            int frameNumber = (int)FrameNumber + 5;
+            Bitmap bm;
+
+            while (true) {
+                try {
+                    bm = new Bitmap("Data/" + frameNumber + ".png");
+                    break;
+                } catch (Exception) {
+                    System.Threading.Thread.Sleep(100);
+                }
+            }
+            return bm;
         }
     }
 }
