@@ -8,38 +8,31 @@ using System.Text;
 namespace DroneControl.Commands {
     class TakePictureCommand : IDroneCommand {
         private DroneController _controller { get; set; }
+        private int _id { get; set; }
+        private Bitmap _bitmap;
         private int _frameNumber;
-        private string _subSourcePath;
         private string _subDestPath;
 
-        public TakePictureCommand(DroneController controller) {
+        public TakePictureCommand(DroneController controller, int id) {
             _controller = controller;
-            _subSourcePath = "Data/";
-            _subDestPath = "Images/";
+            _id = id;
+            _subDestPath = "Images/" + _id + "/";
         }
 
         public void Execute() {
             _controller.Start();
+            _bitmap = _controller.getBitmapFromFrontCam();
             _frameNumber = (int)_controller.FrameNumber;
             
             if (!Directory.Exists(_subDestPath))
                 Directory.CreateDirectory(_subDestPath);
 
-            if (!File.Exists(_subSourcePath + _frameNumber + ".png"))
-                File.Copy(_subSourcePath + _frameNumber + ".png", _subDestPath + _frameNumber + ".png");
+            _bitmap.Save(_subDestPath + _frameNumber + ".png");
         }
 
         public void Undo() {
             if (!File.Exists(_subDestPath + _frameNumber + ".png"))
                 File.Delete(_subDestPath + _frameNumber + ".png");
-        }
-
-        public string GetName() {
-            return "Picture";
-        }
-
-        public double GetValue() {
-            return 0;
         }
     }
 }
