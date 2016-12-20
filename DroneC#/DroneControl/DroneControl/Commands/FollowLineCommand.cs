@@ -44,6 +44,7 @@ namespace DroneControl.Commands
                 Bitmap bmp = _controller.GetBitmapFromBottomCam();
                 PositioningState state = LineProcessor.ProcessLine(bmp);
                 int startPointOfView = _controller.PointOfView;
+                Console.WriteLine(state);
                 if (state != prevState)
                 {
                     switch (state)
