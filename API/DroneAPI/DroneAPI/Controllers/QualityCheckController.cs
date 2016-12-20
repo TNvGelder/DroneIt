@@ -28,14 +28,14 @@ namespace DroneAPI.Controllers
         public IHttpActionResult GetQualityCheck(int id)
         {
             ProductLocation pl = db.Locations.Find(id);
-
+            
             // logic to start the whole process
             
             return Ok();
         }
 
-        // GET: api/QualityCheck
-        private string CreateCommands()
+        // Create Commands
+        private void CreateCommands(ProductLocation pl)
         {
             _droneProcessor = DroneFactory.getDroneProcessor();
             _droneCommandProcessor = new DroneCommandProcessor(_droneProcessor);
@@ -70,18 +70,28 @@ namespace DroneAPI.Controllers
             // start command
             _droneCommandProcessor.AddCommand(new StartCommand(_droneProcessor));
 
-            MovementCommandFactory factory = new MovementCommandFactory(_droneProcessor);
-            _droneCommandProcessor.AddListCommand(factory.GetMovementCommands(path));
+            MovementCommandFactory mFactory = new MovementCommandFactory(_droneProcessor);
+            _droneCommandProcessor.AddListCommand(mFactory.GetMovementCommands(path));
+
+            DistrictCommandFactory dFactory = new DistrictCommandFactory(_droneProcessor);
+            //_droneCommandProcessor.AddListCommand(dFactory.GetCommands(path, pl));
 
             // land command
             _droneCommandProcessor.AddCommand(new LandCommand(_droneProcessor));
             _droneCommandProcessor.Execute();
-
-            // return directions in text. Temporary
-            return this.GenerateDirections(path);
         }
 
-        // Generates directions as Commands for the drone
+        private Position GiveEndPosition(ProductLocation pl) {
+            int half = pl.District.Columns / 2;
+            Position result = new Position(pl.District.StartGraphNode.X, pl.District.StartGraphNode.Y);
+            if (pl.Column>half)
+            {
+                result = new Position(pl.District.EndGraphNode.X, pl.District.EndGraphNode.Y);
+            }
+            return result;
+        }
+
+        // Generates directions as Commands for the drone TEst method
         private string GenerateDirections(LinkedList<Position> pList)
         {
             string text = "";

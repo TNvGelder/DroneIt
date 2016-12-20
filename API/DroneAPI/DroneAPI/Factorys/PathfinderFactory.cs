@@ -9,6 +9,10 @@ namespace DroneAPI.Factorys
 {
     public class PathfinderFactory
     {
+
+        /// <summary>
+        /// Generate pathfinder from warehouse objects
+        /// </summary>
         private static Pathfinder _pathfinder { get; set; }
 
         public static Pathfinder GetPathfinderFromWarehouse(Warehouse warehouse)

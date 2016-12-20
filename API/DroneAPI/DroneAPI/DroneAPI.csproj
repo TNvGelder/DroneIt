@@ -126,7 +126,10 @@
     <Compile Include="DataStructures\GraphStructure\Graph.cs" />
     <Compile Include="DataStructures\GraphStructure\GraphNode.cs" />
     <Compile Include="DataStructures\PriorityQueue\BinaryHeap.cs" />
+    <Compile Include="Factorys\CommandFactory.cs" />
+    <Compile Include="Factorys\DistrictCommandFactory.cs" />
     <Compile Include="Factorys\DroneFactory.cs" />
+    <Compile Include="Factorys\ICommandFactory.cs" />
     <Compile Include="Migrations\201612011442047_init.cs" />
     <Compile Include="Migrations\201612011442047_init.Designer.cs">
       <DependentUpon>201612011442047_init.cs</DependentUpon>
