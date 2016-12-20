@@ -31,7 +31,7 @@ namespace DroneAPI.Factorys
             {
                 Position start = new Position { X = gn.X, Y = gn.Y };
                 foreach (EdgeDal edge in gn.Edges)
-                    _pathfinder.AddPath(start, new Position { X = gn.X, Y = gn.Y });
+                    _pathfinder.AddPath(start, new Position { X = edge.DestinationGraphNode.X, Y = edge.DestinationGraphNode.Y });
             }
 
             return _pathfinder;

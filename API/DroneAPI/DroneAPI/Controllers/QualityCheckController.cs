@@ -9,6 +9,7 @@ using DroneAPI.Services;
 using DroneAPI.Factorys;
 using DroneAPI.DAL;
 using System.Web.Http.Cors;
+using System.Linq;
 
 namespace DroneAPI.Controllers
 {
@@ -24,7 +25,7 @@ namespace DroneAPI.Controllers
         public IHttpActionResult GetQualityCheck(int id)
         {
             ProductLocation pl = db.Locations.Find(id);
-            
+            this.CreateCommands(pl);
             // logic to start the whole process
             
             return Ok();
@@ -35,33 +36,10 @@ namespace DroneAPI.Controllers
         {
             _droneProcessor = DroneFactory.getDroneProcessor();
             _droneCommandProcessor = new DroneCommandProcessor(_droneProcessor);
-            Pathfinder pathfinder = new Pathfinder();
-            Position a = new Position { X=0, Y=0 };
-            Position b = new Position { X=1, Y=3 };
-            Position c = new Position { X = 4, Y = 0 }; ;
-            Position d = new Position { X = 3, Y = 1 }; ;
-            Position e = new Position { X = 4, Y = 4 }; ;
-            Position f = new Position { X = 3, Y = 7 }; ;
-            Position g = new Position { X = 6, Y = 6 }; ;
-            Position h = new Position { X = 8, Y = 5 }; ;
-            Position i = new Position { X = 7, Y = 8 }; ;
-            Position j = new Position { X = 9, Y = 9 }; ;
+            Pathfinder pathfinder = PathfinderFactory.GetPathfinderFromWarehouse(pl.District.Warehouse);
 
-            pathfinder.AddPath(a, b);
-            pathfinder.AddPath(a, c);
-            pathfinder.AddPath(a, d);
-            pathfinder.AddPath(b, e);
-            pathfinder.AddPath(c, f);
-            pathfinder.AddPath(d, h);
-            pathfinder.AddPath(e, g);
-            pathfinder.AddPath(d, e);
-            pathfinder.AddPath(e, g);
-            pathfinder.AddPath(g, h);
-            pathfinder.AddPath(h, i);
-            pathfinder.AddPath(f, i);
-            pathfinder.AddPath(i, j);
-
-            LinkedList < Position > path = pathfinder.GetPath(a, j);
+            Position startNode = new Position(pl.District.Warehouse.StartNode.X, pl.District.Warehouse.StartNode.Y);
+            LinkedList < Position > path = pathfinder.GetPath(startNode, this.GiveEndPosition(pl));
 
             //start command
             _droneCommandProcessor.AddCommand(new StartCommand(_droneProcessor));
