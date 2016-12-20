@@ -40,7 +40,7 @@ namespace DroneControl.Commands
             while (lineEndReached)
             {
                 //getbitmap
-                Bitmap bmp = new Bitmap("");
+                Bitmap bmp = _controller.GetBitmapFromBottomCam();
                 PositioningState state = LineProcessor.ProcessLine(bmp);
                 int startPointOfView = _controller.PointOfView;
                 if (state != prevState)

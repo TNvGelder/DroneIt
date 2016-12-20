@@ -410,7 +410,7 @@ namespace DroneControl {
             }
         }
 
-        public Bitmap getBitmapFromBottomCam() {
+        public Bitmap GetBitmapFromBottomCam() {
             setCameraTo(DroneCamera.Bottom);
 
             int frameNumber = (int)FrameNumber + 5;
@@ -427,7 +427,7 @@ namespace DroneControl {
             return bm;
         }
 
-        public Bitmap getBitmapFromFrontCam() {
+        public Bitmap GetBitmapFromFrontCam() {
             setCameraTo(DroneCamera.Front);
 
             int frameNumber = (int)FrameNumber + 5;
