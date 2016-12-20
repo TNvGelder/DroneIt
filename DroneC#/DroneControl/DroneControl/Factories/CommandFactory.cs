@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace DroneControl
+namespace DroneControl.Factories
 {
-    public class CommandFactory
+    /// <summary>
+    /// This Factory is used for returning command object.
+    /// </summary>
+    public class CommandFactory : ICommandFactory
     {
         private DroneController _droneController { get; set; }
 
@@ -14,7 +17,13 @@ namespace DroneControl
             _droneController = droneProcessor;
         }
 
-        public IDroneCommand makeCommand(string command, double value = 0) {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public IDroneCommand MakeCommand(string command, double value = 0) {
             IDroneCommand droneCommand = null;
 
             if (command.Equals("Start")) {

@@ -1,4 +1,5 @@
 ﻿using DroneControl.Commands;
+using DroneControl.Factories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,7 +88,7 @@ namespace DroneControl
                     DroneCommandProcessor droneCommandProcessor = new DroneCommandProcessor();
 
                     foreach (Command c in commandList) {
-                        droneCommandProcessor.AddCommand(commandFactory.makeCommand(c.name, c.value));
+                        droneCommandProcessor.AddCommand(commandFactory.MakeCommand(c.name, c.value));
                     }
                     droneCommandProcessor.Execute();
 

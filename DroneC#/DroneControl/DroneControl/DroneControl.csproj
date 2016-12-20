@@ -65,6 +65,7 @@
     <Compile Include="DroneCommandProcessor.cs" />
     <Compile Include="Factories\CommandFactory.cs" />
     <Compile Include="DroneController.cs" />
+    <Compile Include="Factories\ICommandFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -99,6 +100,10 @@
     <ProjectReference Include="..\AR.Drone.WinApp\AR.Drone.WinApp.csproj">
       <Project>{78c83708-bf89-4a5d-b823-21d06eed6a6b}</Project>
       <Name>AR.Drone.WinApp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FFmpeg.AutoGen\FFmpeg.AutoGen\FFmpeg.AutoGen.csproj">
+      <Project>{a536b02a-b0b1-4753-8328-17369ef09976}</Project>
+      <Name>FFmpeg.AutoGen</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
