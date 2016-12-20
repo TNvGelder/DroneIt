@@ -52,6 +52,12 @@ namespace DroneAPI.Processors.DroneProcessors
                 _connectionProcessor.sendData("fall", squares.ToString());
         }
 
+        public void FollowLine(bool isForward)
+        {
+            if (_connectionProcessor.Drone.Flying)
+                _connectionProcessor.sendData("followline", isForward.ToString());
+        }
+
         public void Turn(int degrees)
         {
             if (_connectionProcessor.Drone.Flying)

@@ -16,8 +16,9 @@ using System.Windows.Forms;
 namespace DroneControl {
     class Program {
         static void Main(string[] args) {
-            Bitmap myBmp = new Bitmap(Bitmap.FromFile("../../TestImage/BottomCamPhotoTest.png"));
+            //Bitmap myBmp = new Bitmap(Bitmap.FromFile("../../TestImage/BottomCamPhotoTest.png"));
             //Bitmap myBmp = new Bitmap(Bitmap.FromFile("../../TestImage/LineLeftTest.png"));
+            Bitmap myBmp = new Bitmap(Bitmap.FromFile("../../TestImage/YellowColorTest.jpg"));
             LineProcessor.ProcessLine(new Bitmap(myBmp));
 
             switch (Environment.OSVersion.Platform) {

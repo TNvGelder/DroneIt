@@ -15,47 +15,51 @@ namespace LineTrackingTest.Services
 {
     class LineProcessor
     {
-        public static double minPosRatio = .45;
-        public static PositioningState ProcessLine(Bitmap bitmap)
+        public static double _minPosRatio = .45;
+
+        private static int _regionHeight = 100;
+        private static int _hue1 = 10;//170, 0
+        private static int _hue2 = 30;//180, 10
+        private static int _sat1 = 100;//100, 150
+        private static int _sat2 = 230;//200, 255
+
+        private static LineSegment2D[] filterLines(Image<Bgr, Byte> img)
         {
-            //Bgr orange1 = new Bgr(15, 58, 243);
-            //Bgr orange2 = new Bgr(11, 83, 255);
-
-            
-            Image<Bgr, Byte> img = new Image<Bgr, Byte>(bitmap);
-
-            CvInvoke.CvtColor(img, img, ColorConversion.Bgr2Hsv);
-
+            Image<Hsv, Byte> hsvImage = img.Convert<Hsv, Byte>();
             int width = img.Size.Width;
-            int regionHeight = 100;
-            img.ROI = new Rectangle(0, img.Size.Height/2 - regionHeight/2, width, regionHeight);
+            //hsvImage.ROI = new Rectangle(0, img.Size.Height / 2 - _regionHeight / 2, width, _regionHeight);
+            hsvImage.Save("../../TestImage/FilteredImage.png");
 
-            Image<Gray, Byte>[] channels = img.Split();
+            Image<Gray, Byte>[] channels = hsvImage.Split();
             Image<Gray, Byte> imgHue = channels[0];
             Image<Gray, Byte> imgSat = channels[1];
 
-
-            //Image<Gray, byte> hueFilter = imgHue.InRange(new Gray(0), new Gray(10));
-            //Image<Gray, byte> satFilter = imgSat.InRange(new Gray(150), new Gray(255));
-
-            Image<Gray, byte> hueFilter = imgHue.InRange(new Gray(170), new Gray(180));
-            Image<Gray, byte> satFilter = imgSat.InRange(new Gray(100), new Gray(200));
-
+            Image<Gray, byte> hueFilter = imgHue.InRange(new Gray( _hue1), new Gray(_hue2));
+            Image<Gray, byte> satFilter = imgSat.InRange(new Gray(_sat1), new Gray(_sat2));
             hueFilter = hueFilter.And(satFilter);
 
-
-            img.Save("../../TestImage/FilteredImage.png");
             CvInvoke.Dilate(hueFilter, hueFilter, null, new Point(), 1, BorderType.Default, default(MCvScalar));
-            CvInvoke.Erode(hueFilter, hueFilter, null, new Point(),2, BorderType.Default, default(MCvScalar));
+            CvInvoke.Erode(hueFilter, hueFilter, null, new Point(), 2, BorderType.Default, default(MCvScalar));
             CvInvoke.Blur(hueFilter, hueFilter, new Size(20, 20), new Point());
-            img = hueFilter.Convert<Bgr, Byte>();
 
             LineSegment2D[] lines = hueFilter.HoughLines(0, 0, 5, 5, 10, 7, 1)[0];
 
+            //Show lines in image for testing purposes
+            img = hueFilter.Convert<Bgr, Byte>();
             foreach (LineSegment2D line in lines)
             {
                 img.Draw(line, new Bgr(Color.Green), 3);
             }
+            img.Save("../../TestImage/OutputImage.png");
+            return lines;
+        }
+
+        public static PositioningState ProcessLine(Bitmap bitmap)
+        {
+            Image<Bgr, Byte> img = new Image<Bgr, Byte>(bitmap);
+            int width = img.Size.Width;
+
+            LineSegment2D[] lines = filterLines(img);
 
             PositioningState result;
             if (lines.Length == 0)
@@ -78,10 +82,10 @@ namespace LineTrackingTest.Services
                 }
                 double leftPosRatio = (double) leftLine.P1.X/width;
                 double rightPosRatio = (double) (width - rightLine.P1.X)/width;
-                if (leftPosRatio < minPosRatio)
+                if (leftPosRatio < _minPosRatio)
                 {
                     result = PositioningState.Left;
-                }else if (rightPosRatio < minPosRatio)
+                }else if (rightPosRatio < _minPosRatio)
                 {
                     result = PositioningState.Right;
                 }
@@ -91,11 +95,7 @@ namespace LineTrackingTest.Services
                 }
                 
             }
-            
 
-
-            //hueFilter.Save("../../TestImage/FilteredImage.png");
-            img.Save("../../TestImage/OutputImage.png");
             return result;
         }
     }
