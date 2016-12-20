@@ -1,0 +1,47 @@
+html{
+	background: url("../content/images/warehouse-background_1_1920x1200.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+
+.dronehomeimage{
+	padding:25px;
+}
+
+html>body{
+	background-color: transparent !important;
+}
+.homebuttons a{
+	height:100px;
+	padding:5px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+#page-wrapper{
+	background: white;
+}
+
+#qualitycheckContent{
+	margin-top:5px;
+	margin-bottom:5px;
+	min-height: 400px;
+
+}
+
+#warehouseSelect{
+	min-height: 400px;
+    border: 1px solid #eee;
+}
+
+#qualitycheckProductSelect{
+	height: 100%;
+}
+@media screen and (min-width: 560px) {
+	#page-wrapper{
+		width: 80%;
+		margin: 0 auto;
+	}
+}

@@ -45,7 +45,7 @@ namespace DroneControl.Factories
             } else if (command.Equals("Turn")) {
                 droneCommand = new TurnCommand(_droneController, (int)value);
             } else if (command.Equals("TakePicture")) {
-                droneCommand = new TakePictureCommand(_droneController);
+                droneCommand = new TakePictureCommand(_droneController, (int)value);
             }
 
             return droneCommand;
