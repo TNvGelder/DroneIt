@@ -13,14 +13,15 @@ using LineTrackingTest.Services;
 using AR.Drone.Infrastructure;
 using System.Windows.Forms;
 using System.Drawing;
+using DroneControl.Commands;
 
 namespace DroneControl {
     class Program {
         static void Main(string[] args) {
             //Bitmap myBmp = new Bitmap(Bitmap.FromFile("../../TestImage/BottomCamPhotoTest.png"));
             //Bitmap myBmp = new Bitmap(Bitmap.FromFile("../../TestImage/LineLeftTest.png"));
-            Bitmap myBmp = new Bitmap(Bitmap.FromFile("../../TestImage/YellowColorTest.jpg"));
-            LineProcessor.ProcessLine(new Bitmap(myBmp));
+            //Bitmap myBmp = new Bitmap(Bitmap.FromFile("../../TestImage/YellowColorTest.jpg"));
+            //LineProcessor.ProcessLine(new Bitmap(myBmp));
 
             switch (Environment.OSVersion.Platform) {
                 case PlatformID.Win32NT:
@@ -40,15 +41,21 @@ namespace DroneControl {
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Connection sockect for incoming commands
-            ConnectionSocket cs = ConnectionSocket.Instance;
-            cs.Start();
+            //ConnectionSocket cs = ConnectionSocket.Instance;
+            //cs.Start();
 
-            /*DroneController dc = DroneController.Instance;
+            //DroneController dc = DroneController.Instance;
+            //dc.Start();
+            ////dc.Takeoff();
+            //FollowLineCommand cmd = new FollowLineCommand(dc);
+            //cmd.Execute();
+
+            DroneController dc = DroneController.Instance;
             dc.Start();
-            Bitmap bm0 = dc.getBitmapFromBottomCam();
+            Bitmap bm0 = dc.GetBitmapFromBottomCam();
             bm0.Save("0bottom.png");
-            Bitmap bm1 = dc.getBitmapFromFrontCam();
-            bm1.Save("0front.png");*/
+            Bitmap bm1 = dc.GetBitmapFromFrontCam();
+            bm1.Save("0front.png");
 
             Console.Read();
         }

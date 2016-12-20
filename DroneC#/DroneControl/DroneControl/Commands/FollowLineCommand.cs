@@ -37,7 +37,8 @@ namespace DroneControl.Commands
             //_controller.Forward();
             bool lineEndReached = false;
             PositioningState prevState = PositioningState.Correct;
-            while (lineEndReached)
+            Console.WriteLine("StartCamDetect");
+            while (!lineEndReached)
             {
                 //getbitmap
                 Bitmap bmp = _controller.GetBitmapFromBottomCam();
@@ -48,33 +49,39 @@ namespace DroneControl.Commands
                     switch (state)
                     {
                         case PositioningState.Correct:
-                            if (isForward)
-                            {
-                                _controller.Forward();
-                            }
-                            else
-                            {
-                                _controller.Backward();
-                            }
+                            //if (isForward)
+                            //{
+                            //    _controller.Forward();
+                            //}
+                            //else
+                            //{
+                            //    _controller.Backward();
+                            //}
+                            Console.WriteLine("Forward");
                             break;
                         case PositioningState.Lost:
                             lineEndReached = true;
-                            _controller.Land();
+                            Console.WriteLine("Land");
+                            //_controller.Land();
                             break;
                         case PositioningState.Left:
-                            _controller.Turn(startPointOfView);
-                            _controller.Right();
+                            Console.WriteLine("Turn + right");
+                            //_controller.Turn(startPointOfView);
+                            //_controller.Right();
                             break;
                         case PositioningState.Right:
-                            _controller.Turn(startPointOfView);
-                            _controller.Left();
+                            Console.WriteLine("Turn + left");
+                            //_controller.Turn(startPointOfView);
+                            //_controller.Left();
                             break;
                     }
 
 
                 }
+                
 
             }
+            Console.WriteLine("Done");
         }
 
         public string GetName()

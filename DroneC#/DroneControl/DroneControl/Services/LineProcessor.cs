@@ -27,7 +27,7 @@ namespace LineTrackingTest.Services
         {
             Image<Hsv, Byte> hsvImage = img.Convert<Hsv, Byte>();
             int width = img.Size.Width;
-            //hsvImage.ROI = new Rectangle(0, img.Size.Height / 2 - _regionHeight / 2, width, _regionHeight);
+            hsvImage.ROI = new Rectangle(0, img.Size.Height / 2 - _regionHeight / 2, width, _regionHeight);
             hsvImage.Save("../../TestImage/FilteredImage.png");
 
             Image<Gray, Byte>[] channels = hsvImage.Split();

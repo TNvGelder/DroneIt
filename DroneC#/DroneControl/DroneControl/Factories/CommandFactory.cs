@@ -37,6 +37,9 @@ namespace DroneControl
                 droneCommand = new TurnCommand(_droneController, (int)value);
             } else if (command.Equals("TakePicture")) {
                 droneCommand = new TakePictureCommand(_droneController, (int)value);
+            } else if (command.Equals("FollowLine"))
+            {
+                droneCommand = new FollowLineCommand(_droneController);
             }
 
             return droneCommand;
