@@ -26,6 +26,9 @@ namespace DroneControl {
         private Bitmap _frameBitmap;
         public uint FrameNumber { get; private set; }
         private Thread _th;
+        public string DataPath { get; private set; }
+        public string LivePath { get; private set; }
+        private DroneCamera _camera { get; set; }
         public NavigationData _navigationData { get; private set; }
         public int North { get; private set; }
         public static DroneController Instance
@@ -58,6 +61,9 @@ namespace DroneControl {
 
         private DroneController()
         {
+            DataPath = "Data/";
+            LivePath = DataPath + "Live/";
+
             _videoPacketDecoderWorker = new VideoPacketDecoderWorker(PixelFormat.BGR24, true, OnVideoPacketDecoded);
             _videoPacketDecoderWorker.Start();
 
@@ -323,18 +329,16 @@ namespace DroneControl {
                 _frameBitmap = VideoHelper.CreateBitmap(ref _frame);
             else
                 VideoHelper.UpdateBitmap(ref _frameBitmap, ref _frame);
+            
+            if (!Directory.Exists(DataPath))
+                System.IO.Directory.CreateDirectory(DataPath);
+            
+            _frameBitmap.Save(DataPath + FrameNumber + ".png");
+            
+            if (!Directory.Exists(LivePath))
+                System.IO.Directory.CreateDirectory(LivePath);
 
-            string subPath = "Data/";
-            if (!Directory.Exists(subPath))
-                System.IO.Directory.CreateDirectory(subPath);
-
-            _frameBitmap.Save(subPath + FrameNumber + ".png");
-
-            string livePath = "Live/";
-            if (!Directory.Exists(livePath))
-                System.IO.Directory.CreateDirectory(livePath);
-
-            _frameBitmap.Save(subPath + livePath + "live.png");
+            _frameBitmap.Save(LivePath + "live.png");
         }
 
         private int degreesConverter(int degrees) {
@@ -344,37 +348,40 @@ namespace DroneControl {
             return degrees;
         }
 
-        private void switchCamera() {
+        private void switchCamera(VideoChannelType vct) {
             var configuration = new Settings();
-            configuration.Video.Channel = VideoChannelType.Next;
+            configuration.Video.Channel = vct;
             _droneClient.Send(configuration);
+            System.Threading.Thread.Sleep(100);
         }
 
-        private void checkCameraTo(DroneCamera camera) {
-            if (camera == DroneCamera.Front && _frameBitmap.Width != 1280) {
-                switchCamera();
-            } else if (camera == DroneCamera.Bottom && _frameBitmap.Width != 640) {
-                switchCamera();
+        private void setCameraTo(DroneCamera camera) {
+            if (camera == DroneCamera.Front) {
+                switchCamera(VideoChannelType.Horizontal);
+            } else {
+                switchCamera(VideoChannelType.Vertical);
             }
         }
 
         public Bitmap getBitmapFromBottomCam() {
-            checkCameraTo(DroneCamera.Bottom);
+            setCameraTo(DroneCamera.Bottom);
 
             int frameNumber = (int)FrameNumber + 5;
             Bitmap bm;
-
+            
             while (true) {
                 try {
                     bm = new Bitmap("Data/" + frameNumber + ".png");
                     break;
-                } catch (IOException) { }
+                } catch (Exception) {
+                    System.Threading.Thread.Sleep(100);
+                }
             }
             return bm;
         }
 
         public Bitmap getBitmapFromFrontCam() {
-            checkCameraTo(DroneCamera.Front);
+            setCameraTo(DroneCamera.Front);
 
             int frameNumber = (int)FrameNumber + 5;
             Bitmap bm;
@@ -383,7 +390,9 @@ namespace DroneControl {
                 try {
                     bm = new Bitmap("Data/" + frameNumber + ".png");
                     break;
-                } catch (IOException) { }
+                } catch (Exception) {
+                    System.Threading.Thread.Sleep(100);
+                }
             }
             return bm;
         }

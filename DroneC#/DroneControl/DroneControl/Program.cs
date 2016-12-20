@@ -38,8 +38,10 @@ namespace DroneControl {
 
             /*DroneController dc = DroneController.Instance;
             dc.Start();
-            Bitmap bm = dc.getBitmapFromBottomCam();
-            bm.Save("Data/bottom.png");*/
+            Bitmap bm0 = dc.getBitmapFromBottomCam();
+            bm0.Save("0bottom.png");
+            Bitmap bm1 = dc.getBitmapFromFrontCam();
+            bm1.Save("0front.png");*/
 
             Console.Read();
         }
