@@ -13,6 +13,9 @@ using LineTrackingTest.Models;
 
 namespace LineTrackingTest.Services
 {
+    /// <summary>
+    /// This class is used for detecting the position of the drone relative to lines in given images.
+    /// </summary>
     class LineProcessor
     {
         public static double _minPosRatio = .40;
@@ -23,6 +26,11 @@ namespace LineTrackingTest.Services
         private static int _sat1 = 100;//100, 150
         private static int _sat2 = 200;//200, 255
 
+        /// <summary>
+        /// Tries to find the line in the image and returns a group of lines at the edges of the detected line.
+        /// </summary>
+        /// <param name="img"></param>
+        /// <returns></returns>
         private static LineSegment2D[] filterLines(Image<Bgr, Byte> img)
         {
             Image<Hsv, Byte> hsvImage = img.Convert<Hsv, Byte>();
@@ -55,6 +63,11 @@ namespace LineTrackingTest.Services
             return lines;
         }
 
+        /// <summary>
+        /// Takes a bitmap of a line to check where the drone flies
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <returns>PositioningState</returns>
         public static PositioningState ProcessLine(Bitmap bitmap)
         {
             Image<Bgr, Byte> img = new Image<Bgr, Byte>(bitmap);
