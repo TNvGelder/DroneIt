@@ -21,8 +21,8 @@ namespace DroneControl {
             //Bitmap myBmp = new Bitmap(Bitmap.FromFile("../../TestImage/BottomCamPhotoTest.png"));
             //Bitmap myBmp = new Bitmap(Bitmap.FromFile("../../TestImage/LineLeftTest.png"));
             //Bitmap myBmp = new Bitmap(Bitmap.FromFile("../../TestImage/YellowColorTest.jpg"));
-            Bitmap myBmp = new Bitmap(Bitmap.FromFile("../../TestImage/MultiColorTest.png"));
-            LineProcessor.ProcessLine(new Bitmap(myBmp));
+            //Bitmap myBmp = new Bitmap(Bitmap.FromFile("../../TestImage/MultiColorTest.png"));
+            //LineProcessor.ProcessLine(new Bitmap(myBmp));
 
             switch (Environment.OSVersion.Platform) {
                 case PlatformID.Win32NT:
@@ -48,15 +48,23 @@ namespace DroneControl {
             DroneController dc = DroneController.Instance;
             dc.Start();
             //dc.Takeoff();
-            //FollowLineCommand cmd = new FollowLineCommand(dc);
-            //cmd.Execute();
+            //dc.Land();
+            StartCommand start = new StartCommand(dc);
+            FollowLineCommand cmd = new FollowLineCommand(dc);
+            //LandCommand land = new LandCommand(dc);
+            start.Execute();
+            //land.Execute();
+
+
+            
+            cmd.Execute();
 
             //DroneController dc = DroneController.Instance;
             //dc.Start();
-            Bitmap bm0 = dc.GetBitmapFromBottomCam();
-            bm0.Save("0bottom.png");
-            Bitmap bm1 = dc.GetBitmapFromFrontCam();
-            bm1.Save("0front.png");
+            //Bitmap bm0 = dc.GetBitmapFromBottomCam();
+            //bm0.Save("0bottom.png");
+            //Bitmap bm1 = dc.GetBitmapFromFrontCam();
+            //bm1.Save("0front.png");
 
             Console.Read();
         }

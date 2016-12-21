@@ -50,30 +50,30 @@ namespace DroneControl.Commands
                     switch (state)
                     {
                         case PositioningState.Correct:
-                            //if (isForward)
-                            //{
-                            //    _controller.Forward();
-                            //}
-                            //else
-                            //{
-                            //    _controller.Backward();
-                            //}
+                            if (isForward)
+                            {
+                                _controller.Forward();
+                            }
+                            else
+                            {
+                                _controller.Backward();
+                            }
                             Console.WriteLine("Forward");
                             break;
                         case PositioningState.Lost:
                             lineEndReached = true;
                             Console.WriteLine("Land");
-                            //_controller.Land();
+                            _controller.Land();
                             break;
                         case PositioningState.Left:
                             Console.WriteLine("Turn + left");
-                            //_controller.Turn(startPointOfView);
-                            //_controller.Right();
+                            _controller.Turn(startPointOfView);
+                            _controller.Right();
                             break;
                         case PositioningState.Right:
                             Console.WriteLine("Turn + right");
-                            //_controller.Turn(startPointOfView);
-                            //_controller.Left();
+                            _controller.Turn(startPointOfView);
+                            _controller.Left();
                             break;
                     }
 

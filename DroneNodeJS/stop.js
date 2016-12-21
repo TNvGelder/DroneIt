@@ -5,7 +5,7 @@ client
 .after(100, function() {
     this.takeoff();
   })
-.after(10000, function() {
+.after(5000, function() {
     this.stop();
   })
   .after(3000, function() {
