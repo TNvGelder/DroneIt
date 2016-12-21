@@ -1,7 +1,6 @@
-bin/Debug/
-bin/Release/
+Debug/
+Release/
 obj/
-*.dll
 *.cache
 API/DroneAPI/DroneAPI/bin/DroneAPI.dll.config
 *.pdb
@@ -49,3 +48,5 @@ DroneC#/DroneControl/AR.Drone.Video/obj/*
 DroneC#/DroneControl/AR.Drone.WinApp/bin/*
 DroneC#/DroneControl/AR.Drone.Video/obj/*
 *.user
+API/DroneAPI/DroneAPI/bin/
+API/DroneAPI/DroneAPI/FakesAssemblies/
