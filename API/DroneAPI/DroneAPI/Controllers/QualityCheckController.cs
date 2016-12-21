@@ -1,4 +1,3 @@
-
 using System;
 using DroneAPI.Models;
 using System.Collections.Generic;

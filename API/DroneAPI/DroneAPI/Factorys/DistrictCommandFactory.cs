@@ -7,9 +7,11 @@ using DroneAPI.Models;
 
 namespace DroneAPI.Factorys
 {
+    /// <summary>
+    /// Creates the commands for flying within a district
+    /// </summary>
     public class DistrictCommandFactory : CommandFactory
     {
-
 
         public List<Command> GetCommands(LinkedList<Position> path, ProductLocation pl)
         {
@@ -20,7 +22,6 @@ namespace DroneAPI.Factorys
             int length;
             int photoDirection = d.Orientation - 180;
             int height = pl.Row;
-
 
             // Create commands depending on which side of the district the drone is.
             if (currentNode.Value.X == d.StartGraphNode.X && currentNode.Value.Y == d.StartGraphNode.Y)
@@ -41,7 +42,7 @@ namespace DroneAPI.Factorys
             // Forward command. The locations the drone should travel to reach the next position.
             result.Add(new Command() { name = "Forward", value = length });
             // Turn command. This turn the drone in the direction of the district.
-            result.Add(new Command() { name = "Turn", value = 0 });
+            result.Add(new Command() { name = "Turn", value = photoDirection });
             // Rise command. This lets the drone rise to the right row
             result.Add(new Command() { name = "Rise", value = height });
 

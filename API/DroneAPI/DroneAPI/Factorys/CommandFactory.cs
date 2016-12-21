@@ -10,8 +10,10 @@ namespace DroneAPI.Factorys
 {
     public abstract class CommandFactory
     {
-        private static MovementCommandFactory _factory;
-        public static MovementCommandFactory Factory
+
+        private static CommandFactory _factory;
+        public static CommandFactory Factory
+
         {
             get { return _factory; }
         }
