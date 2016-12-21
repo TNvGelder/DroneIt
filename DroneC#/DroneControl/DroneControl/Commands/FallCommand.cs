@@ -22,13 +22,5 @@ namespace DroneControl.Commands {
             _controller.Rise((float)_meters);
             _controller.Hover();
         }
-
-        public string GetName() {
-            return "Fall";
-        }
-
-        public double GetValue() {
-            return _meters;
-        }
     }
 }

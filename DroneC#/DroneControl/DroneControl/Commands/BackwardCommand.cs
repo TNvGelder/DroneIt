@@ -26,13 +26,5 @@ namespace DroneControl.Commands
             _controller.Forward((float)_meters);
             _controller.Hover();
         }
-
-        public string GetName() {
-            return "Backward";
-        }
-
-        public double GetValue() {
-            return _meters;
-        }
     }
 }

@@ -10,7 +10,5 @@ namespace DroneControl.Commands
     {
         void Execute();
         void Undo();
-        string GetName();
-        double GetValue();
     }
 }

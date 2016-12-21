@@ -24,13 +24,5 @@ namespace DroneControl.Commands
         public void Undo() {
             _controller.Land();
         }
-
-        public string GetName() {
-            return "Start";
-        }
-
-        public double GetValue() {
-            return _degrees;
-        }
     }
 }
