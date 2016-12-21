@@ -97,14 +97,14 @@ namespace DroneAPI.Migrations
                 context.SaveChanges();
 
                 // Assign locations to the products
-                ProductLocation pl1 = new ProductLocation() { Product = p1, Column = 2, Row = 2, District = district3 };
-                ProductLocation pl2 = new ProductLocation() { Product = p2, Column = 6, Row = 1, District = district3 };
-                ProductLocation pl3 = new ProductLocation() { Product = p3, Column = 4, Row = 1, District = district3 };
+                ProductLocation pl1 = new ProductLocation() { Product = p1, Column = 2, Row = 2, District = district1 };
+                ProductLocation pl2 = new ProductLocation() { Product = p2, Column = 6, Row = 1, District = district1 };
+                ProductLocation pl3 = new ProductLocation() { Product = p3, Column = 4, Row = 1, District = district2 };
                 ProductLocation pl4 = new ProductLocation() { Product = p4, Column = 1, Row = 2, District = district2 };
                 ProductLocation pl5 = new ProductLocation() { Product = p5, Column = 5, Row = 2, District = district2 };
-                ProductLocation pl6 = new ProductLocation() { Product = p6, Column = 3, Row = 3, District = district2 };
-                ProductLocation pl7 = new ProductLocation() { Product = p7, Column = 4, Row = 1, District = district1 };
-                ProductLocation pl8 = new ProductLocation() { Product = p8, Column = 8, Row = 3, District = district1 };
+                ProductLocation pl6 = new ProductLocation() { Product = p6, Column = 4, Row = 3, District = district3 };
+                ProductLocation pl7 = new ProductLocation() { Product = p7, Column = 2, Row = 1, District = district3 };
+                ProductLocation pl8 = new ProductLocation() { Product = p8, Column = 8, Row = 3, District = district3 };
 
                 context.Locations.AddOrUpdate(pl1, pl2, pl3, pl4, pl5, pl6, pl7, pl8);
                 context.SaveChanges();
