@@ -50,3 +50,4 @@ DroneC#/DroneControl/AR.Drone.Video/obj/*
 *.user
 API/DroneAPI/DroneAPI/bin/
 API/DroneAPI/DroneAPI/FakesAssemblies/
+emgucv-windesktop 3.1.0.2282/bin/Emgu.CV.World.xml
