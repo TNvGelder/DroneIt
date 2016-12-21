@@ -13,6 +13,8 @@ using DroneAPI.DAL;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using System.Data;
+using System.Data.Entity;
+using Newtonsoft.Json;
 
 namespace DroneAPI.Controllers
 {
@@ -23,25 +25,66 @@ namespace DroneAPI.Controllers
         private DroneContext db = new DroneContext();
 
         // GET api/QualityCheck/5
+        [EnableCors("*", "*", "POST")]
+        [ResponseType(typeof(ProductLocation))]
+
+        public string PostQualityCheck(ProductLocation product)
+        {
+            if (db.QualityChecks.Any(d => d.EndDate == null)) return "";
+
+            ProductLocation pr = db.Locations.Find(product.Id);
+            QualityCheck qualitycheck = new QualityCheck();
+            qualitycheck.StartDate = DateTime.Now;
+            qualitycheck.ProductLocation = pr;
+            qualitycheck.EndDate = null;
+
+            db.QualityChecks.Add(qualitycheck);
+            db.SaveChanges();
+            //Check if product has any locations
+            // DataRow[] result = db.Locations.Select("Product_Id = "+productId);
+            CreateCommands(pr);
+
+            return "yoyoyo";
+        }
+
+        [EnableCors("*", "*", "PUT")]
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutQualityCheck(QualityCheck qualitycheck)
+        {
+            QualityCheck ck = db.QualityChecks.Find(qualitycheck.Id);
+            ck.EndDate = DateTime.Now;
+
+            db.Entry(ck).State = EntityState.Modified;
+
+            db.SaveChanges();
+
+            return Ok();
+        }
         [EnableCors("*", "*", "GET")]
         [HttpGet]
-        public IHttpActionResult GetQualityCheck(int id)
+        public string GetQualityCheck()
         {
-            ProductLocation pl = db.Locations.Find(id);
+            QualityCheck q = db.QualityChecks.Where(d => d.EndDate == null).FirstOrDefault();
 
-            // logic to start the whole process
-            
-            return Ok();
+            if (q == null) return "null";
+
+            var s = JsonConvert.SerializeObject(q, Formatting.Indented,
+                   new JsonSerializerSettings
+                   {
+                       ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                   });
+
+            return s;
         }
 
         // GET: api/QualityCheck
-        private string CreateCommands()
+        private string CreateCommands(ProductLocation pr)
         {
             _droneProcessor = DroneFactory.getDroneProcessor();
             _droneCommandProcessor = new DroneCommandProcessor(_droneProcessor);
             Pathfinder pathfinder = new Pathfinder();
-            Position a = new Position { X=0, Y=0 };
-            Position b = new Position { X=1, Y=3 };
+            Position a = new Position { X = 0, Y = 0 };
+            Position b = new Position { X = 1, Y = 3 };
             Position c = new Position { X = 4, Y = 0 }; ;
             Position d = new Position { X = 3, Y = 1 }; ;
             Position e = new Position { X = 4, Y = 4 }; ;
@@ -65,7 +108,7 @@ namespace DroneAPI.Controllers
             pathfinder.AddPath(f, i);
             pathfinder.AddPath(i, j);
 
-            LinkedList < Position > path = pathfinder.GetPath(a, j);
+            LinkedList<Position> path = pathfinder.GetPath(a, j);
 
             // start command
             //_droneCommandProcessor.AddCommand(new StartCommand(_droneProcessor));
@@ -77,7 +120,7 @@ namespace DroneAPI.Controllers
             //_droneCommandProcessor.AddCommand(new TurnCommand(_droneProcessor, 270));
 
             _droneCommandProcessor.AddCommand(new TakePictureCommand(_droneProcessor));
-            
+
             //_droneCommandProcessor.AddCommand(new ForwardCommand(_droneProcessor, 2));
             //_droneCommandProcessor.AddCommand(new TurnCommand(_droneProcessor, 180));
 
@@ -110,7 +153,7 @@ namespace DroneAPI.Controllers
             {
                 Position start = currentNode.Value;
                 Position end = currentNode.Next.Value;
-                text += "p1: " + start.ToString() + " p2: "+end.ToString()+" ,";
+                text += "p1: " + start.ToString() + " p2: " + end.ToString() + " ,";
                 text += Services.MathUtility.CalculateDistance(start, end) + " : " + Services.MathUtility.CalculateAngle(start, end) + "| ";
             }
             // return text

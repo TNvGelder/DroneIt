@@ -2,52 +2,89 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">
-            qualitycheck
+            Quality check
         </h1>
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-2" >
-        <a href="#/" class="btn btn-default"><i class="fa fa-arrow-left " aria-hidden="true"></i> Back</a>
+        <a href="#/" class="btn btn-default"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
     </div>
     <div class="col-md-6" >
-        <select class="form-control" id="warehouseselect" ng-model="confirmed" ng-change="UpdateWarehouseDrawing()">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
+        <select class="form-control" id="warehouseselect" ng-model="selectedWarehouse" ng-options="item as item.Name for item in warehouses" ng-change="UpdateWarehouseDrawing()">    
         </select>
     </div>
-    <div class="col-xs-12" id="qualitycheckContent">
-        <div class="col-md-8 drawWarehouse" id="warehouseSelect">
-
+    <div class="col-xs-12" id="qualitycheckContent" >
+        <div ng-show="warehouses == null" class="col-md-8 text-center top-buffer"> <i class=" fa fa-spinner fa-pulse fa-5x"></i></div>
+        <div class="col-md-8 drawWarehouse" ng-show="warehouses != null" id="warehouseSelect">
+            <ul class="nav nav-tabs">
+              <li class="listviewmenu"><a ng-click="setListView()">List view</a></li>
+              <li class="graphicviewmenu"><a ng-click="setGraphicView()">Graphic View</a></li>
+            </ul>
+            <div class="drawwarehousecontent">
+                <div class="listview hide">
+                <br/>
+                    <table class="table table-bordered table-hover table-striped" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="product in products">
+                                <td>{{product.Id}}</td>
+                                <td>{{product.Product.Name}}</td>                              
+                                <td>
+                                    <div class="btn-group">
+                                        <a class="btn btn-primary" ng-click="SelectProduct(product)">Select</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="graphicview hide">
+                graphicview
+                </div>
+            </div>
         </div>
-        <div class="col-md-4" id="qualitycheckProductSelect">
+         <div class="col-md-4 alert alert-info" ng-show="selectedproduct == null" >
+            Select a product.
+         </div>
+        <div class="col-md-4" id="qualitycheckProductSelect"  ng-show="selectedproduct != null">
             <h2> Product</h2>
             <hr/>
             <div class="form-group row">
+                <label class="col-xs-4 col-form-label">Warehouse</label>
+                <div class="col-xs-8" id="product-text">
+                {{selectedWarehouse.Name}}
+                </div>
+            </div>
+            <div class="form-group row">
                 <label class="col-xs-4 col-form-label">Product</label>
                 <div class="col-xs-8" id="product-text">
-                product
+                {{selectedproduct.Product.Name}}
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-xs-4 col-form-label">District</label>
                 <div class="col-xs-8" id="district-text">
-                district
+                {{selectedproduct.District}}
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-xs-4 col-form-label">Column</label>
                 <div class="col-xs-8" id="column-text">
-                column
+                {{selectedproduct.Column}}
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-xs-4 col-form-label">Row</label>
                 <div class="col-xs-8" id="row-text">
-                row
+                {{selectedproduct.Row}}
                 </div>
             </div>
             <div class="row text-center">

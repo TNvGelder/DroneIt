@@ -74,12 +74,16 @@
 			    .when("/products/edit/:Id", {
 			        templateUrl : "pages/EditProduct.html", 
 			        controller : "EditProductController"
+			    }).when("/QualityCheckState/", {
+			        templateUrl : "pages/QualityCheckState.html", 
+			        controller : "QualityCheckStateController"
 			    });
 			});
 		</script>
 
 		<script type="text/javascript" src="controllers/HomeController.js"></script>
 		<script type="text/javascript" src="controllers/ProductOverviewController.js"></script>
+		<script type="text/javascript" src="controllers/QualityCheckStateController.js"></script>
 		<script type="text/javascript" src="controllers/QualityCheckOverviewController.js"></script>
 		<script type="text/javascript" src="controllers/AddProductController.js"></script>
 		<script type="text/javascript" src="controllers/EditProductController.js"></script>

@@ -17,7 +17,7 @@ app.controller("EditProductController", function ($scope, $http, $location, $rou
 		$http.put("http://localhost:62553/api/Products/" + $scope.ProductID, { Id: $scope.ProductID, Name: $scope.ProductName })
 		.then(
 			function successCallback(response) {
-				$location.path("/")
+				$location.path("/products")
 		    }, 
 		    function errorCallback(response) {
 		    	alert("Geen verbinding met de API");
