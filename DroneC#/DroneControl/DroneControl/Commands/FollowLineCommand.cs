@@ -66,12 +66,12 @@ namespace DroneControl.Commands
                             //_controller.Land();
                             break;
                         case PositioningState.Left:
-                            Console.WriteLine("Turn + right");
+                            Console.WriteLine("Turn + left");
                             //_controller.Turn(startPointOfView);
                             //_controller.Right();
                             break;
                         case PositioningState.Right:
-                            Console.WriteLine("Turn + left");
+                            Console.WriteLine("Turn + right");
                             //_controller.Turn(startPointOfView);
                             //_controller.Left();
                             break;

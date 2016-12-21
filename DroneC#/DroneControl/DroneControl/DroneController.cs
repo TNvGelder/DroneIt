@@ -417,6 +417,7 @@ namespace DroneControl {
             Bitmap bm;
             
             while (true) {
+                frameNumber = File.Exists("Data/" + frameNumber + ".png") ? frameNumber : frameNumber + 1;
                 try {
                     bm = new Bitmap("Data/" + frameNumber + ".png");
                     break;
@@ -435,6 +436,7 @@ namespace DroneControl {
 
             while (true) {
                 try {
+                    frameNumber = File.Exists("Data/" + frameNumber + ".png") ? frameNumber : frameNumber + 1;
                     bm = new Bitmap("Data/" + frameNumber + ".png");
                     break;
                 } catch (Exception) {

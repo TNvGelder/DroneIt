@@ -15,7 +15,7 @@ namespace LineTrackingTest.Services
 {
     class LineProcessor
     {
-        public static double _minPosRatio = .45;
+        public static double _minPosRatio = .40;
 
         private static int _regionHeight = 100;
         private static int _hue1 = 160;//170, 0

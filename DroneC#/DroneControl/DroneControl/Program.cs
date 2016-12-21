@@ -45,18 +45,18 @@ namespace DroneControl {
             //ConnectionSocket cs = ConnectionSocket.Instance;
             //cs.Start();
 
-            //DroneController dc = DroneController.Instance;
-            //dc.Start();
-            ////dc.Takeoff();
+            DroneController dc = DroneController.Instance;
+            dc.Start();
+            //dc.Takeoff();
             //FollowLineCommand cmd = new FollowLineCommand(dc);
             //cmd.Execute();
 
             //DroneController dc = DroneController.Instance;
             //dc.Start();
-            //Bitmap bm0 = dc.GetBitmapFromBottomCam();
-            //bm0.Save("0bottom.png");
-            //Bitmap bm1 = dc.GetBitmapFromFrontCam();
-            //bm1.Save("0front.png");
+            Bitmap bm0 = dc.GetBitmapFromBottomCam();
+            bm0.Save("0bottom.png");
+            Bitmap bm1 = dc.GetBitmapFromFrontCam();
+            bm1.Save("0front.png");
 
             Console.Read();
         }
