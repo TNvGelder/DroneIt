@@ -20,12 +20,12 @@ namespace DroneAPI.Migrations
             {
                 // Instantiate Nodes
                 GraphNodeDal start = new GraphNodeDal { X = 0, Y = 0, Edges = new List<EdgeDal>() };
-                GraphNodeDal startDistrict1 = new GraphNodeDal { X = 100, Y = 100, Edges = new List<EdgeDal>() };
-                GraphNodeDal endDistrict1 = new GraphNodeDal { X = 100, Y = 900, Edges = new List<EdgeDal>() };
-                GraphNodeDal startDistrict2 = new GraphNodeDal { X = 400, Y = 900, Edges = new List<EdgeDal>() };
-                GraphNodeDal endDistrict2 = new GraphNodeDal { X = 400, Y = 100, Edges = new List<EdgeDal>() };
-                GraphNodeDal startDistrict3 = new GraphNodeDal { X = 500, Y = 100, Edges = new List<EdgeDal>() };
-                GraphNodeDal endDistrict3 = new GraphNodeDal { X = 500, Y = 1100, Edges = new List<EdgeDal>() };
+                GraphNodeDal startDistrict1 = new GraphNodeDal { X = 100, Y = 900, Edges = new List<EdgeDal>() };
+                GraphNodeDal endDistrict1 = new GraphNodeDal { X = 100, Y = 100, Edges = new List<EdgeDal>() };
+                GraphNodeDal startDistrict2 = new GraphNodeDal { X = 400, Y = 100, Edges = new List<EdgeDal>() };
+                GraphNodeDal endDistrict2 = new GraphNodeDal { X = 400, Y = 900, Edges = new List<EdgeDal>() };
+                GraphNodeDal startDistrict3 = new GraphNodeDal { X = 500, Y = 1100, Edges = new List<EdgeDal>() };
+                GraphNodeDal endDistrict3 = new GraphNodeDal { X = 500, Y = 100, Edges = new List<EdgeDal>() };
 
                 context.GraphNodes.AddOrUpdate(p => p.Id, start, startDistrict1, endDistrict1, startDistrict2, endDistrict2, startDistrict3, endDistrict3);
                 context.SaveChanges();
@@ -36,8 +36,8 @@ namespace DroneAPI.Migrations
                 EdgeDal district2edge2 = new EdgeDal { DestinationGraphNode = startDistrict2 };
                 EdgeDal district3edge1 = new EdgeDal { DestinationGraphNode = endDistrict3 };
                 EdgeDal district3edge2 = new EdgeDal { DestinationGraphNode = startDistrict3 };
-                EdgeDal startedge1 = new EdgeDal { DestinationGraphNode = startDistrict1 };
-                EdgeDal startedge2 = new EdgeDal { DestinationGraphNode = endDistrict2 };
+                EdgeDal startedge1 = new EdgeDal { DestinationGraphNode = endDistrict1 };
+                EdgeDal startedge2 = new EdgeDal { DestinationGraphNode = startDistrict2 };
                 EdgeDal startedge3 = new EdgeDal { DestinationGraphNode = endDistrict3 };
 
                 context.Edges.AddOrUpdate(p => p.Id, district1edge1, district1edge2, district2edge1, district2edge2, district3edge1, district3edge2, startedge1, startedge2, startedge3);
