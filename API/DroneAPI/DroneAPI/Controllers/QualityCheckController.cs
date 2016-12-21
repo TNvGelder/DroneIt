@@ -4,7 +4,6 @@ using DroneAPI.Models;
 using System.Collections.Generic;
 using System.Web.Http;
 using DroneAPI.Processors.DroneProcessors;
-using DroneAPI.Processors.DroneProcessors.Commands;
 using DroneAPI.Services;
 using DroneAPI.Factorys;
 using DroneAPI.DAL;
@@ -15,7 +14,6 @@ namespace DroneAPI.Controllers
 {
     public class QualityCheckController : ApiController
     {
-        private DroneProcessor _droneProcessor;
         private DroneCommandProcessor _droneCommandProcessor;
         private DroneContext db = new DroneContext();
 
@@ -35,23 +33,26 @@ namespace DroneAPI.Controllers
         private void CreateCommands(ProductLocation pl)
         {
             _droneProcessor = DroneFactory.getDroneProcessor();
-            _droneCommandProcessor = new DroneCommandProcessor(_droneProcessor);
+            _droneCommandProcessor = new DroneCommandProcessor();
             Pathfinder pathfinder = PathfinderFactory.GetPathfinderFromWarehouse(pl.District.Warehouse);
-
+            
             Position startNode = new Position(pl.District.Warehouse.StartNode.X, pl.District.Warehouse.StartNode.Y);
             LinkedList < Position > path = pathfinder.GetPath(startNode, this.GiveEndPosition(pl));
 
-            //start command
-            _droneCommandProcessor.AddCommand(new StartCommand(_droneProcessor));
+            // start command
+            _droneCommandProcessor.AddCommand(new Command { name = "Start" });
 
             MovementCommandFactory mFactory = new MovementCommandFactory(_droneProcessor);
             _droneCommandProcessor.AddListCommand(mFactory.GetMovementCommands(path));
 
             DistrictCommandFactory dFactory = new DistrictCommandFactory(_droneProcessor);
-            //_droneCommandProcessor.AddListCommand(dFactory.GetCommands(path, pl));
+            _droneCommandProcessor.AddListCommand(dFactory.GetCommands(path, pl));
+            
+            // take picture command
+            _droneCommandProcessor.AddCommand(new Command { name = "TakePicture", value = 1 });
 
             // land command
-            _droneCommandProcessor.AddCommand(new LandCommand(_droneProcessor));
+            _droneCommandProcessor.AddCommand(new Command { name = "Land" });
             _droneCommandProcessor.Execute();
         }
 
