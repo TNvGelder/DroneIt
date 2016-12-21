@@ -55,7 +55,7 @@ namespace DroneAPI.Factorys
 
             // Define current position of drone
             //if (path.Count < 2) { throw new ArgumentException("The list of positions should have atleast two positions."); }
-            while (currentNode != null)
+            while (currentNode.Next == null)
             {
                 currentNode = currentNode.Next;
             }
