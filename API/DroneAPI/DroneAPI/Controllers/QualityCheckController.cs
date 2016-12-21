@@ -38,7 +38,7 @@ namespace DroneAPI.Controllers
             db.SaveChanges();
             //Check if product has any locations
             // DataRow[] result = db.Locations.Select("Product_Id = "+productId);
-            CreateCommands(pr);
+            CreateCommands(qualitycheck);
 
             return "yoyoyo";
         }
@@ -76,8 +76,9 @@ namespace DroneAPI.Controllers
        
 
         // Create Commands
-        private void CreateCommands(ProductLocation pl)
+        private void CreateCommands(QualityCheck qc)
         {
+            ProductLocation pl = qc.ProductLocation;
             _droneCommandProcessor = new DroneCommandProcessor();
             Pathfinder pathfinder = PathfinderFactory.GetPathfinderFromWarehouse(pl.District.Warehouse);
             
@@ -94,7 +95,7 @@ namespace DroneAPI.Controllers
             _droneCommandProcessor.AddListCommand(dFactory.GetCommands(path, pl));
             
             // take picture command
-            _droneCommandProcessor.AddCommand(new Command { name = "TakePicture", value = 1 });
+            _droneCommandProcessor.AddCommand(new Command { name = "TakePicture", value = qc.Id });
 
             // land command
             _droneCommandProcessor.AddCommand(new Command { name = "Land" });
@@ -109,27 +110,6 @@ namespace DroneAPI.Controllers
                 result = new Position(pl.District.EndGraphNode.X, pl.District.EndGraphNode.Y);
             }
             return result;
-        }
-
-        // Generates directions as Commands for the drone TEst method
-        private string GenerateDirections(LinkedList<Position> pList)
-        {
-            string text = "";
-            if (pList.Count < 2)
-            {
-                throw new ArgumentException("The list of positions should have atleast two positions.");
-            }
-            for (LinkedListNode<Position> currentNode = pList.First;
-                currentNode.Next != null;
-                currentNode = currentNode.Next)
-            {
-                Position start = currentNode.Value;
-                Position end = currentNode.Next.Value;
-                text += "p1: " + start.ToString() + " p2: " + end.ToString() + " ,";
-                text += Services.MathUtility.CalculateDistance(start, end) + " : " + Services.MathUtility.CalculateAngle(start, end) + "| ";
-            }
-            // return text
-            return text;
         }
     }
 

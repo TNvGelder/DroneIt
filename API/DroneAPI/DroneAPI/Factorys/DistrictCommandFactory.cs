@@ -20,20 +20,20 @@ namespace DroneAPI.Factorys
             LinkedListNode<Position> currentNode = this.GetCurrentNode(path);
             int aisleDirection;
             int length;
-            int photoDirection = d.Orientation - 180;
+            int photoDirection = (d.Orientation - 180 + 360)%360;
             int height = pl.Row;
 
             // Create commands depending on which side of the district the drone is.
             if (currentNode.Value.X == d.StartGraphNode.X && currentNode.Value.Y == d.StartGraphNode.Y)
             {
                 // calulate values for from start
-                aisleDirection = d.Orientation + 90;
+                aisleDirection = (d.Orientation - 90 + 360)%360;
                 length = pl.Column;
             }
             else
             {
                 // calulate values for from end
-                aisleDirection = d.Orientation - 90;
+                aisleDirection = (d.Orientation + 90 + 360)%360;
                 length = d.Columns - pl.Column;
             }
 
