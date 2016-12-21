@@ -2,11 +2,8 @@
 using System;
 using DroneAPI.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http;
-using DroneAPI.DataStructures;
 using DroneAPI.Processors.DroneProcessors;
-using DroneAPI.Processors.DroneProcessors.Commands;
 using DroneAPI.Services;
 using DroneAPI.Factorys;
 using DroneAPI.DAL;
@@ -15,12 +12,12 @@ using System.Web.Http.Description;
 using System.Data;
 using System.Data.Entity;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace DroneAPI.Controllers
 {
     public class QualityCheckController : ApiController
     {
-        private DroneProcessor _droneProcessor;
         private DroneCommandProcessor _droneCommandProcessor;
         private DroneContext db = new DroneContext();
 
@@ -77,69 +74,45 @@ namespace DroneAPI.Controllers
             return s;
         }
 
-        // GET: api/QualityCheck
-        private string CreateCommands(ProductLocation pr)
+       
+
+        // Create Commands
+        private void CreateCommands(ProductLocation pl)
         {
-            _droneProcessor = DroneFactory.getDroneProcessor();
-            _droneCommandProcessor = new DroneCommandProcessor(_droneProcessor);
-            Pathfinder pathfinder = new Pathfinder();
-            Position a = new Position { X = 0, Y = 0 };
-            Position b = new Position { X = 1, Y = 3 };
-            Position c = new Position { X = 4, Y = 0 }; ;
-            Position d = new Position { X = 3, Y = 1 }; ;
-            Position e = new Position { X = 4, Y = 4 }; ;
-            Position f = new Position { X = 3, Y = 7 }; ;
-            Position g = new Position { X = 6, Y = 6 }; ;
-            Position h = new Position { X = 8, Y = 5 }; ;
-            Position i = new Position { X = 7, Y = 8 }; ;
-            Position j = new Position { X = 9, Y = 9 }; ;
-
-            pathfinder.AddPath(a, b);
-            pathfinder.AddPath(a, c);
-            pathfinder.AddPath(a, d);
-            pathfinder.AddPath(b, e);
-            pathfinder.AddPath(c, f);
-            pathfinder.AddPath(d, h);
-            pathfinder.AddPath(e, g);
-            pathfinder.AddPath(d, e);
-            pathfinder.AddPath(e, g);
-            pathfinder.AddPath(g, h);
-            pathfinder.AddPath(h, i);
-            pathfinder.AddPath(f, i);
-            pathfinder.AddPath(i, j);
-
-            LinkedList<Position> path = pathfinder.GetPath(a, j);
+            _droneCommandProcessor = new DroneCommandProcessor();
+            Pathfinder pathfinder = PathfinderFactory.GetPathfinderFromWarehouse(pl.District.Warehouse);
+            
+            Position startNode = new Position(pl.District.Warehouse.StartNode.X, pl.District.Warehouse.StartNode.Y);
+            LinkedList < Position > path = pathfinder.GetPath(startNode, this.GiveEndPosition(pl));
 
             // start command
-            //_droneCommandProcessor.AddCommand(new StartCommand(_droneProcessor));
+            _droneCommandProcessor.AddCommand(new Command { name = "Start" });
 
-            /*MovementCommandFactory factory = new MovementCommandFactory(_droneProcessor);
-            _droneCommandProcessor.AddListCommand(factory.GetMovementCommands(path));*/
-            /*_droneCommandProcessor.AddCommand(new RiseCommand(_droneProcessor, 2));
-            _droneCommandProcessor.AddCommand(new FallCommand(_droneProcessor, 2));*/
-            //_droneCommandProcessor.AddCommand(new TurnCommand(_droneProcessor, 270));
+            MovementCommandFactory mFactory = new MovementCommandFactory();
+            _droneCommandProcessor.AddListCommand(mFactory.GetMovementCommands(path));
 
-            _droneCommandProcessor.AddCommand(new TakePictureCommand(_droneProcessor));
-
-            //_droneCommandProcessor.AddCommand(new ForwardCommand(_droneProcessor, 2));
-            //_droneCommandProcessor.AddCommand(new TurnCommand(_droneProcessor, 180));
-
-            //_droneCommandProcessor.AddCommand(new ForwardCommand(_droneProcessor, 2));
-            //_droneCommandProcessor.AddCommand(new TurnCommand(_droneProcessor, 90));
-
-            //_droneCommandProcessor.AddCommand(new ForwardCommand(_droneProcessor, 2));
-            //_droneCommandProcessor.AddCommand(new TurnCommand(_droneProcessor, 0));
-
+            DistrictCommandFactory dFactory = new DistrictCommandFactory();
+            _droneCommandProcessor.AddListCommand(dFactory.GetCommands(path, pl));
+            
+            // take picture command
+            _droneCommandProcessor.AddCommand(new Command { name = "TakePicture", value = 1 });
 
             // land command
-            //_droneCommandProcessor.AddCommand(new LandCommand(_droneProcessor));
+            _droneCommandProcessor.AddCommand(new Command { name = "Land" });
             _droneCommandProcessor.Execute();
-
-            // return directions in text. Temporary
-            return this.GenerateDirections(path);
         }
 
-        // Generates directions as Commands for the drone
+        private Position GiveEndPosition(ProductLocation pl) {
+            int half = pl.District.Columns / 2;
+            Position result = new Position(pl.District.StartGraphNode.X, pl.District.StartGraphNode.Y);
+            if (pl.Column>half)
+            {
+                result = new Position(pl.District.EndGraphNode.X, pl.District.EndGraphNode.Y);
+            }
+            return result;
+        }
+
+        // Generates directions as Commands for the drone TEst method
         private string GenerateDirections(LinkedList<Position> pList)
         {
             string text = "";
