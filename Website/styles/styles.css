@@ -14,7 +14,8 @@ html{
 }
 
 .liveDronePath{
-	background:yellow;
+	border: 1px solid #eee;
+	min-height: 400px;
 }
 
 html>body{
