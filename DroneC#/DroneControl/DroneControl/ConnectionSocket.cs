@@ -66,44 +66,48 @@ namespace DroneControl
                     Console.WriteLine("Waiting for a connection...");
                     // Program is suspended while waiting for an incoming connection.
                     Socket handler = listener.Accept();
-                    string data = null;
 
                     // An incoming connection needs to be processed.
-                    while (true) {
-                        bytes = new byte[1048576];
-                        int bytesRec = handler.Receive(bytes);
-                        data += Encoding.ASCII.GetString(bytes, 0, bytesRec);
-                        if (data.IndexOf("<EOF>") > -1) {
-                            break;
-                        }
-                    }
+                    string data = receiveData(handler);
 
                     // Show the data on the console.
-                    Console.WriteLine("Text received : {0}", data);
-                    Console.WriteLine(data.Substring(0, data.Length - 5));
+                    Console.WriteLine("Data received : {0}", data.Substring(0, data.Length - 5));
 
-                    List<Command> commandList = new JavaScriptSerializer().Deserialize<List<Command>>(data.Substring(0, data.Length - 5));
-                    CommandFactory commandFactory = new CommandFactory(DroneController.Instance);
-                    DroneCommandProcessor droneCommandProcessor = new DroneCommandProcessor();
-
-                    foreach (Command c in commandList) {
-                        droneCommandProcessor.AddCommand(commandFactory.makeCommand(c.name, c.value));
-                    }
-                    droneCommandProcessor.Execute();
-
-                    // Echo the data back to the client.
-                    byte[] msg = Encoding.ASCII.GetBytes(data);
-
-                    handler.Send(msg);
+                    List<Command> commandList = stringToCommands(data);
+                    executeCommands(commandList);
+                    
                     handler.Shutdown(SocketShutdown.Both);
                     handler.Close();
                 }
             } catch (Exception e) {
                 Console.WriteLine(e.ToString());
             }
-
-            Console.WriteLine("\nPress ENTER to continue...");
+            
             Console.Read();
+        }
+
+        private string receiveData(Socket handler, string data = null) {
+            byte[] bytes = new byte[1048576];
+            int bytesRec = handler.Receive(bytes);
+            data += Encoding.ASCII.GetString(bytes, 0, bytesRec);
+            if (data.IndexOf("<EOF>") > -1) {
+                return data;
+            }
+            return receiveData(handler, data);
+        }
+
+        private List<Command> stringToCommands(string data) {
+            return new JavaScriptSerializer().Deserialize<List<Command>>(data.Substring(0, data.Length - 5));
+        }
+
+        private void executeCommands(List<Command> commandList) {
+            CommandFactory commandFactory = new CommandFactory(DroneController.Instance);
+            DroneCommandProcessor droneCommandProcessor = new DroneCommandProcessor();
+
+            foreach (Command c in commandList) {
+                droneCommandProcessor.AddCommand(commandFactory.makeCommand(c.name, c.value));
+            }
+            droneCommandProcessor.Execute();
         }
     }
 }
