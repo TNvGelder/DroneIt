@@ -92,7 +92,7 @@ namespace DroneAPI.Controllers
             _droneCommandProcessor.AddListCommand(mFactory.GetMovementCommands(path));
 
             DistrictCommandFactory dFactory = new DistrictCommandFactory();
-            _droneCommandProcessor.AddListCommand(dFactory.GetCommands(path, pl));
+            _droneCommandProcessor.AddListCommand(dFactory.GetCommands(GiveEndPosition(pl), pl));
             
             // take picture command
             _droneCommandProcessor.AddCommand(new Command { name = "TakePicture", value = qc.Id });

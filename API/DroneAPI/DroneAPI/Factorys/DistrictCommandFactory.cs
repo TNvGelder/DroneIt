@@ -13,28 +13,27 @@ namespace DroneAPI.Factorys
     public class DistrictCommandFactory : CommandFactory
     {
 
-        public List<Command> GetCommands(LinkedList<Position> path, ProductLocation pl)
+        public List<Command> GetCommands(Position p, ProductLocation pl)
         {
             List<Command> result = new List<Command>();
             District d = pl.District;
-            LinkedListNode<Position> currentNode = this.GetCurrentNode(path);
             int aisleDirection;
-            int length;
+            double length;
             int photoDirection = (d.Orientation - 180 + 360)%360;
             int height = pl.Row;
 
             // Create commands depending on which side of the district the drone is.
-            if (currentNode.Value.X == d.StartGraphNode.X && currentNode.Value.Y == d.StartGraphNode.Y)
+            if (p.X == d.StartGraphNode.X && p.Y == d.StartGraphNode.Y)
             {
                 // calulate values for from start
                 aisleDirection = (d.Orientation - 90 + 360)%360;
-                length = pl.Column;
+                length = pl.Column + 0.5;
             }
             else
             {
                 // calulate values for from end
                 aisleDirection = (d.Orientation + 90 + 360)%360;
-                length = d.Columns - pl.Column;
+                length = d.Columns - pl.Column + 0.5;
             }
 
             // Turn command. This sets the drone in the right direction.
@@ -55,7 +54,7 @@ namespace DroneAPI.Factorys
 
             // Define current position of drone
             //if (path.Count < 2) { throw new ArgumentException("The list of positions should have atleast two positions."); }
-            while (currentNode.Next == null)
+            while (currentNode.Next != null)
             {
                 currentNode = currentNode.Next;
             }
