@@ -128,7 +128,6 @@
     <Compile Include="DataStructures\PriorityQueue\BinaryHeap.cs" />
     <Compile Include="Factorys\CommandFactory.cs" />
     <Compile Include="Factorys\DistrictCommandFactory.cs" />
-    <Compile Include="Factorys\DroneFactory.cs" />
     <Compile Include="Factorys\ICommandFactory.cs" />
     <Compile Include="Models\Command.cs" />
     <Compile Include="Factorys\PathfinderFactory.cs" />

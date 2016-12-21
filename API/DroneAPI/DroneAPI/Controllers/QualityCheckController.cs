@@ -1,4 +1,3 @@
-
 using System;
 using DroneAPI.Models;
 using System.Collections.Generic;
@@ -32,7 +31,6 @@ namespace DroneAPI.Controllers
         // Create Commands
         private void CreateCommands(ProductLocation pl)
         {
-            _droneProcessor = DroneFactory.getDroneProcessor();
             _droneCommandProcessor = new DroneCommandProcessor();
             Pathfinder pathfinder = PathfinderFactory.GetPathfinderFromWarehouse(pl.District.Warehouse);
             
@@ -42,10 +40,10 @@ namespace DroneAPI.Controllers
             // start command
             _droneCommandProcessor.AddCommand(new Command { name = "Start" });
 
-            MovementCommandFactory mFactory = new MovementCommandFactory(_droneProcessor);
+            MovementCommandFactory mFactory = new MovementCommandFactory();
             _droneCommandProcessor.AddListCommand(mFactory.GetMovementCommands(path));
 
-            DistrictCommandFactory dFactory = new DistrictCommandFactory(_droneProcessor);
+            DistrictCommandFactory dFactory = new DistrictCommandFactory();
             _droneCommandProcessor.AddListCommand(dFactory.GetCommands(path, pl));
             
             // take picture command

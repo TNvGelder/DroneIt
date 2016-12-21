@@ -11,11 +11,10 @@ namespace DroneAPI.Factorys
 {
     public abstract class CommandFactory
     {
-        private DroneProcessor _droneProcessor;
-
-        public CommandFactory(DroneProcessor _droneProcessor)
+        private static CommandFactory _factory;
+        public static CommandFactory Factory
         {
-            this._droneProcessor = _droneProcessor;
+            get { return _factory; }
         }
     }
 }
