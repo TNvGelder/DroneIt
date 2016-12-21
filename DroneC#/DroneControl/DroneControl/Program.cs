@@ -58,7 +58,7 @@ namespace DroneControl {
 
             
             cmd.Execute();
-
+            dc.Stop(10);
             //DroneController dc = DroneController.Instance;
             //dc.Start();
             //Bitmap bm0 = dc.GetBitmapFromBottomCam();

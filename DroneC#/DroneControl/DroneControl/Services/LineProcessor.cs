@@ -18,7 +18,7 @@ namespace LineTrackingTest.Services
     /// </summary>
     class LineProcessor
     {
-        public static double _minPosRatio = .40;
+        public static double _minPosRatio = .35;
 
         private static int _regionHeight = 100;
         private static int _hue1 = 160;//170, 0
@@ -35,7 +35,7 @@ namespace LineTrackingTest.Services
         {
             Image<Hsv, Byte> hsvImage = img.Convert<Hsv, Byte>();
             int width = img.Size.Width;
-            //hsvImage.ROI = new Rectangle(0, img.Size.Height / 2 - _regionHeight / 2, width, _regionHeight);
+            hsvImage.ROI = new Rectangle(0, img.Size.Height / 2 - _regionHeight / 2, width, _regionHeight);
             hsvImage.Save("../../TestImage/FilteredImage.png");
 
             Image<Gray, Byte>[] channels = hsvImage.Split();
@@ -98,10 +98,10 @@ namespace LineTrackingTest.Services
                 double rightPosRatio = (double) (width - rightLine.P1.X)/width;
                 if (leftPosRatio < _minPosRatio)
                 {
-                    result = PositioningState.Left;
+                    result = PositioningState.Right;
                 }else if (rightPosRatio < _minPosRatio)
                 {
-                    result = PositioningState.Right;
+                    result = PositioningState.Left;
                 }
                 else
                 {

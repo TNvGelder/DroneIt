@@ -12,6 +12,7 @@ namespace LineTrackingTest.Models
         Left,
         Right,
         WrongRotation,
-        Lost
+        Lost,
+        Init
     }
 }

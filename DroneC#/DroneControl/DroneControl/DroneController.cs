@@ -197,12 +197,12 @@ namespace DroneControl {
             while (true)
             {
                 int CurrentDegrees = degreesConverter(Convert.ToInt16(_navigationData.Degrees));
-                Console.WriteLine(" ------------- ");
-                Console.WriteLine(" ------------- ");
-                Console.WriteLine(" ------------- ");
-                Console.WriteLine("North: " + North.ToString());
-                Console.WriteLine("Current: " + CurrentDegrees.ToString());
-                Console.WriteLine("Turn To: " + TurnTo.ToString());
+                //Console.WriteLine(" ------------- ");
+                //Console.WriteLine(" ------------- ");
+                //Console.WriteLine(" ------------- ");
+                //Console.WriteLine("North: " + North.ToString());
+                //Console.WriteLine("Current: " + CurrentDegrees.ToString());
+                //Console.WriteLine("Turn To: " + TurnTo.ToString());
 
                 int DistanceRight = 0;
                 int DistanceLeft = 0;
@@ -217,13 +217,13 @@ namespace DroneControl {
 
                 if (DistanceLeft < DistanceRight) {
                     _droneClient.Progress(FlightMode.Progressive, yaw: -0.1f);
-                    Console.WriteLine("Go Left");
+                    //Console.WriteLine("Go Left");
                 } else {
                     _droneClient.Progress(FlightMode.Progressive, yaw: 0.1f);
-                    Console.WriteLine("Go Right");
+                    //Console.WriteLine("Go Right");
                 }
                 if (CurrentDegrees == TurnTo) {
-                    Console.WriteLine("FINISH");
+                    //Console.WriteLine("FINISH");
                     break;
                 }
             }

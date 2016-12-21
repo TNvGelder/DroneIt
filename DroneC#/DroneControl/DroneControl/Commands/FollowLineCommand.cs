@@ -36,7 +36,7 @@ namespace DroneControl.Commands
         {
             //_controller.Forward();
             bool lineEndReached = false;
-            PositioningState prevState = PositioningState.Correct;
+            PositioningState prevState = PositioningState.Init;
             Console.WriteLine("StartCamDetect");
             while (!lineEndReached)
             {
@@ -45,6 +45,7 @@ namespace DroneControl.Commands
                 PositioningState state = LineProcessor.ProcessLine(bmp);
                 int startPointOfView = _controller.PointOfView;
                 Console.WriteLine(state);
+                System.Threading.Thread.Sleep(10);
                 if (state != prevState)
                 {
                     switch (state)
@@ -58,6 +59,7 @@ namespace DroneControl.Commands
                             {
                                 _controller.Backward();
                             }
+                            System.Threading.Thread.Sleep(100);
                             Console.WriteLine("Forward");
                             break;
                         case PositioningState.Lost:
@@ -67,13 +69,13 @@ namespace DroneControl.Commands
                             break;
                         case PositioningState.Left:
                             Console.WriteLine("Turn + left");
-                            _controller.Turn(startPointOfView);
-                            _controller.Right();
+                            //_controller.Turn(startPointOfView);
+                            _controller.Left();
                             break;
                         case PositioningState.Right:
                             Console.WriteLine("Turn + right");
-                            _controller.Turn(startPointOfView);
-                            _controller.Left();
+                            //_controller.Turn(startPointOfView);
+                            _controller.Right();
                             break;
                     }
 
