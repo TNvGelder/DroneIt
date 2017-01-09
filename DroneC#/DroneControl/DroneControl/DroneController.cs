@@ -95,7 +95,15 @@ namespace DroneControl {
         }
 
         /// <summary>
-        /// Let the drone fly for a give amount of meters. 
+        /// Lets the drone fly forward
+        /// </summary>
+        public void Forward()
+        {
+            _droneClient.Progress(FlightMode.Progressive, pitch: -this.Speed);
+        }
+
+        /// <summary>
+        /// Lets the drone fly forward and waits until it has flown the given amount of meters
         /// The speed if from a constant value
         /// </summary>
         /// <param name="meters"></param>
@@ -104,28 +112,67 @@ namespace DroneControl {
             Console.WriteLine("For" + meters);
             float Time = meters / this.Speed * 200;
             Console.WriteLine(Time);
-            _droneClient.Progress(FlightMode.Progressive, pitch: -this.Speed);
+            Forward();
             System.Threading.Thread.Sleep((int)Time);
         }
 
+        /// <summary>
+        /// Lets the drone fly backwards.
+        /// </summary>
+        public void Backward()
+        {
+            _droneClient.Progress(FlightMode.Progressive, pitch: this.Speed);
+        }
+
+        /// <summary>
+        /// Lets the drone fly backwards and waits until it has flown the given amount of meters
+        /// The speed if from a constant value 
+        /// </summary>
+        /// <param name="meters"></param>
         public void Backward(float meters) {
             Console.WriteLine("Back");
             float Time = meters / this.Speed * 200;
-            _droneClient.Progress(FlightMode.Progressive, pitch: this.Speed);
+            Backward();
             System.Threading.Thread.Sleep(Convert.ToInt16(Time));
         }
 
+        /// <summary>
+        /// Lets the drone fly to the left.
+        /// </summary>
+        public void Left()
+        {
+            _droneClient.Progress(FlightMode.Progressive, roll: this.Speed/6);
+        }
+
+        /// <summary>
+        /// Lets the drone fly to the left and waits until it has flown the given amount of meters
+        /// The speed if from a constant value 
+        /// </summary>
+        /// <param name="meters"></param>
         public void Left(float meters) {
             Console.WriteLine("Left");
             float Time = meters / this.Speed * 200;
-            _droneClient.Progress(FlightMode.Progressive, roll: this.Speed);
+            Left();
             System.Threading.Thread.Sleep(Convert.ToInt16(Time));
         }
 
+        /// <summary>
+        /// Lets the drone fly to the right.
+        /// </summary>
+        public void Right()
+        {
+            _droneClient.Progress(FlightMode.Progressive, roll: -this.Speed/6);
+        }
+
+        /// <summary>
+        /// Lets the drone fly to the right and waits until it has flown the given amount of meters
+        /// The speed if from a constant value 
+        /// </summary>
+        /// <param name="meters"></param>
         public void Right(float meters) {
             Console.WriteLine("Left");
             float Time = meters / this.Speed * 200;
-            _droneClient.Progress(FlightMode.Progressive, roll: -this.Speed);
+            Right();
             System.Threading.Thread.Sleep(Convert.ToInt16(Time));
         }
 
@@ -150,12 +197,12 @@ namespace DroneControl {
             while (true)
             {
                 int CurrentDegrees = degreesConverter(Convert.ToInt16(_navigationData.Degrees));
-                Console.WriteLine(" ------------- ");
-                Console.WriteLine(" ------------- ");
-                Console.WriteLine(" ------------- ");
-                Console.WriteLine("North: " + North.ToString());
-                Console.WriteLine("Current: " + CurrentDegrees.ToString());
-                Console.WriteLine("Turn To: " + TurnTo.ToString());
+                //Console.WriteLine(" ------------- ");
+                //Console.WriteLine(" ------------- ");
+                //Console.WriteLine(" ------------- ");
+                //Console.WriteLine("North: " + North.ToString());
+                //Console.WriteLine("Current: " + CurrentDegrees.ToString());
+                //Console.WriteLine("Turn To: " + TurnTo.ToString());
 
                 int DistanceRight = 0;
                 int DistanceLeft = 0;
@@ -170,13 +217,13 @@ namespace DroneControl {
 
                 if (DistanceLeft < DistanceRight) {
                     _droneClient.Progress(FlightMode.Progressive, yaw: -0.1f);
-                    Console.WriteLine("Go Left");
+                    //Console.WriteLine("Go Left");
                 } else {
                     _droneClient.Progress(FlightMode.Progressive, yaw: 0.1f);
-                    Console.WriteLine("Go Right");
+                    //Console.WriteLine("Go Right");
                 }
                 if (CurrentDegrees == TurnTo) {
-                    Console.WriteLine("FINISH");
+                    //Console.WriteLine("FINISH");
                     break;
                 }
             }
@@ -363,13 +410,14 @@ namespace DroneControl {
             }
         }
 
-        public Bitmap getBitmapFromBottomCam() {
+        public Bitmap GetBitmapFromBottomCam() {
             setCameraTo(DroneCamera.Bottom);
 
             int frameNumber = (int)FrameNumber + 5;
             Bitmap bm;
             
             while (true) {
+                frameNumber = File.Exists("Data/" + frameNumber + ".png") ? frameNumber : frameNumber + 1;
                 try {
                     bm = new Bitmap("Data/" + frameNumber + ".png");
                     break;
@@ -380,7 +428,7 @@ namespace DroneControl {
             return bm;
         }
 
-        public Bitmap getBitmapFromFrontCam() {
+        public Bitmap GetBitmapFromFrontCam() {
             setCameraTo(DroneCamera.Front);
 
             int frameNumber = (int)FrameNumber + 5;
@@ -388,6 +436,7 @@ namespace DroneControl {
 
             while (true) {
                 try {
+                    frameNumber = File.Exists("Data/" + frameNumber + ".png") ? frameNumber : frameNumber + 1;
                     bm = new Bitmap("Data/" + frameNumber + ".png");
                     break;
                 } catch (Exception) {

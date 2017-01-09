@@ -21,7 +21,7 @@ namespace DroneControl.Commands {
 
         public void Execute() {
             _controller.Start();
-            _bitmap = _controller.getBitmapFromFrontCam();
+            _bitmap = _controller.GetBitmapFromFrontCam();
             _frameNumber = (int)_controller.FrameNumber;
             
             if (!Directory.Exists(_subDestPath))

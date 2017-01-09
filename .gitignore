@@ -1,6 +1,6 @@
-bin/
+Debug/
+Release/
 obj/
-*.dll
 *.cache
 API/DroneAPI/DroneAPI/bin/DroneAPI.dll.config
 *.pdb
@@ -48,4 +48,7 @@ DroneC#/DroneControl/AR.Drone.Video/obj/*
 DroneC#/DroneControl/AR.Drone.WinApp/bin/*
 DroneC#/DroneControl/AR.Drone.Video/obj/*
 *.user
+API/DroneAPI/DroneAPI/bin/
+API/DroneAPI/DroneAPI/FakesAssemblies/
+emgucv-windesktop 3.1.0.2282/bin/Emgu.CV.World.xml
 API/DroneAPI/DroneAPI/DroneAPI.csproj.user
