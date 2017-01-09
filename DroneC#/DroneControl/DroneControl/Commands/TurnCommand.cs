@@ -9,6 +9,7 @@ namespace DroneControl.Commands
     {
         private DroneController _controller { get; set; }
         private int _degrees { get; set; }
+        private int _UndoDegrees { get; set; }
 
         public TurnCommand(DroneController controller, int degrees) {
             _controller = controller;
@@ -16,20 +17,14 @@ namespace DroneControl.Commands
         }
 
         public void Execute() {
+            _UndoDegrees = _controller.PointOfView;
             _controller.Turn(_degrees);
+            _controller.Hover();
         }
 
         public void Undo() {
-            // Doesn't work!
-            _controller.Turn(_degrees);
-        }
-
-        public string GetName() {
-            return "Turn";
-        }
-
-        public double GetValue() {
-            return _degrees;
+            _controller.Turn(_UndoDegrees);
+            _controller.Hover();
         }
     }
 }

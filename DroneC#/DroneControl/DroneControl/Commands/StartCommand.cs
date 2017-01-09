@@ -18,18 +18,11 @@ namespace DroneControl.Commands
             _controller.Start();
             _controller.Calibrate();
             _controller.Takeoff();
+            _controller.Hover();
         }
 
         public void Undo() {
             _controller.Land();
-        }
-
-        public string GetName() {
-            return "Start";
-        }
-
-        public double GetValue() {
-            return _degrees;
         }
     }
 }

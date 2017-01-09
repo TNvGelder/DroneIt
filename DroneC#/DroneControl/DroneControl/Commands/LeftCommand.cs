@@ -14,19 +14,13 @@ namespace DroneControl.Commands {
         }
 
         public void Execute() {
-            //_controller
+            _controller.Left((int)_meters);
+            _controller.Hover();
         }
 
         public void Undo() {
-            //_processor.Right(_squares);
-        }
-
-        public string GetName() {
-            return "Left";
-        }
-
-        public double GetValue() {
-            return _meters;
+            _controller.Right((int)_meters);
+            _controller.Hover();
         }
     }
 }

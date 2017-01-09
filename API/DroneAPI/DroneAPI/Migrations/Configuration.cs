@@ -18,50 +18,65 @@ namespace DroneAPI.Migrations
         {
             if (!context.Warehouses.Any())
             {
-                GraphNodeDal start = new GraphNodeDal { X = 800, Y = 100, Edges = new List<EdgeDal>() };
-                GraphNodeDal startDistrict1 = new GraphNodeDal { X = 100, Y = 300, Edges = new List<EdgeDal>() };
+                // Instantiate Nodes
+                GraphNodeDal start = new GraphNodeDal { X = 0, Y = 0, Edges = new List<EdgeDal>() };
+                GraphNodeDal startDistrict1 = new GraphNodeDal { X = 100, Y = 100, Edges = new List<EdgeDal>() };
                 GraphNodeDal endDistrict1 = new GraphNodeDal { X = 100, Y = 900, Edges = new List<EdgeDal>() };
-                GraphNodeDal startDistrict2 = new GraphNodeDal { X = 500, Y = 900, Edges = new List<EdgeDal>() };
-                GraphNodeDal endDistrict2 = new GraphNodeDal { X = 500, Y = 300, Edges = new List<EdgeDal>() };
+                GraphNodeDal startDistrict2 = new GraphNodeDal { X = 400, Y = 900, Edges = new List<EdgeDal>() };
+                GraphNodeDal endDistrict2 = new GraphNodeDal { X = 400, Y = 100, Edges = new List<EdgeDal>() };
+                GraphNodeDal startDistrict3 = new GraphNodeDal { X = 500, Y = 100, Edges = new List<EdgeDal>() };
+                GraphNodeDal endDistrict3 = new GraphNodeDal { X = 500, Y = 1100, Edges = new List<EdgeDal>() };
 
-                context.GraphNodes.AddOrUpdate(p => p.Id, start, startDistrict1, endDistrict1, startDistrict2, endDistrict2);
+                context.GraphNodes.AddOrUpdate(p => p.Id, start, startDistrict1, endDistrict1, startDistrict2, endDistrict2, startDistrict3, endDistrict3);
                 context.SaveChanges();
 
                 EdgeDal district1edge1 = new EdgeDal { DestinationGraphNode = endDistrict1 };
                 EdgeDal district1edge2 = new EdgeDal { DestinationGraphNode = startDistrict1 };
                 EdgeDal district2edge1 = new EdgeDal { DestinationGraphNode = endDistrict2 };
                 EdgeDal district2edge2 = new EdgeDal { DestinationGraphNode = startDistrict2 };
+                EdgeDal district3edge1 = new EdgeDal { DestinationGraphNode = endDistrict3 };
+                EdgeDal district3edge2 = new EdgeDal { DestinationGraphNode = startDistrict3 };
                 EdgeDal startedge1 = new EdgeDal { DestinationGraphNode = startDistrict1 };
                 EdgeDal startedge2 = new EdgeDal { DestinationGraphNode = endDistrict2 };
+                EdgeDal startedge3 = new EdgeDal { DestinationGraphNode = endDistrict3 };
 
-
-                context.Edges.AddOrUpdate(p => p.Id, district1edge1, district1edge2, district2edge1, district2edge2, startedge1, startedge2);
+                context.Edges.AddOrUpdate(p => p.Id, district1edge1, district1edge2, district2edge1, district2edge2, district3edge1, district3edge2, startedge1, startedge2, startedge3);
                 context.SaveChanges();
+
                 startDistrict1.Edges.Add(district1edge1);
                 startDistrict2.Edges.Add(district2edge1);
+                startDistrict3.Edges.Add(district3edge1);
+                endDistrict3.Edges.Add(district3edge2);
                 endDistrict2.Edges.Add(district2edge2);
                 endDistrict1.Edges.Add(district1edge2);
                 start.Edges.Add(startedge1);
                 start.Edges.Add(startedge2);
+                start.Edges.Add(startedge3);
 
-                context.GraphNodes.AddOrUpdate(p => p.Id, start, startDistrict1, endDistrict1, startDistrict2, endDistrict2);
+                context.GraphNodes.AddOrUpdate(p => p.Id, start, startDistrict1, endDistrict1, startDistrict2, endDistrict2, startDistrict3, endDistrict3);
                 context.SaveChanges();
-                District district1 = new District { StartGraphNode = startDistrict1, EndGraphNode = endDistrict1, Name = "District1", Orientation = 270, X = 300, Y = 200, Columns = 4, Rows = 3 };
-                District district2 = new District { StartGraphNode = startDistrict2, EndGraphNode = endDistrict2, Name = "District2", Orientation = 90, X = 300, Y = 800, Columns = 4, Rows = 3 };
-                context.Districts.AddOrUpdate(p => p.Name, district1, district2);
+
+                // Districts
+                District district1 = new District { StartGraphNode = startDistrict1, EndGraphNode = endDistrict1, Name = "District1", Orientation = 270, X = 300, Y = 200, Columns = 6, Rows = 3 };
+                District district2 = new District { StartGraphNode = startDistrict2, EndGraphNode = endDistrict2, Name = "District2", Orientation = 90, X = 300, Y = 800, Columns = 6, Rows = 3 };
+                District district3 = new District { StartGraphNode = startDistrict3, EndGraphNode = endDistrict3, Name = "District3", Orientation = 270, X = 700, Y = 200, Columns = 8, Rows = 3 };
+                context.Districts.AddOrUpdate(p => p.Name, district1, district2, district3);
                 context.SaveChanges();
 
                 startDistrict1.District = district1;
                 endDistrict1.District = district1;
                 startDistrict2.District = district2;
                 endDistrict2.District = district2;
+                startDistrict3.District = district3;
+                endDistrict3.District = district3;
 
-                context.Edges.AddOrUpdate(p => p.Id, district1edge1, district1edge2, district2edge1, district2edge2, startedge1, startedge2);
+                context.Edges.AddOrUpdate(p => p.Id, district1edge1, district1edge2, district2edge1, district2edge2, district3edge1, district3edge2, startedge1, startedge2, startedge3);
                 context.SaveChanges();
 
+                // Warehouse
                 Warehouse warehouse = new Warehouse();
                 warehouse.Name = "Default Warehouse";
-                warehouse.Height = 1000;
+                warehouse.Height = 1200;
                 warehouse.Width = 1500;
                 warehouse.StartNode = start;
 
@@ -70,7 +85,8 @@ namespace DroneAPI.Migrations
 
                 district1.Warehouse = warehouse;
                 district2.Warehouse = warehouse;
-                context.Districts.AddOrUpdate(p => p.Name, district1, district2);
+                district3.Warehouse = warehouse;
+                context.Districts.AddOrUpdate(p => p.Name, district1, district2, district3);
 
                 context.SaveChanges();
             }
@@ -88,13 +104,7 @@ namespace DroneAPI.Migrations
             //    );
             //
 
-            /*    District district3= new District { Name = "District3", Orientation = 270, X = 800, Y = 200, Columns = 4, Rows = 3 };
-    GraphNodeDal startDistrict3 = new GraphNodeDal { X = 600, Y = 300 };
-    GraphNodeDal endDistrict3 = new GraphNodeDal { X = 600, Y = 900 };
-
-    District district4 = new District { Name = "District4", Orientation = 90, X = 500, Y = 800, Columns = 4, Rows = 3 };
-    GraphNodeDal startDistrict4 = new GraphNodeDal { X = 1000, Y = 900 };
-    GraphNodeDal endDistrict4 = new GraphNodeDal { X = 1000, Y = 300 };*/
+            
         }
     }
 }

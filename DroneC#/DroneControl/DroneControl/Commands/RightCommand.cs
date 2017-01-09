@@ -6,28 +6,22 @@ using System.Web;
 namespace DroneControl.Commands
 {
 	public class RightCommand : IDroneCommand {
-        private object _controller { get; set; }
-        private double _squares { get; set; }
+        private DroneController _controller { get; set; }
+        private double _meters { get; set; }
 
-        public RightCommand(object controller, double meters) {
+        public RightCommand(DroneController controller, double meters) {
             _controller = controller;
-            _squares = meters;
+            _meters = meters;
         }
 
         public void Execute() {
-            //_processor.Right(_squares);
+            _controller.Right((int)_meters);
+            _controller.Hover();
         }
 
         public void Undo() {
-            //_processor.Left(_squares);
-        }
-
-        public string GetName() {
-            return "Right";
-        }
-
-        public double GetValue() {
-            return _squares;
+            _controller.Left((int)_meters);
+            _controller.Hover();
         }
     }
 }

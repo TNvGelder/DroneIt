@@ -17,19 +17,13 @@ namespace DroneControl.Commands
         public void Execute()
         {
             _controller.Land();
+            _controller.Hover();
         }
 
         public void Undo()
         {
             _controller.Takeoff();
-        }
-
-        public string GetName() {
-            return "Backward";
-        }
-
-        public double GetValue() {
-            return _degrees;
+            _controller.Hover();
         }
     }
 }

@@ -2,23 +2,48 @@
 using AR.Drone.Client.Command;
 using AR.Drone.Video;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AR.Drone.Data;
 using AR.Drone.Data.Navigation;
 using System.Drawing;
 using AR.Drone.Media;
 using AR.Drone.WinApp;
 using System.IO;
+using System.Threading;
+using AR.Drone.Client.Configuration;
 
-namespace DroneControl
-{
+namespace DroneControl {
+    enum DroneCamera { Front, Bottom }
+
     public class DroneController
     {
-        public readonly float Speed = 0.25F;
+        private static volatile DroneController _instance;
+        private static object syncRoot = new Object();
+        public readonly float Speed = 0.1F;
         private DroneClient _droneClient;
+        private NavigationPacket _navigationPacket;
+        private readonly VideoPacketDecoderWorker _videoPacketDecoderWorker;
+        private VideoFrame _frame;
+        private Bitmap _frameBitmap;
+        public uint FrameNumber { get; private set; }
+        private Thread _th;
+        public string DataPath { get; private set; }
+        public string LivePath { get; private set; }
+        private DroneCamera _camera { get; set; }
+        public NavigationData _navigationData { get; private set; }
+        public int North { get; private set; }
+        public static DroneController Instance
+        {
+            get
+            {
+                if (_instance == null) {
+                    lock (syncRoot) {
+                        if (_instance == null)
+                            _instance = new DroneController();
+                    }
+                }
+                return _instance;
+            }
+        }
         public bool isBusy
         {
             get
@@ -26,20 +51,19 @@ namespace DroneControl
                 return _droneClient.NavigationData.State != NavigationState.Hovering;
             }
         }
-        
-        public NavigationData _navigationData { get; private set; }
-        private NavigationPacket _navigationPacket;
-        public int North { get; private set; }
-
-        private PacketRecorder _packetRecorderWorker;
-        private FileStream _recorderStream;
-        private readonly VideoPacketDecoderWorker _videoPacketDecoderWorker;
-        private VideoFrame _frame;
-        private Bitmap _frameBitmap;
-        private uint _frameNumber;
-
-        public DroneController()
+        public int PointOfView
         {
+            get
+            {
+                return degreesConverter(Convert.ToInt16(_navigationData.Degrees));
+            }
+        }
+
+        private DroneController()
+        {
+            DataPath = "Data/";
+            LivePath = DataPath + "Live/";
+
             _videoPacketDecoderWorker = new VideoPacketDecoderWorker(PixelFormat.BGR24, true, OnVideoPacketDecoded);
             _videoPacketDecoderWorker.Start();
 
@@ -48,45 +72,26 @@ namespace DroneControl
             _droneClient.NavigationPacketAcquired += OnNavigationPacketAcquired;
             _droneClient.VideoPacketAcquired += OnVideoPacketAcquired;
             _droneClient.NavigationDataAcquired += data => _navigationData = data;
-            StartRecording();
 
+            _th = new Thread(takePicture);
+            _th.Start();
         }
 
-        private void StopRecording()
-        {
-            if (_packetRecorderWorker != null)
-            {
-                _packetRecorderWorker.Stop();
-                _packetRecorderWorker.Join();
-                _packetRecorderWorker = null;
+        private void takePicture() {
+            while (true) {
+                this.SaveImage();
+                System.Threading.Thread.Sleep(100);
             }
-
-            if (_recorderStream != null)
-            {
-                _recorderStream.Dispose();
-                _recorderStream = null;
-            }
-        }
-
-        private void StartRecording()
-        {
-            StopRecording();
-
-            _recorderStream = new FileStream("test.log", FileMode.OpenOrCreate);
-            _packetRecorderWorker = new PacketRecorder(_recorderStream);
-            _packetRecorderWorker.Start();
         }
 
         /// <summary>
         /// This method will start the drone
         /// </summary>
         /// <param name="time"></param>
-        public void Start(int time = 1000)
-        {
+        public void Start(int time = 1000) {
+            Console.WriteLine("Start");
             _droneClient.Start();
             System.Threading.Thread.Sleep(time);
-            this.North = Convert.ToInt16(_navigationData.Degrees);
-            this.Hover();
         }
 
         /// <summary>
@@ -96,17 +101,32 @@ namespace DroneControl
         /// <param name="meters"></param>
         public void Forward(float meters)
         {
-            float Time = meters / this.Speed * 1000;
-            _droneClient.Progress(FlightMode.Progressive, pitch: this.Speed);
-            System.Threading.Thread.Sleep(Convert.ToInt16(Time));
-            this.Hover();
+            Console.WriteLine("For" + meters);
+            float Time = meters / this.Speed * 200;
+            Console.WriteLine(Time);
+            _droneClient.Progress(FlightMode.Progressive, pitch: -this.Speed);
+            System.Threading.Thread.Sleep((int)Time);
         }
 
         public void Backward(float meters) {
-            float Time = meters / this.Speed * 1000;
-            _droneClient.Progress(FlightMode.Progressive, pitch: -this.Speed);
+            Console.WriteLine("Back");
+            float Time = meters / this.Speed * 200;
+            _droneClient.Progress(FlightMode.Progressive, pitch: this.Speed);
             System.Threading.Thread.Sleep(Convert.ToInt16(Time));
-            this.Hover();
+        }
+
+        public void Left(float meters) {
+            Console.WriteLine("Left");
+            float Time = meters / this.Speed * 200;
+            _droneClient.Progress(FlightMode.Progressive, roll: this.Speed);
+            System.Threading.Thread.Sleep(Convert.ToInt16(Time));
+        }
+
+        public void Right(float meters) {
+            Console.WriteLine("Left");
+            float Time = meters / this.Speed * 200;
+            _droneClient.Progress(FlightMode.Progressive, roll: -this.Speed);
+            System.Threading.Thread.Sleep(Convert.ToInt16(Time));
         }
 
         /// <summary>
@@ -117,30 +137,19 @@ namespace DroneControl
         {
             _droneClient.FlatTrim();
             System.Threading.Thread.Sleep(time);
-            this.Hover();
         }
-
 
         public void Turn(int degrees)
         {
-            int TurnTo = 0;
-            if (North >= 0)
-            {
-                TurnTo = (Convert.ToInt16(degrees) + Convert.ToInt16((this.North)));
-            }
-            else if (North < 0)
-            {
-                TurnTo = (Convert.ToInt16(degrees) - Convert.ToInt16((this.North) * -1));
-            }
-
-            if (North > 180)
-            {
-                TurnTo = (Convert.ToInt16(degrees) - 360);
+            Console.WriteLine("Turn " + degrees);
+            int TurnTo = (Convert.ToInt16(degrees) + Convert.ToInt16((this.North)));
+            if (TurnTo >= 360) {
+                TurnTo -= 360;
             }
 
             while (true)
             {
-                int CurrentDegrees = Convert.ToInt16(_navigationData.Degrees);
+                int CurrentDegrees = degreesConverter(Convert.ToInt16(_navigationData.Degrees));
                 Console.WriteLine(" ------------- ");
                 Console.WriteLine(" ------------- ");
                 Console.WriteLine(" ------------- ");
@@ -148,24 +157,28 @@ namespace DroneControl
                 Console.WriteLine("Current: " + CurrentDegrees.ToString());
                 Console.WriteLine("Turn To: " + TurnTo.ToString());
 
-                if (CurrentDegrees > TurnTo && CurrentDegrees > (TurnTo - 180))
-                {
-                    _droneClient.Progress(FlightMode.Progressive, roll: -0.05f);
-                    Console.WriteLine("Go Left");
+                int DistanceRight = 0;
+                int DistanceLeft = 0;
+
+                if (TurnTo > CurrentDegrees) {
+                    DistanceRight = TurnTo - CurrentDegrees;
+                    DistanceLeft = (360 - TurnTo) + CurrentDegrees;
+                } else if (CurrentDegrees > TurnTo) {
+                    DistanceRight = (360 - CurrentDegrees) + TurnTo;
+                    DistanceLeft = CurrentDegrees - TurnTo;
                 }
-                else if (CurrentDegrees < TurnTo && CurrentDegrees < (TurnTo + 180))
-                {
-                    _droneClient.Progress(FlightMode.Progressive, roll: 0.05f);
+
+                if (DistanceLeft < DistanceRight) {
+                    _droneClient.Progress(FlightMode.Progressive, yaw: -0.1f);
+                    Console.WriteLine("Go Left");
+                } else {
+                    _droneClient.Progress(FlightMode.Progressive, yaw: 0.1f);
                     Console.WriteLine("Go Right");
                 }
-                else
-                {
+                if (CurrentDegrees == TurnTo) {
                     Console.WriteLine("FINISH");
-
                     break;
                 }
-
-                System.Threading.Thread.Sleep(20);
             }
         }
 
@@ -176,9 +189,13 @@ namespace DroneControl
         /// <param name="time"></param>
         public void Takeoff(int time = 15000)
         {
+            Console.WriteLine("Takeoff");
             _droneClient.Takeoff();
             System.Threading.Thread.Sleep(time);
-            this.Hover();
+            North = Convert.ToInt16(_navigationData.Degrees);
+            if (North < 0) {
+                North = (Convert.ToInt16(North) + 360);
+            }
         }
 
         /// <summary>
@@ -188,6 +205,7 @@ namespace DroneControl
         /// <param name="time"></param>
         public void Stop(int time)
         {
+            Console.WriteLine("Stop");
             _droneClient.Stop();
             System.Threading.Thread.Sleep(time);
         }
@@ -199,6 +217,7 @@ namespace DroneControl
         /// <param name="time"></param>
         public void Land(int time = 3000)
         {
+            Console.WriteLine("Land");
             _droneClient.Land();
             System.Threading.Thread.Sleep(time);
         }
@@ -210,10 +229,10 @@ namespace DroneControl
         /// <param name="meters"></param>
         public void Rise(float meters)
         {
-            int Time = Convert.ToInt16((meters / Speed) * 1000);
+            Console.WriteLine("Rise");
+            int Time = Convert.ToInt16((meters / Speed) * 200);
             _droneClient.Progress(FlightMode.Progressive, gaz: this.Speed);
             System.Threading.Thread.Sleep(Time);
-            this.Hover();
         }
 
         /// <summary>
@@ -223,10 +242,9 @@ namespace DroneControl
         /// <param name="meters"></param>
         public void Fall(float meters)
         {
-            int Time = Convert.ToInt16((meters / Speed) * 1000);
+            int Time = Convert.ToInt16((meters / Speed) * 200);
             _droneClient.Progress(FlightMode.Progressive, gaz: -Speed);
             System.Threading.Thread.Sleep(Time);
-            this.Hover();
         }
 
         /// <summary>
@@ -242,9 +260,10 @@ namespace DroneControl
         /// This method let hover the drone.
         /// </summary>
         /// <param name="Time"></param>
-        public void Hover(int Time = 2000)
+        public void Hover(int Time = 5000)
         {
-            _droneClient.Hover();
+            Console.WriteLine("Hover");
+            _droneClient.Progress(FlightMode.Hover);
             System.Threading.Thread.Sleep(Time);
         }
 
@@ -254,9 +273,6 @@ namespace DroneControl
         /// <param name="packet"></param>
         private void OnNavigationPacketAcquired(NavigationPacket packet)
         {
-            if (_packetRecorderWorker != null && _packetRecorderWorker.IsAlive)
-                _packetRecorderWorker.EnqueuePacket(packet);
-
             _navigationPacket = packet;
 
             if (_navigationData != null)
@@ -269,7 +285,6 @@ namespace DroneControl
                 else
                 {
                     File.AppendAllText("log.txt", _navigationData.ToString());
-                    //Console.WriteLine(_navigationData.Degrees.ToString());
                 }
             }
             else
@@ -283,10 +298,10 @@ namespace DroneControl
         ////////////////////// VIDEO ///////////////////////
         ////////////////////////////////////////////////////
         ////////////////////////////////////////////////////
-        private void OnVideoPacketAcquired(VideoPacket packet)
+        private unsafe void OnVideoPacketAcquired(VideoPacket packet)
         {
-            if (_packetRecorderWorker != null && _packetRecorderWorker.IsAlive)
-                _packetRecorderWorker.EnqueuePacket(packet);
+            /*if (_packetRecorderWorker != null && _packetRecorderWorker.IsAlive)
+                _packetRecorderWorker.EnqueuePacket(packet);*/
             if (_videoPacketDecoderWorker.IsAlive)
                 _videoPacketDecoderWorker.EnqueuePacket(packet);
         }
@@ -306,16 +321,80 @@ namespace DroneControl
         /// </summary>
         public void SaveImage()
         {
-            if (_frame == null || _frameNumber == _frame.Number)
+            if (_frame == null || FrameNumber == _frame.Number)
                 return;
-            _frameNumber = _frame.Number;
+            FrameNumber = _frame.Number;
 
             if (_frameBitmap == null)
                 _frameBitmap = VideoHelper.CreateBitmap(ref _frame);
             else
                 VideoHelper.UpdateBitmap(ref _frameBitmap, ref _frame);
+            
+            if (!Directory.Exists(DataPath))
+                System.IO.Directory.CreateDirectory(DataPath);
+            
+            _frameBitmap.Save(DataPath + FrameNumber + ".png");
+            
+            if (!Directory.Exists(LivePath))
+                System.IO.Directory.CreateDirectory(LivePath);
 
-            _frameBitmap.Save("/Data/Test.jpg");
+            _frameBitmap.Save(LivePath + "live.png");
+        }
+
+        private int degreesConverter(int degrees) {
+            if (degrees < 0) {
+                degrees = (degrees + 360);
+            }
+            return degrees;
+        }
+
+        private void switchCamera(VideoChannelType vct) {
+            var configuration = new Settings();
+            configuration.Video.Channel = vct;
+            _droneClient.Send(configuration);
+            System.Threading.Thread.Sleep(100);
+        }
+
+        private void setCameraTo(DroneCamera camera) {
+            if (camera == DroneCamera.Front) {
+                switchCamera(VideoChannelType.Horizontal);
+            } else {
+                switchCamera(VideoChannelType.Vertical);
+            }
+        }
+
+        public Bitmap getBitmapFromBottomCam() {
+            setCameraTo(DroneCamera.Bottom);
+
+            int frameNumber = (int)FrameNumber + 5;
+            Bitmap bm;
+            
+            while (true) {
+                try {
+                    bm = new Bitmap("Data/" + frameNumber + ".png");
+                    break;
+                } catch (Exception) {
+                    System.Threading.Thread.Sleep(100);
+                }
+            }
+            return bm;
+        }
+
+        public Bitmap getBitmapFromFrontCam() {
+            setCameraTo(DroneCamera.Front);
+
+            int frameNumber = (int)FrameNumber + 5;
+            Bitmap bm;
+
+            while (true) {
+                try {
+                    bm = new Bitmap("Data/" + frameNumber + ".png");
+                    break;
+                } catch (Exception) {
+                    System.Threading.Thread.Sleep(100);
+                }
+            }
+            return bm;
         }
     }
 }

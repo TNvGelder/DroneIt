@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using DroneAPI.Processors.DroneProcessors;
-using DroneAPI.Processors.DroneProcessors.Commands;
 
 namespace DroneAPI.Factorys
 {
@@ -15,10 +14,8 @@ namespace DroneAPI.Factorys
         {
             get { return _factory; }
         }
-        private DroneProcessor _droneProcessor;
 
-        public MovementCommandFactory(DroneProcessor _droneProcessor) {
-            this._droneProcessor = _droneProcessor;
+        public MovementCommandFactory() {
         }
 
         /// <summary>
@@ -26,9 +23,9 @@ namespace DroneAPI.Factorys
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public List<IDroneCommand> GetMovementCommands(LinkedList<Position> path)
+        public List<Command> GetMovementCommands(LinkedList<Position> path)
         {
-            List<IDroneCommand> result = new List<IDroneCommand>();
+            List<Command> result = new List<Command>();
 
             for (LinkedListNode<Position> currentNode = path.First;
                 currentNode.Next != null;
@@ -37,9 +34,9 @@ namespace DroneAPI.Factorys
                 Position start = currentNode.Value;
                 Position end = currentNode.Next.Value;
                 // Turn command. This sets the drone in the right direction.
-                result.Add(new TurnCommand(_droneProcessor, Services.MathUtility.CalculateAngle(start, end)));
+                result.Add(new Command { name = "Turn", value = Services.MathUtility.CalculateAngle(start, end) });
                 // Forward command. The meters the drone should travel to reach the next position.
-                result.Add(new ForwardCommand(_droneProcessor, Services.MathUtility.CalculateDistance(start, end)));
+                result.Add(new Command { name = "Forward", value = Services.MathUtility.CalculateDistance(start, end) } );
             }
             return result;
         }

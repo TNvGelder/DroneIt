@@ -14,11 +14,11 @@ namespace DroneControl {
     public class DroneCommandProcessor
     {
         private Queue<IDroneCommand> _commands;
-        private Thread th { get; set; }
+        private Thread _th { get; set; }
 
         public DroneCommandProcessor() {
-            this._commands = new Queue<IDroneCommand>();
-            th = new Thread(Executing);
+            _commands = new Queue<IDroneCommand>();
+            _th = new Thread(Executing);
         }
 
         public void AddCommand(IDroneCommand command) {
@@ -27,28 +27,18 @@ namespace DroneControl {
 
         public void AddListCommand(List<IDroneCommand> commands) {
             foreach(IDroneCommand command in commands) {
-                this.AddCommand(command);
+                AddCommand(command);
             }
         }
         
         public void Execute() {
-            th.Start();
+            _th.Start();
         }
 
         public void Executing() {
             while (_commands.Count > 0) {
                 _commands.Dequeue().Execute();
             }
-        }
-
-        public List<Command> commandList() {
-            List<Command> commands = new List<Command>();
-
-            foreach (IDroneCommand dc in _commands) {
-                commands.Add(new Command { name = dc.GetName(), value = dc.GetValue() });
-            }
-
-            return commands;
         }
     }
 }

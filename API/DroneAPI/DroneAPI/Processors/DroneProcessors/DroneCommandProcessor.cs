@@ -1,5 +1,4 @@
 ﻿using DroneAPI.Models;
-using DroneAPI.Processors.DroneProcessors.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,25 +13,21 @@ namespace DroneAPI.Processors.DroneProcessors
 {
     public class DroneCommandProcessor
     {
-        private DroneProcessor _droneProcessor;
+        private Queue<Command> _commands;
 
-        private Queue<IDroneCommand> _commands;
-
-        public DroneCommandProcessor(DroneProcessor droneProcessor)
+        public DroneCommandProcessor()
         {
-            this._droneProcessor = droneProcessor;
-
-            this._commands = new Queue<IDroneCommand>();
+            this._commands = new Queue<Command>();
         }
 
-        public void AddCommand(IDroneCommand command)
+        public void AddCommand(Command command)
         {
             this._commands.Enqueue(command);
         }
 
-        public void AddListCommand(List<IDroneCommand> commands)
+        public void AddListCommand(List<Command> commands)
         {
-            foreach(IDroneCommand command in commands)
+            foreach(Command command in commands)
             {
                 this.AddCommand(command);
             }
@@ -61,7 +56,7 @@ namespace DroneAPI.Processors.DroneProcessors
                     Console.WriteLine("Socket connected to {0}", sender.RemoteEndPoint.ToString());
 
                     // Encode the data string into a byte array.
-                    string msgJson = new JavaScriptSerializer().Serialize(commandList());
+                    string msgJson = new JavaScriptSerializer().Serialize(_commands.ToList<Command>());
                     Console.WriteLine(msgJson);
                     byte[] msg = Encoding.ASCII.GetBytes(msgJson + "<EOF>");
 
@@ -85,16 +80,6 @@ namespace DroneAPI.Processors.DroneProcessors
             } catch (Exception e) {
                 Console.WriteLine(e.ToString());
             }
-        }
-
-        public List<Command> commandList() {
-            List<Command> commands = new List<Command>();
-
-            foreach (IDroneCommand dc in _commands) {
-                commands.Add(new Command { name = dc.GetName(), value = dc.GetValue() });
-            }
-
-            return commands;
         }
     }
 }

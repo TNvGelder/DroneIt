@@ -6,7 +6,6 @@ using System.Linq;
 using System.Web.Http;
 using DroneAPI.DataStructures;
 using DroneAPI.Processors.DroneProcessors;
-using DroneAPI.Processors.DroneProcessors.Commands;
 using DroneAPI.Services;
 using DroneAPI.Factorys;
 
@@ -14,7 +13,6 @@ namespace DroneAPI.Controllers
 {
     public class QualityCheckController : ApiController
     {
-        private DroneProcessor _droneProcessor;
         private DroneCommandProcessor _droneCommandProcessor;
         
         // POST api/CheckProduct/5
@@ -27,8 +25,7 @@ namespace DroneAPI.Controllers
         // Dient als een soort van Main
         public string GetShortestPath()
         {
-            _droneProcessor = DroneFactory.getDroneProcessor();
-            _droneCommandProcessor = new DroneCommandProcessor(_droneProcessor);
+            _droneCommandProcessor = new DroneCommandProcessor();
             Pathfinder pathfinder = new Pathfinder();
             Position a = new Position { X=0, Y=0 };
             Position b = new Position { X=1, Y=3 };
@@ -58,13 +55,28 @@ namespace DroneAPI.Controllers
             LinkedList < Position > path = pathfinder.GetPath(a, j);
 
             // start command
-            _droneCommandProcessor.AddCommand(new StartCommand(_droneProcessor));
+            _droneCommandProcessor.AddCommand(new Command { name = "Start" });
 
-            MovementCommandFactory factory = new MovementCommandFactory(_droneProcessor);
-            _droneCommandProcessor.AddListCommand(factory.GetMovementCommands(path));
+            /*MovementCommandFactory factory = new MovementCommandFactory(_droneProcessor);
+            _droneCommandProcessor.AddListCommand(factory.GetMovementCommands(path));*/
+            /*_droneCommandProcessor.AddCommand(new RiseCommand(_droneProcessor, 2));
+            _droneCommandProcessor.AddCommand(new FallCommand(_droneProcessor, 2));*/
+            //_droneCommandProcessor.AddCommand(new TurnCommand(_droneProcessor, 270));
+
+            _droneCommandProcessor.AddCommand(new Command { name = "TakePicture", value = 1 });
+
+            //_droneCommandProcessor.AddCommand(new ForwardCommand(_droneProcessor, 2));
+            //_droneCommandProcessor.AddCommand(new TurnCommand(_droneProcessor, 180));
+
+            //_droneCommandProcessor.AddCommand(new ForwardCommand(_droneProcessor, 2));
+            //_droneCommandProcessor.AddCommand(new TurnCommand(_droneProcessor, 90));
+
+            //_droneCommandProcessor.AddCommand(new ForwardCommand(_droneProcessor, 2));
+            //_droneCommandProcessor.AddCommand(new TurnCommand(_droneProcessor, 0));
+
 
             // land command
-            _droneCommandProcessor.AddCommand(new LandCommand(_droneProcessor));
+            _droneCommandProcessor.AddCommand(new Command { name = "Land" });
             _droneCommandProcessor.Execute();
             return this.GenerateDirections(path);
         }

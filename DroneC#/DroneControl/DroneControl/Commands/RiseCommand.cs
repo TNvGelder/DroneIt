@@ -15,18 +15,12 @@ namespace DroneControl.Commands {
 
         public void Execute() {
             _controller.Rise((float)_meters);
+            _controller.Hover();
         }
 
         public void Undo() {
             _controller.Fall((float)_meters);
-        }
-
-        public string GetName() {
-            return "Rise";
-        }
-
-        public double GetValue() {
-            return _meters;
+            _controller.Hover();
         }
     }
 }

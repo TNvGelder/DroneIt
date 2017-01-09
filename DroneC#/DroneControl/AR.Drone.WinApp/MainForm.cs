@@ -129,6 +129,13 @@ namespace AR.Drone.WinApp
                 VideoHelper.UpdateBitmap(ref _frameBitmap, ref _frame);
 
             pbVideo.Image = _frameBitmap;
+            string subPath = "Data"; // your code goes here
+
+            bool exists = System.IO.Directory.Exists(subPath);
+
+            if (!exists)
+                System.IO.Directory.CreateDirectory(subPath);
+            _frameBitmap.Save("Data/Test.jpg");
         }
 
         private void tmrStateUpdate_Tick(object sender, EventArgs e)
