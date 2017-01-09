@@ -141,7 +141,7 @@ namespace DroneControl {
         /// </summary>
         public void Left()
         {
-            _droneClient.Progress(FlightMode.Progressive, roll: this.Speed);
+            _droneClient.Progress(FlightMode.Progressive, roll: this.Speed/6);
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace DroneControl {
         /// </summary>
         public void Right()
         {
-            _droneClient.Progress(FlightMode.Progressive, roll: -this.Speed);
+            _droneClient.Progress(FlightMode.Progressive, roll: -this.Speed/6);
         }
 
         /// <summary>

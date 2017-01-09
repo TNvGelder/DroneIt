@@ -58,15 +58,23 @@ namespace DroneControl {
 
             
             cmd.Execute();
-            dc.Stop(10);
+            
+            //dc.Stop(10);
             //DroneController dc = DroneController.Instance;
             //dc.Start();
             //Bitmap bm0 = dc.GetBitmapFromBottomCam();
             //bm0.Save("0bottom.png");
             //Bitmap bm1 = dc.GetBitmapFromFrontCam();
             //bm1.Save("0front.png");
+            while (true)
+            {
+                Console.Read();
+                start.Execute();
+                cmd.Execute();
 
-            Console.Read();
+
+            }
+           
         }
     }
 }
