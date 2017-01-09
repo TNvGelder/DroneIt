@@ -108,6 +108,8 @@ namespace DroneControl
                 droneCommandProcessor.AddCommand(commandFactory.makeCommand(c.name, c.value));
             }
             droneCommandProcessor.Execute();
+
+            ApiConnection.Instance.UpdateQualityCheck("Done");
         }
     }
 }
