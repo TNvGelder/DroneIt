@@ -16,7 +16,7 @@ app.controller("ProductOverviewController", function ($scope, $http, $location) 
 
 	//Go to the edit page.
 	$scope.EditProduct = function(Id) {
-		$location.path("/edit/" + Id);
+		$location.path("products/edit/" + Id);
 	}
 
 	//Delete a product after confirmation.

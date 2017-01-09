@@ -9,6 +9,11 @@ namespace DroneAPI.Models
         public double X;
         public double Y;
 
+        public Position(double x, double y)
+        {
+            X = x;
+            Y = y;
+        }
 
         public bool Equals(Position other)
         {

@@ -37,7 +37,9 @@ namespace DroneAPI.Migrations
                 return NotFound();
             }
 
-            return Ok(product);
+            Product returnProduct = new Product() { Id = product.Id, Name = product.Name };
+
+            return Ok(returnProduct);
         }
 
         // PUT: api/Products/5
