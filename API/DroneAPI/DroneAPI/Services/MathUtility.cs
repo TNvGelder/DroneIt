@@ -8,7 +8,7 @@ namespace DroneAPI.Services
         // Calculates distance between two positions
         public static double CalculateDistance(Position a, Position b)
         {
-            return Math.Sqrt(Math.Pow((a.X - b.X), 2.0) + Math.Pow(a.Y - b.Y, 2.0));
+            return Math.Sqrt(Math.Pow((a.X - b.X), 2.0) + Math.Pow(a.Y - b.Y, 2.0))/100;
         }
 
         // Calculate next direction for the drone to fly

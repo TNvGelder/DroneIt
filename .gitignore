@@ -48,3 +48,4 @@ DroneC#/DroneControl/AR.Drone.Video/obj/*
 DroneC#/DroneControl/AR.Drone.WinApp/bin/*
 DroneC#/DroneControl/AR.Drone.Video/obj/*
 *.user
+API/DroneAPI/DroneAPI/DroneAPI.csproj.user

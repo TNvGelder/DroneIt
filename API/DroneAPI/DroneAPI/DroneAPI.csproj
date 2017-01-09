@@ -118,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\WarehouseController.cs" />
     <Compile Include="Controllers\QualityCheckController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
@@ -126,15 +127,32 @@
     <Compile Include="DataStructures\GraphStructure\Graph.cs" />
     <Compile Include="DataStructures\GraphStructure\GraphNode.cs" />
     <Compile Include="DataStructures\PriorityQueue\BinaryHeap.cs" />
-    <Compile Include="Models\Command.cs" />
+    <Compile Include="Factorys\CommandFactory.cs" />
+    <Compile Include="Factorys\DistrictCommandFactory.cs" />
+    <Compile Include="Factorys\ICommandFactory.cs" />
     <Compile Include="Factorys\PathfinderFactory.cs" />
     <Compile Include="Migrations\201612011442047_init.cs" />
     <Compile Include="Migrations\201612011442047_init.Designer.cs">
       <DependentUpon>201612011442047_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612141240278_productlocation.cs" />
+    <Compile Include="Migrations\201612141240278_productlocation.Designer.cs">
+      <DependentUpon>201612141240278_productlocation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612201101170_qualitycheckmodel.cs" />
+    <Compile Include="Migrations\201612201101170_qualitycheckmodel.Designer.cs">
+      <DependentUpon>201612201101170_qualitycheckmodel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612211102215_qualitycheckstatus.cs" />
+    <Compile Include="Migrations\201612211102215_qualitycheckstatus.Designer.cs">
+      <DependentUpon>201612211102215_qualitycheckstatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Command.cs" />
     <Compile Include="Models\District.cs" />
     <Compile Include="Models\EdgeDal.cs" />
     <Compile Include="Models\GraphNodeDal.cs" />
+    <Compile Include="Models\ProductLocation.cs" />
+    <Compile Include="Models\QualityCheck.cs" />
     <Compile Include="Models\Warehouse.cs" />
     <Compile Include="Processors\DroneProcessors\DroneCommandProcessor.cs" />
     <Compile Include="Services\MathUtility.cs" />
@@ -165,6 +183,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201612011442047_init.resx">
       <DependentUpon>201612011442047_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612141240278_productlocation.resx">
+      <DependentUpon>201612141240278_productlocation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612201101170_qualitycheckmodel.resx">
+      <DependentUpon>201612201101170_qualitycheckmodel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612211102215_qualitycheckstatus.resx">
+      <DependentUpon>201612211102215_qualitycheckstatus.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
