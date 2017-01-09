@@ -18,12 +18,6 @@ using DroneControl.Commands;
 namespace DroneControl {
     class Program {
         static void Main(string[] args) {
-            //Bitmap myBmp = new Bitmap(Bitmap.FromFile("../../TestImage/BottomCamPhotoTest.png"));
-            //Bitmap myBmp = new Bitmap(Bitmap.FromFile("../../TestImage/LineLeftTest.png"));
-            //Bitmap myBmp = new Bitmap(Bitmap.FromFile("../../TestImage/YellowColorTest.jpg"));
-            //Bitmap myBmp = new Bitmap(Bitmap.FromFile("../../TestImage/MultiColorTest.png"));
-            //LineProcessor.ProcessLine(new Bitmap(myBmp));
-
             switch (Environment.OSVersion.Platform) {
                 case PlatformID.Win32NT:
                 case PlatformID.Win32S:
@@ -42,22 +36,20 @@ namespace DroneControl {
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Connection sockect for incoming commands
-            //ConnectionSocket cs = ConnectionSocket.Instance;
-            //cs.Start();
+            ConnectionSocket cs = ConnectionSocket.Instance;
+            cs.Start();
 
-            DroneController dc = DroneController.Instance;
-            dc.Start();
+            //DroneController dc = DroneController.Instance;
+            //dc.Start();
             //dc.Takeoff();
             //dc.Land();
-            StartCommand start = new StartCommand(dc);
-            FollowLineCommand cmd = new FollowLineCommand(dc);
+            //StartCommand start = new StartCommand(dc);
+            //FollowLineCommand cmd = new FollowLineCommand(dc);
             //LandCommand land = new LandCommand(dc);
-            start.Execute();
+            //start.Execute();
             //land.Execute();
-
-
             
-            cmd.Execute();
+            //cmd.Execute();
             
             //dc.Stop(10);
             //DroneController dc = DroneController.Instance;
@@ -66,15 +58,6 @@ namespace DroneControl {
             //bm0.Save("0bottom.png");
             //Bitmap bm1 = dc.GetBitmapFromFrontCam();
             //bm1.Save("0front.png");
-            while (true)
-            {
-                Console.Read();
-                start.Execute();
-                cmd.Execute();
-
-
-            }
-           
         }
     }
 }
