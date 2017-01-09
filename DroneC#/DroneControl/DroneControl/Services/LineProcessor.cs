@@ -18,7 +18,7 @@ namespace LineTrackingTest.Services
     /// </summary>
     class LineProcessor
     {
-        public static double _minPosRatio = .35;
+        public static double MaxPosRatio = .65;//Max allowed distance from side of picture to line
 
         private static int _regionHeight = 100;
         private static int _hue1 = 160;//170, 0
@@ -43,7 +43,7 @@ namespace LineTrackingTest.Services
             Image<Gray, Byte> imgHue = channels[0];
             Image<Gray, Byte> imgSat = channels[1];
 
-            Image<Gray, byte> hueFilter = imgHue.InRange(new Gray( _hue1), new Gray(_hue2));
+            Image<Gray, byte> hueFilter = imgHue.InRange(new Gray(_hue1), new Gray(_hue2));
             Image<Gray, byte> satFilter = imgSat.InRange(new Gray(_sat1), new Gray(_sat2));
             hueFilter = hueFilter.And(satFilter);
 
@@ -60,7 +60,7 @@ namespace LineTrackingTest.Services
                 img.Draw(line, new Bgr(Color.Green), 3);
             }
             img.Save("../../TestImage/OutputImage.png");
-            
+
             return lines;
         }
 
@@ -90,25 +90,28 @@ namespace LineTrackingTest.Services
                     if (leftLine.Side(line.P1) == -1)
                     {
                         leftLine = line;
-                    }else if (rightLine.Side(line.P1) == 1)
+                    }
+                    else if (rightLine.Side(line.P1) == 1)
                     {
                         rightLine = line;
                     }
                 }
-                double leftPosRatio = (double) leftLine.P1.X/width;
-                double rightPosRatio = (double) (width - rightLine.P1.X)/width;
-                if (leftPosRatio < _minPosRatio)
-                {
-                    result = PositioningState.Right;
-                }else if (rightPosRatio < _minPosRatio)
+                double leftPosRatio = (double)leftLine.P1.X / width;
+                double rightPosRatio = (double)(width - rightLine.P1.X) / width;
+
+                if (leftPosRatio > MaxPosRatio)
                 {
                     result = PositioningState.Left;
+                }
+                else if (rightPosRatio > MaxPosRatio)
+                {
+                    result = PositioningState.Right;
                 }
                 else
                 {
                     result = PositioningState.Correct;
                 }
-                
+
             }
 
             return result;
