@@ -44,10 +44,12 @@ namespace AR.Drone.WinApp
 
         public static void UpdateBitmap(ref Bitmap bitmap, ref VideoFrame frame)
         {
-            var rect = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
-            BitmapData data = bitmap.LockBits(rect, ImageLockMode.WriteOnly, bitmap.PixelFormat);
-            Marshal.Copy(frame.Data, 0, data.Scan0, frame.Data.Length);
-            bitmap.UnlockBits(data);
+            try {
+                var rect = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
+                BitmapData data = bitmap.LockBits(rect, ImageLockMode.WriteOnly, bitmap.PixelFormat);
+                Marshal.Copy(frame.Data, 0, data.Scan0, frame.Data.Length);
+                bitmap.UnlockBits(data);
+            } catch (Exception) { }
         }
     }
 }

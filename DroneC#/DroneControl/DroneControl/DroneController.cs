@@ -23,8 +23,9 @@ namespace DroneControl {
         private NavigationPacket _navigationPacket;
         private readonly VideoPacketDecoderWorker _videoPacketDecoderWorker;
         private VideoFrame _frame;
+        private int _frameNumber;
+        private string _frameTag;
         private Bitmap _frameBitmap;
-        public uint FrameNumber { get; private set; }
         private Thread _th;
         public string DataPath { get; private set; }
         public string LivePath { get; private set; }
@@ -69,19 +70,13 @@ namespace DroneControl {
 
             _droneClient = new DroneClient("192.168.1.1");
 
+            _frameNumber = 0;
+            DateTime dt = DateTime.Now;
+            _frameTag = dt.Year.ToString() + dt.Month.ToString("00") + dt.Day.ToString("00") + dt.Hour.ToString("00") + dt.Minute.ToString("00") + "_";
+
             _droneClient.NavigationPacketAcquired += OnNavigationPacketAcquired;
             _droneClient.VideoPacketAcquired += OnVideoPacketAcquired;
             _droneClient.NavigationDataAcquired += data => _navigationData = data;
-
-            _th = new Thread(takePicture);
-            _th.Start();
-        }
-
-        private void takePicture() {
-            while (true) {
-                this.SaveImage();
-                System.Threading.Thread.Sleep(100);
-            }
         }
 
         /// <summary>
@@ -203,6 +198,7 @@ namespace DroneControl {
                 //Console.WriteLine("North: " + North.ToString());
                 //Console.WriteLine("Current: " + CurrentDegrees.ToString());
                 //Console.WriteLine("Turn To: " + TurnTo.ToString());
+                Console.WriteLine("Turn " + TurnTo + " - " + CurrentDegrees);
 
                 int DistanceRight = 0;
                 int DistanceLeft = 0;
@@ -217,13 +213,13 @@ namespace DroneControl {
 
                 if (DistanceLeft < DistanceRight) {
                     _droneClient.Progress(FlightMode.Progressive, yaw: -0.1f);
-                    //Console.WriteLine("Go Left");
+                    Console.WriteLine("Go Left");
                 } else {
                     _droneClient.Progress(FlightMode.Progressive, yaw: 0.1f);
-                    //Console.WriteLine("Go Right");
+                    Console.WriteLine("Go Right");
                 }
                 if (CurrentDegrees == TurnTo) {
-                    //Console.WriteLine("FINISH");
+                    Console.WriteLine("FINISH");
                     break;
                 }
             }
@@ -307,7 +303,7 @@ namespace DroneControl {
         /// This method let hover the drone.
         /// </summary>
         /// <param name="Time"></param>
-        public void Hover(int Time = 5000)
+        public void Hover(int Time = 2000)
         {
             Console.WriteLine("Hover");
             _droneClient.Progress(FlightMode.Hover);
@@ -360,6 +356,7 @@ namespace DroneControl {
         private void OnVideoPacketDecoded(VideoFrame frame)
         {
             _frame = frame;
+            _frameNumber += 1;
             SaveImage();
         }
 
@@ -368,9 +365,8 @@ namespace DroneControl {
         /// </summary>
         public void SaveImage()
         {
-            if (_frame == null || FrameNumber == _frame.Number)
+            if (_frame == null)
                 return;
-            FrameNumber = _frame.Number;
 
             if (_frameBitmap == null)
                 _frameBitmap = VideoHelper.CreateBitmap(ref _frame);
@@ -380,7 +376,7 @@ namespace DroneControl {
             if (!Directory.Exists(DataPath))
                 System.IO.Directory.CreateDirectory(DataPath);
             
-            _frameBitmap.Save(DataPath + FrameNumber + ".png");
+            _frameBitmap.Save(DataPath + _frameTag + _frameNumber.ToString("000000") + ".png");
             
             if (!Directory.Exists(LivePath))
                 System.IO.Directory.CreateDirectory(LivePath);
@@ -413,13 +409,13 @@ namespace DroneControl {
         public Bitmap GetBitmapFromBottomCam() {
             setCameraTo(DroneCamera.Bottom);
 
-            int frameNumber = (int)FrameNumber + 5;
+            int frameNumber = (int)_frameNumber + 5;
             Bitmap bm;
             
             while (true) {
-                frameNumber = File.Exists("Data/" + frameNumber + ".png") ? frameNumber : frameNumber + 1;
+                frameNumber = File.Exists("Data/" + _frameTag + frameNumber.ToString("000000") + ".png") ? frameNumber : frameNumber + 1;
                 try {
-                    bm = new Bitmap("Data/" + frameNumber + ".png");
+                    bm = new Bitmap("Data/" + _frameTag + frameNumber.ToString("000000") + ".png");
                     break;
                 } catch (Exception) {
                     System.Threading.Thread.Sleep(100);
@@ -431,13 +427,13 @@ namespace DroneControl {
         public Bitmap GetBitmapFromFrontCam() {
             setCameraTo(DroneCamera.Front);
 
-            int frameNumber = (int)FrameNumber + 5;
+            int frameNumber = (int)_frameNumber + 5;
             Bitmap bm;
 
             while (true) {
                 try {
-                    frameNumber = File.Exists("Data/" + frameNumber + ".png") ? frameNumber : frameNumber + 1;
-                    bm = new Bitmap("Data/" + frameNumber + ".png");
+                    frameNumber = File.Exists("Data/" + _frameTag + frameNumber.ToString("000000") + ".png") ? frameNumber : frameNumber + 1;
+                    bm = new Bitmap("Data/" + _frameTag + frameNumber.ToString("000000") + ".png");
                     break;
                 } catch (Exception) {
                     System.Threading.Thread.Sleep(100);

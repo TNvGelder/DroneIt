@@ -36,21 +36,27 @@ namespace DroneControl {
             Application.SetCompatibleTextRenderingDefault(false);
             
             // Connection sockect for incoming commands
-            ConnectionSocket cs = ConnectionSocket.Instance;
-            cs.Start();
+            /*ConnectionSocket cs = ConnectionSocket.Instance;
+            cs.Start();*/
 
-            //DroneController dc = DroneController.Instance;
-            //dc.Start();
-            //dc.Takeoff();
-            //dc.Land();
+            DroneController dc = DroneController.Instance;
+            dc.Start();
+            System.Threading.Thread.Sleep(1000);
+            /*dc.Calibrate();
+            System.Threading.Thread.Sleep(1000);
+            dc.Takeoff();
+            System.Threading.Thread.Sleep(1000);
+            dc.Turn(45);
+            System.Threading.Thread.Sleep(1000);
+            dc.Land();*/
             //StartCommand start = new StartCommand(dc);
             //FollowLineCommand cmd = new FollowLineCommand(dc);
             //LandCommand land = new LandCommand(dc);
             //start.Execute();
             //land.Execute();
-            
+
             //cmd.Execute();
-            
+
             //dc.Stop(10);
             //DroneController dc = DroneController.Instance;
             //dc.Start();

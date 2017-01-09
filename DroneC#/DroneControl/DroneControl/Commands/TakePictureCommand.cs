@@ -10,7 +10,6 @@ namespace DroneControl.Commands {
         private DroneController _controller { get; set; }
         private int _id { get; set; }
         private Bitmap _bitmap;
-        private int _frameNumber;
         private string _subDestPath;
 
         public TakePictureCommand(DroneController controller, int id) {
@@ -21,22 +20,22 @@ namespace DroneControl.Commands {
 
         public void Execute() {
             ApiConnection.Instance.UpdateQualityCheck("Taking pictures");
+            Console.WriteLine("Cheese <:-)");
 
             _controller.Start();
             _bitmap = _controller.GetBitmapFromFrontCam();
-            _frameNumber = (int)_controller.FrameNumber;
             
             if (!Directory.Exists(_subDestPath))
                 Directory.CreateDirectory(_subDestPath);
 
-            _bitmap.Save(_subDestPath + _frameNumber + ".png");
+            _bitmap.Save(_subDestPath + "0.png");
 
-            ApiConnection.Instance.UpdateQualityCheck(_id, "DroneC#/DroneControl/DroneControl/bin/Debug/Data/" + _subDestPath);
+            ApiConnection.Instance.UpdateQualityCheck(_id, "DroneC#/DroneControl/DroneControl/bin/Debug/Images/" + _subDestPath);
         }
 
         public void Undo() {
-            if (!File.Exists(_subDestPath + _frameNumber + ".png"))
-                File.Delete(_subDestPath + _frameNumber + ".png");
+            if (!File.Exists(_subDestPath + "0.png"))
+                File.Delete(_subDestPath + "0.png");
         }
     }
 }
