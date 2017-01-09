@@ -20,6 +20,8 @@ namespace DroneControl.Commands {
         }
 
         public void Execute() {
+            ApiConnection.Instance.UpdateQualityCheck("Taking pictures");
+
             _controller.Start();
             _bitmap = _controller.GetBitmapFromFrontCam();
             _frameNumber = (int)_controller.FrameNumber;
@@ -28,6 +30,8 @@ namespace DroneControl.Commands {
                 Directory.CreateDirectory(_subDestPath);
 
             _bitmap.Save(_subDestPath + _frameNumber + ".png");
+
+            ApiConnection.Instance.UpdateQualityCheck(_id, "DroneC#/DroneControl/DroneControl/bin/Debug/Data/" + _subDestPath);
         }
 
         public void Undo() {

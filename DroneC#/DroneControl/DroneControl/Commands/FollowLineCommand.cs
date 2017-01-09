@@ -21,8 +21,9 @@ namespace DroneControl.Commands
 
         public void Execute()
         {
+            ApiConnection.Instance.UpdateQualityCheck("Follow line");
+
             followLine(true);
-            
         }
 
         public void Undo()

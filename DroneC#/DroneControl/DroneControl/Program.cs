@@ -34,7 +34,7 @@ namespace DroneControl {
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
+            
             // Connection sockect for incoming commands
             ConnectionSocket cs = ConnectionSocket.Instance;
             cs.Start();
