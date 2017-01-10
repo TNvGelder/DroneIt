@@ -31,7 +31,10 @@
         <div class="col-xs-8" id="district-text">
          {{ActiveQualitycheck.Status}}
         </div>
-    </div>   
+    </div>
+	<div class="row">
+		<img src="{{ActiveQualitycheck.PictureFolderUrl}}0.png" width="120" height="120" />
+	</div>
     <div class="row">
         <button id="btnExecute" name="btnExecute" class="btn btn-danger" ng-click="CancelQualityCheck()">Stop Quality check</button>
     </div>
