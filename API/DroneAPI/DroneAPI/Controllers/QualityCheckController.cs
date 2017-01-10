@@ -24,9 +24,9 @@ namespace DroneAPI.Controllers
         [EnableCors("*", "*", "POST")]
         [ResponseType(typeof(ProductLocation))]
 
-        public string PostQualityCheck(ProductLocation product)
+        public QualityCheck PostQualityCheck(ProductLocation product)
         {
-            if (db.QualityChecks.Any(d => d.EndDate == null)) return "";
+            if (db.QualityChecks.Any(d => d.EndDate == null)) return null;
 
             ProductLocation pr = db.Locations.Find(product.Id);
             QualityCheck qualitycheck = new QualityCheck();
@@ -40,7 +40,7 @@ namespace DroneAPI.Controllers
             // DataRow[] result = db.Locations.Select("Product_Id = "+productId);
             CreateCommands(qualitycheck);
 
-            return "yoyoyo";
+            return qualitycheck;
         }
 
         [EnableCors("*", "*", "PUT")]
