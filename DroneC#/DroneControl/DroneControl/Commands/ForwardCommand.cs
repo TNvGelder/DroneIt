@@ -17,6 +17,8 @@ namespace DroneControl.Commands
 
         public void Execute()
         {
+            ApiConnection.Instance.UpdateQualityCheck("Go forward " + _meters + " meters");
+
             _controller.Forward((float)_meters);
             _controller.Hover();
         }

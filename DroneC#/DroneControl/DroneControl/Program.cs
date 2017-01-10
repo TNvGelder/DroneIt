@@ -3,14 +3,17 @@ using AR.Drone.Avionics.Objectives;
 using AR.Drone.Client;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
+using LineTrackingTest.Services;
 using AR.Drone.Infrastructure;
 using System.Windows.Forms;
 using System.Drawing;
+using DroneControl.Commands;
 
 namespace DroneControl {
     class Program {
@@ -31,19 +34,36 @@ namespace DroneControl {
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
+            
             // Connection sockect for incoming commands
-            ConnectionSocket cs = ConnectionSocket.Instance;
-            cs.Start();
+            /*ConnectionSocket cs = ConnectionSocket.Instance;
+            cs.Start();*/
 
-            /*DroneController dc = DroneController.Instance;
+            DroneController dc = DroneController.Instance;
             dc.Start();
-            Bitmap bm0 = dc.getBitmapFromBottomCam();
-            bm0.Save("0bottom.png");
-            Bitmap bm1 = dc.getBitmapFromFrontCam();
-            bm1.Save("0front.png");*/
+            System.Threading.Thread.Sleep(1000);
+            /*dc.Calibrate();
+            System.Threading.Thread.Sleep(1000);
+            dc.Takeoff();
+            System.Threading.Thread.Sleep(1000);
+            dc.Turn(45);
+            System.Threading.Thread.Sleep(1000);
+            dc.Land();*/
+            //StartCommand start = new StartCommand(dc);
+            //FollowLineCommand cmd = new FollowLineCommand(dc);
+            //LandCommand land = new LandCommand(dc);
+            //start.Execute();
+            //land.Execute();
 
-            Console.Read();
+            //cmd.Execute();
+
+            //dc.Stop(10);
+            //DroneController dc = DroneController.Instance;
+            //dc.Start();
+            //Bitmap bm0 = dc.GetBitmapFromBottomCam();
+            //bm0.Save("0bottom.png");
+            //Bitmap bm1 = dc.GetBitmapFromFrontCam();
+            //bm1.Save("0front.png");
         }
     }
 }

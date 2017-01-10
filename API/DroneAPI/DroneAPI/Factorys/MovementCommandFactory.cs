@@ -36,7 +36,7 @@ namespace DroneAPI.Factorys
                 // Turn command. This sets the drone in the right direction.
                 result.Add(new Command { name = "Turn", value = Services.MathUtility.CalculateAngle(start, end) });
                 // Forward command. The meters the drone should travel to reach the next position.
-                result.Add(new Command { name = "Forward", value = Services.MathUtility.CalculateDistance(start, end) } );
+                result.Add(new Command { name = "Forward", value = 1 } );
             }
             return result;
         }

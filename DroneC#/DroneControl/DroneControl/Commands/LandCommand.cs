@@ -16,6 +16,8 @@ namespace DroneControl.Commands
 
         public void Execute()
         {
+            ApiConnection.Instance.UpdateQualityCheck("Landing");
+
             _controller.Land();
             _controller.Hover();
         }

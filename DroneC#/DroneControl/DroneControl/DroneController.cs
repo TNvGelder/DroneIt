@@ -23,8 +23,9 @@ namespace DroneControl {
         private NavigationPacket _navigationPacket;
         private readonly VideoPacketDecoderWorker _videoPacketDecoderWorker;
         private VideoFrame _frame;
+        private int _frameNumber;
+        private string _frameTag;
         private Bitmap _frameBitmap;
-        public uint FrameNumber { get; private set; }
         private Thread _th;
         public string DataPath { get; private set; }
         public string LivePath { get; private set; }
@@ -69,19 +70,13 @@ namespace DroneControl {
 
             _droneClient = new DroneClient("192.168.1.1");
 
+            _frameNumber = 0;
+            DateTime dt = DateTime.Now;
+            _frameTag = dt.Year.ToString() + dt.Month.ToString("00") + dt.Day.ToString("00") + dt.Hour.ToString("00") + dt.Minute.ToString("00") + "_";
+
             _droneClient.NavigationPacketAcquired += OnNavigationPacketAcquired;
             _droneClient.VideoPacketAcquired += OnVideoPacketAcquired;
             _droneClient.NavigationDataAcquired += data => _navigationData = data;
-
-            _th = new Thread(takePicture);
-            _th.Start();
-        }
-
-        private void takePicture() {
-            while (true) {
-                this.SaveImage();
-                System.Threading.Thread.Sleep(100);
-            }
         }
 
         /// <summary>
@@ -95,7 +90,15 @@ namespace DroneControl {
         }
 
         /// <summary>
-        /// Let the drone fly for a give amount of meters. 
+        /// Lets the drone fly forward
+        /// </summary>
+        public void Forward()
+        {
+            _droneClient.Progress(FlightMode.Progressive, pitch: -this.Speed);
+        }
+
+        /// <summary>
+        /// Lets the drone fly forward and waits until it has flown the given amount of meters
         /// The speed if from a constant value
         /// </summary>
         /// <param name="meters"></param>
@@ -104,28 +107,67 @@ namespace DroneControl {
             Console.WriteLine("For" + meters);
             float Time = meters / this.Speed * 200;
             Console.WriteLine(Time);
-            _droneClient.Progress(FlightMode.Progressive, pitch: -this.Speed);
+            Forward();
             System.Threading.Thread.Sleep((int)Time);
         }
 
+        /// <summary>
+        /// Lets the drone fly backwards.
+        /// </summary>
+        public void Backward()
+        {
+            _droneClient.Progress(FlightMode.Progressive, pitch: this.Speed);
+        }
+
+        /// <summary>
+        /// Lets the drone fly backwards and waits until it has flown the given amount of meters
+        /// The speed if from a constant value 
+        /// </summary>
+        /// <param name="meters"></param>
         public void Backward(float meters) {
             Console.WriteLine("Back");
             float Time = meters / this.Speed * 200;
-            _droneClient.Progress(FlightMode.Progressive, pitch: this.Speed);
+            Backward();
             System.Threading.Thread.Sleep(Convert.ToInt16(Time));
         }
 
+        /// <summary>
+        /// Lets the drone fly to the left.
+        /// </summary>
+        public void Left()
+        {
+            _droneClient.Progress(FlightMode.Progressive, roll: this.Speed/6);
+        }
+
+        /// <summary>
+        /// Lets the drone fly to the left and waits until it has flown the given amount of meters
+        /// The speed if from a constant value 
+        /// </summary>
+        /// <param name="meters"></param>
         public void Left(float meters) {
             Console.WriteLine("Left");
             float Time = meters / this.Speed * 200;
-            _droneClient.Progress(FlightMode.Progressive, roll: this.Speed);
+            Left();
             System.Threading.Thread.Sleep(Convert.ToInt16(Time));
         }
 
+        /// <summary>
+        /// Lets the drone fly to the right.
+        /// </summary>
+        public void Right()
+        {
+            _droneClient.Progress(FlightMode.Progressive, roll: -this.Speed/6);
+        }
+
+        /// <summary>
+        /// Lets the drone fly to the right and waits until it has flown the given amount of meters
+        /// The speed if from a constant value 
+        /// </summary>
+        /// <param name="meters"></param>
         public void Right(float meters) {
             Console.WriteLine("Left");
             float Time = meters / this.Speed * 200;
-            _droneClient.Progress(FlightMode.Progressive, roll: -this.Speed);
+            Right();
             System.Threading.Thread.Sleep(Convert.ToInt16(Time));
         }
 
@@ -150,12 +192,13 @@ namespace DroneControl {
             while (true)
             {
                 int CurrentDegrees = degreesConverter(Convert.ToInt16(_navigationData.Degrees));
-                Console.WriteLine(" ------------- ");
-                Console.WriteLine(" ------------- ");
-                Console.WriteLine(" ------------- ");
-                Console.WriteLine("North: " + North.ToString());
-                Console.WriteLine("Current: " + CurrentDegrees.ToString());
-                Console.WriteLine("Turn To: " + TurnTo.ToString());
+                //Console.WriteLine(" ------------- ");
+                //Console.WriteLine(" ------------- ");
+                //Console.WriteLine(" ------------- ");
+                //Console.WriteLine("North: " + North.ToString());
+                //Console.WriteLine("Current: " + CurrentDegrees.ToString());
+                //Console.WriteLine("Turn To: " + TurnTo.ToString());
+                Console.WriteLine("Turn " + TurnTo + " - " + CurrentDegrees);
 
                 int DistanceRight = 0;
                 int DistanceLeft = 0;
@@ -260,7 +303,7 @@ namespace DroneControl {
         /// This method let hover the drone.
         /// </summary>
         /// <param name="Time"></param>
-        public void Hover(int Time = 5000)
+        public void Hover(int Time = 2000)
         {
             Console.WriteLine("Hover");
             _droneClient.Progress(FlightMode.Hover);
@@ -313,6 +356,7 @@ namespace DroneControl {
         private void OnVideoPacketDecoded(VideoFrame frame)
         {
             _frame = frame;
+            _frameNumber += 1;
             SaveImage();
         }
 
@@ -321,9 +365,8 @@ namespace DroneControl {
         /// </summary>
         public void SaveImage()
         {
-            if (_frame == null || FrameNumber == _frame.Number)
+            if (_frame == null)
                 return;
-            FrameNumber = _frame.Number;
 
             if (_frameBitmap == null)
                 _frameBitmap = VideoHelper.CreateBitmap(ref _frame);
@@ -333,7 +376,7 @@ namespace DroneControl {
             if (!Directory.Exists(DataPath))
                 System.IO.Directory.CreateDirectory(DataPath);
             
-            _frameBitmap.Save(DataPath + FrameNumber + ".png");
+            _frameBitmap.Save(DataPath + _frameTag + _frameNumber.ToString("000000") + ".png");
             
             if (!Directory.Exists(LivePath))
                 System.IO.Directory.CreateDirectory(LivePath);
@@ -363,15 +406,16 @@ namespace DroneControl {
             }
         }
 
-        public Bitmap getBitmapFromBottomCam() {
+        public Bitmap GetBitmapFromBottomCam() {
             setCameraTo(DroneCamera.Bottom);
 
-            int frameNumber = (int)FrameNumber + 5;
+            int frameNumber = (int)_frameNumber + 5;
             Bitmap bm;
             
             while (true) {
+                frameNumber = File.Exists("Data/" + _frameTag + frameNumber.ToString("000000") + ".png") ? frameNumber : frameNumber + 1;
                 try {
-                    bm = new Bitmap("Data/" + frameNumber + ".png");
+                    bm = new Bitmap("Data/" + _frameTag + frameNumber.ToString("000000") + ".png");
                     break;
                 } catch (Exception) {
                     System.Threading.Thread.Sleep(100);
@@ -380,15 +424,16 @@ namespace DroneControl {
             return bm;
         }
 
-        public Bitmap getBitmapFromFrontCam() {
+        public Bitmap GetBitmapFromFrontCam() {
             setCameraTo(DroneCamera.Front);
 
-            int frameNumber = (int)FrameNumber + 5;
+            int frameNumber = (int)_frameNumber + 5;
             Bitmap bm;
 
             while (true) {
                 try {
-                    bm = new Bitmap("Data/" + frameNumber + ".png");
+                    frameNumber = File.Exists("Data/" + _frameTag + frameNumber.ToString("000000") + ".png") ? frameNumber : frameNumber + 1;
+                    bm = new Bitmap("Data/" + _frameTag + frameNumber.ToString("000000") + ".png");
                     break;
                 } catch (Exception) {
                     System.Threading.Thread.Sleep(100);

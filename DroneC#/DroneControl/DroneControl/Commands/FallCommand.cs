@@ -14,6 +14,8 @@ namespace DroneControl.Commands {
         }
 
         public void Execute() {
+            ApiConnection.Instance.UpdateQualityCheck("Fall " + _meters + " meters");
+
             _controller.Fall((float)_meters);
             _controller.Hover();
         }

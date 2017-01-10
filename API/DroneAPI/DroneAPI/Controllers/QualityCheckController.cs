@@ -48,7 +48,15 @@ namespace DroneAPI.Controllers
         public IHttpActionResult PutQualityCheck(QualityCheck qualitycheck)
         {
             QualityCheck ck = db.QualityChecks.Find(qualitycheck.Id);
-            ck.EndDate = DateTime.Now;
+            
+            if (qualitycheck.Status != null) {
+                ck.Status = qualitycheck.Status;
+                if (qualitycheck.Equals("Done"))
+                    ck.EndDate = DateTime.Now;
+            }
+
+            if (qualitycheck.PictureFolderUrl != null)
+                ck.PictureFolderUrl = qualitycheck.PictureFolderUrl;
 
             db.Entry(ck).State = EntityState.Modified;
 

@@ -17,6 +17,8 @@ namespace DroneControl.Commands
         }
 
         public void Execute() {
+            ApiConnection.Instance.UpdateQualityCheck("Turning to " + _degrees);
+
             _UndoDegrees = _controller.PointOfView;
             _controller.Turn(_degrees);
             _controller.Hover();

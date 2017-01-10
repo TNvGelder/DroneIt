@@ -14,6 +14,8 @@ namespace DroneControl.Commands {
         }
 
         public void Execute() {
+            ApiConnection.Instance.UpdateQualityCheck("Go left " + _meters + " meters");
+
             _controller.Left((int)_meters);
             _controller.Hover();
         }
