@@ -51,7 +51,7 @@ namespace DroneAPI.Controllers
             
             if (qualitycheck.Status != null) {
                 ck.Status = qualitycheck.Status;
-                if (qualitycheck.Equals("Done"))
+                if (qualitycheck.Status.Equals("Done"))
                     ck.EndDate = DateTime.Now;
             }
 
@@ -64,6 +64,7 @@ namespace DroneAPI.Controllers
 
             return Ok();
         }
+
         [EnableCors("*", "*", "GET")]
         [HttpGet]
         public string GetQualityCheck()
@@ -81,8 +82,6 @@ namespace DroneAPI.Controllers
             return s;
         }
 
-       
-
         // Create Commands
         private void CreateCommands(QualityCheck qc)
         {
@@ -94,19 +93,19 @@ namespace DroneAPI.Controllers
             LinkedList < Position > path = pathfinder.GetPath(startNode, this.GiveEndPosition(pl));
 
             // start command
-            _droneCommandProcessor.AddCommand(new Command { name = "Start" });
+            //_droneCommandProcessor.AddCommand(new Command { name = "Start" });
 
-            MovementCommandFactory mFactory = new MovementCommandFactory();
-            _droneCommandProcessor.AddListCommand(mFactory.GetMovementCommands(path));
+            //MovementCommandFactory mFactory = new MovementCommandFactory();
+            //_droneCommandProcessor.AddListCommand(mFactory.GetMovementCommands(path));
 
-            DistrictCommandFactory dFactory = new DistrictCommandFactory();
-            _droneCommandProcessor.AddListCommand(dFactory.GetCommands(GiveEndPosition(pl), pl));
+            //DistrictCommandFactory dFactory = new DistrictCommandFactory();
+            //_droneCommandProcessor.AddListCommand(dFactory.GetCommands(GiveEndPosition(pl), pl));
             
             // take picture command
             _droneCommandProcessor.AddCommand(new Command { name = "TakePicture", value = qc.Id });
 
             // land command
-            _droneCommandProcessor.AddCommand(new Command { name = "Land" });
+            //_droneCommandProcessor.AddCommand(new Command { name = "Land" });
             _droneCommandProcessor.Execute();
         }
 
