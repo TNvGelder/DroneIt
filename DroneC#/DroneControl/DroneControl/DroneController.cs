@@ -212,10 +212,10 @@ namespace DroneControl {
                 }
 
                 if (DistanceLeft < DistanceRight) {
-                    _droneClient.Progress(FlightMode.Progressive, yaw: -0.1f);
+                    _droneClient.Progress(FlightMode.Progressive, yaw: -0.2f);
                     Console.WriteLine("Go Left");
                 } else {
-                    _droneClient.Progress(FlightMode.Progressive, yaw: 0.1f);
+                    _droneClient.Progress(FlightMode.Progressive, yaw: 0.2f);
                     Console.WriteLine("Go Right");
                 }
                 if (CurrentDegrees == TurnTo) {
