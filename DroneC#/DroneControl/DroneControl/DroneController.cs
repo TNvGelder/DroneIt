@@ -198,7 +198,7 @@ namespace DroneControl {
                 //Console.WriteLine("North: " + North.ToString());
                 //Console.WriteLine("Current: " + CurrentDegrees.ToString());
                 //Console.WriteLine("Turn To: " + TurnTo.ToString());
-                Console.WriteLine("Turn " + TurnTo + " - " + CurrentDegrees);
+                //Console.WriteLine("Turn " + TurnTo + " - " + CurrentDegrees);
 
                 int DistanceRight = 0;
                 int DistanceLeft = 0;
@@ -210,18 +210,20 @@ namespace DroneControl {
                     DistanceRight = (360 - CurrentDegrees) + TurnTo;
                     DistanceLeft = CurrentDegrees - TurnTo;
                 }
-
+               // _droneClient.Progress(FlightMode.Progressive, yaw: 0.3f);
                 if (DistanceLeft < DistanceRight) {
                     _droneClient.Progress(FlightMode.Progressive, yaw: -0.2f);
-                    Console.WriteLine("Go Left");
+                    //Console.WriteLine("Go Left");
                 } else {
                     _droneClient.Progress(FlightMode.Progressive, yaw: 0.2f);
-                    Console.WriteLine("Go Right");
+                    //Console.WriteLine("Go Right");
                 }
                 if (CurrentDegrees == TurnTo) {
-                    Console.WriteLine("FINISH");
+                    //Console.WriteLine("FINISH");
                     break;
                 }
+
+                System.Threading.Thread.Sleep(10);
             }
         }
 
@@ -230,7 +232,7 @@ namespace DroneControl {
         /// The parameter time is the Threading time for wait.
         /// </summary>
         /// <param name="time"></param>
-        public void Takeoff(int time = 15000)
+        public void Takeoff(int time = 13000)
         {
             Console.WriteLine("Takeoff");
             _droneClient.Takeoff();
@@ -306,7 +308,7 @@ namespace DroneControl {
         public void Hover(int Time = 2000)
         {
             Console.WriteLine("Hover");
-            _droneClient.Progress(FlightMode.Hover);
+            _droneClient.Progress(FlightMode.Progressive, roll: 0, pitch: 0, yaw: 0, gaz: 0);
             System.Threading.Thread.Sleep(Time);
         }
 

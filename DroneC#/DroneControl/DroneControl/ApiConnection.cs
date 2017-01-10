@@ -28,7 +28,7 @@ namespace DroneControl {
         }
 
         private int getQualityCheckID() {
-            var request = (HttpWebRequest)WebRequest.Create("http://localhost:" + _port + "/api/QualityCheck/");
+            var request = (HttpWebRequest)WebRequest.Create("http://localhost:" + _port + "/api/QualityCheck/GetQualityCheck");
 
             var response = (HttpWebResponse)request.GetResponse();
 
@@ -39,7 +39,7 @@ namespace DroneControl {
         }
 
         public void UpdateQualityCheck(string status) {
-            var request = (HttpWebRequest)WebRequest.Create("http://localhost:" + _port + "/api/QualityCheck/" + getQualityCheckID());
+            var request = (HttpWebRequest)WebRequest.Create("http://localhost:" + _port + "/api/QualityCheck/PutQualityCheck/" + getQualityCheckID());
 
             var postData = "id=" + getQualityCheckID();
             postData += "&status=" + status;
@@ -59,7 +59,7 @@ namespace DroneControl {
         }
 
         public void UpdateQualityCheck(int id, string imagePath) {
-            var request = (HttpWebRequest)WebRequest.Create("http://localhost:" + _port + "/api/QualityCheck/" + id);
+            var request = (HttpWebRequest)WebRequest.Create("http://localhost:" + _port + "/api/QualityCheck/PutQualityCheck/" + id);
 
             var postData = "id=" + id;
             postData += "&PictureFolderUrl=" + imagePath;
