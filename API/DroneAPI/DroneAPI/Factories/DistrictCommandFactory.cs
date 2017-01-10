@@ -5,7 +5,7 @@ using System.Web;
 using DroneAPI.Processors.DroneProcessors;
 using DroneAPI.Models;
 
-namespace DroneAPI.Factorys
+namespace DroneAPI.Factories
 {
     /// <summary>
     /// Creates the commands for flying within a district

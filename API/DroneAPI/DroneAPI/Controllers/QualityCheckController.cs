@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Web.Http;
 using DroneAPI.Processors.DroneProcessors;
 using DroneAPI.Services;
-using DroneAPI.Factorys;
+using DroneAPI.Factories;
 using DroneAPI.DAL;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;

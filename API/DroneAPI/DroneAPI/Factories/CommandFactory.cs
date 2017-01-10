@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DroneAPI.Factorys
+namespace DroneAPI.Factories
 {
     public abstract class CommandFactory
     {
