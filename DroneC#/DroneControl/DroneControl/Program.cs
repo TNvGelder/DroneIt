@@ -36,12 +36,12 @@ namespace DroneControl {
             Application.SetCompatibleTextRenderingDefault(false);
             
             // Connection sockect for incoming commands
-            /*ConnectionSocket cs = ConnectionSocket.Instance;
-            cs.Start();*/
+            ConnectionSocket cs = ConnectionSocket.Instance;
+            cs.Start();
 
-            DroneController dc = DroneController.Instance;
-            dc.Start();
-            System.Threading.Thread.Sleep(1000);
+            //DroneController dc = DroneController.Instance;
+            //dc.Start();
+            //System.Threading.Thread.Sleep(1000);
             /*dc.Calibrate();
             System.Threading.Thread.Sleep(1000);
             dc.Takeoff();

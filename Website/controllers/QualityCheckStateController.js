@@ -21,7 +21,8 @@ app.controller("QualityCheckStateController", function ($scope, $http, $location
 	    );
 	}
 	
-	$scope.CancelQualityCheck = function() {		
+	$scope.CancelQualityCheck = function() {
+		$scope.ActiveQualitycheck.Status = "Done";
 		$http.put("http://localhost:62553/api/QualityCheck/PutQualityCheck", $scope.ActiveQualitycheck)
 		.then(
 			function successCallback(response) {				
