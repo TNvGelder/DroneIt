@@ -12,10 +12,64 @@ html{
 .dronehomeimage{
 	padding:25px;
 }
+.warehousecolumn span{
+	position: absolute;
+}
+.warehousecolumn{
+	display: inline-block;
+	text-align: center;
+	border:1px solid black;
+	border-top: 1px solid red;
+	position: relative;
+}
+.productframe{
+	display: none;
+	position: absolute;
+	border: 1px solid grey;
+	background: white;
+}
+
+.productbutton{
+	background:#5cb85c;
+	height:100%;
+	width:100%;
+	position: absolute;
+	cursor: pointer;
+}
+#warehousecanvas{
+	overflow: hidden;
+	position: relative;
+	background: #FFF;
+}
+
+.productframe{
+	z-index: 3;
+}
+.graphnodes{
+	position: absolute;
+	height: 100%;
+width: 100%;
+}
+.WarehouseDistrict{
+	position: absolute;
+	z-index: 2;
+}
+
+#startposition{
+	background: url("../content/images/droneicon.png") ;
+	background-size: 100%;
+	position: absolute;
+}
+.Node{
+	border-radius:100%;
+	position: absolute;
+	background: green;
+}
 
 .liveDronePath{
 	border: 1px solid #eee;
 	min-height: 400px;
+	padding: -1px;
 }
 
 html>body{
@@ -43,7 +97,13 @@ html>body{
    /* border: 1px solid #eee;*/
 }
 
-#qualitycheckProductSelect{
+.graphicview, .listview {
+	border-left: 1px solid #eee;
+border-right: 1px solid #eee;
+border-bottom: 1px solid #eee;
+}
+
+#qualitycheckProductSelect, #qualitycheckGraphicProductSelect{
 	height: 100%;
 }
 @media screen and (min-width: 560px) {

@@ -3,9 +3,47 @@ app.controller("QualityCheckOverviewController", function ($scope, $http, $locat
 	$scope.selectedWarehouse= null;
 	$scope.products = [];
 	$scope.selectedproduct = null;
+	$scope.selectedrow = null;
+	$scope.view = null;
 
 	$scope.ExecutedQualitycheck = null;
+	$scope.getNumber = function(num) {
+	    return new Array(num);   
+	}
 
+
+	$scope.showProductFrame = function(District,column) {	
+		$scope.selectedrow = $scope.getProductColumns(District,column);
+		console.log($scope.selectedrow);
+	}
+	$scope.getProductColumns = function(District,column) {
+	    var products = [];
+	    for (var i = 0; i < District.ProductLocations.length; i++) {
+	    	if(District.ProductLocations[i].Column == column){
+	    		products.push(District.ProductLocations[i]);
+	    	}
+	    }
+	    return products;
+	}
+
+	$( window ).resize(function() {
+ 		$scope.ResizeCanvas();
+	});
+
+	$scope.ResizeCanvas = function() {
+		var width = $("#warehousecanvas").width();
+  		var w = $scope.selectedWarehouse.Width;
+  		var h = 1000;
+  		var re = (100/w) * h;
+
+  		var Height = width / 100 * re;
+		console.log(Height);
+  		$("#warehousecanvas").height(Height);
+  		$(".producttr").parent().parent().parent().parent().find(".productbutton").show();
+
+  	
+
+	}
 	$scope.LoadWarehouses = function() {
 		$http.get("http://localhost:62553/api/Warehouse/GetWarehouses")
 		.then(
@@ -13,7 +51,9 @@ app.controller("QualityCheckOverviewController", function ($scope, $http, $locat
 		        $scope.warehouses = JSON.parse(response.data);
 		        console.log($scope.warehouses);
 		        $scope.selectedWarehouse = $scope.warehouses[0];
-		        $scope.UpdateWarehouseDrawing()
+		        $scope.UpdateWarehouseDrawing();
+ 				$scope.ResizeCanvas();
+
 		    }, 
 		    function errorCallback(response) {
 		    	alert("Geen verbinding met de API");
@@ -44,6 +84,7 @@ app.controller("QualityCheckOverviewController", function ($scope, $http, $locat
 
 	$scope.SelectProduct = function(selectedproduct) {
 		$scope.selectedproduct = selectedproduct;
+		$scope.selectedrow = null;
 	}
 
 	$scope.setGraphicView = function() {
@@ -51,7 +92,8 @@ app.controller("QualityCheckOverviewController", function ($scope, $http, $locat
 		$(".graphicviewmenu").addClass("active");
 		$(".graphicview").removeClass("hide");
 		$(".listview").addClass("hide");
-
+		$scope.view = "graphic";
+ 		$scope.ResizeCanvas();
 	}
 
 	$scope.setListView = function() {
@@ -59,17 +101,25 @@ app.controller("QualityCheckOverviewController", function ($scope, $http, $locat
 		$(".listviewmenu").addClass("active");
 		$(".listview").removeClass("hide");
 		$(".graphicview").addClass("hide");
+		$scope.view = "list";
+
+	}
+
+	$scope.drawWarehouse = function() {
+		
+		console.log($scope.selectedWarehouse);
+		console.log("drawing warehouse");
+		
+		
 	}
 
 	$scope.UpdateWarehouseDrawing = function() {
-		$scope.selectedproduct = null;
-
-		console.log($scope.selectedWarehouse);
-		console.log("drawing warehouse");	
+		$scope.selectedproduct = null;	
 
 		$scope.products = $scope.GetProductsFromWarehouse($scope.selectedWarehouse);
 		console.log($scope.products);
 
+		$scope.drawWarehouse();
 		$scope.setListView();
 	}
 

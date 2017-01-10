@@ -47,13 +47,62 @@
                     </table>
                 </div>
                 <div class="graphicview hide">
-                graphicview
+                    <div id="warehousecanvas" >
+                        <div id="startposition" style="height:{{(100/selectedWarehouse.Height)*100}}%; width:{{(100/selectedWarehouse.Width)*100}}%;  left:{{(100/selectedWarehouse.Width)*selectedWarehouse.StartNode.X}}%; bottom:{{(100/selectedWarehouse.Height) * selectedWarehouse.StartNode.Y}}%;">
+                        </div>
+                       <div class="WarehouseDistrict" ng-repeat="District in selectedWarehouse.Districts" style="height:{{(100/selectedWarehouse.Height)*100}}%; width:{{((100/selectedWarehouse.Width)*100) * District.Columns}}%; left:{{(100/selectedWarehouse.Width)*District.X}}%; bottom:{{(100/selectedWarehouse.Height) * District.Y}}%; transform: rotate({{District.Orientation}}deg); transform-origin: 0% 100%; " >     <div class="warehousecolumn" style="height:100%; width:{{100/ District.Columns}}%;" ng-repeat="i in getNumber(District.Columns) track by $index">
+                                <div class="productbutton" ng-click="showProductFrame(District,$index+1)" ng-show="getProductColumns(District,$index+1).length > 0">
+                                
+                               </div>
+          
+                                <span>{{$index+1}}</span>
+                            </div>
+                       </div>
+                        <div class="graphnodes" ng-repeat="District in selectedWarehouse.Districts" >
+                            <div class="startNode Node" style="height:{{(100/selectedWarehouse.Height)*25}}%; width:{{(100/selectedWarehouse.Width)*25}}%;  left:{{(100/selectedWarehouse.Width)*District.StartGraphNode.X}}%; bottom:{{(100/selectedWarehouse.Height) * District.StartGraphNode.Y}}%;">
+                            </div>
+                             <div class="endNode Node" style="height:{{(100/selectedWarehouse.Height)*25}}%; width:{{(100/selectedWarehouse.Width)*25}}%;  left:{{(100/selectedWarehouse.Width)*District.EndGraphNode.X}}%; bottom:{{(100/selectedWarehouse.Height) * District.EndGraphNode.Y}}%;">
+                            </div>
+                       </div>
+                    </div>
                 </div>
             </div>
         </div>
-         <div class="col-md-4 alert alert-info" ng-show="selectedproduct == null" >
+        <div class="col-md-4 alert alert-info" ng-show="selectedrow == null && view == 'graphic' && selectedproduct == null" >
+            Select a Column
+         </div>
+         <div class="col-md-4 alert alert-info" ng-show="(view == 'list' && selectedproduct == null) || (view == 'graphic' && selectedproduct == null && selectedrow != null)" >
             Select a product.
          </div>
+        <div class="col-md-4" id="qualitycheckGraphicProductSelect"  ng-show="selectedrow != null" >     
+            <h2> Column</h2>
+            <hr/>
+           <table class="table table-bordered table-hover table-striped" style="width:100%;">
+                <thead>
+                    <tr>                       
+                        <th>Name</th>
+                        <th>District</th>
+                        <th>Column</th>
+                        <th>Row</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="producttr" ng-repeat="productlocation in selectedrow"> 
+                        <td>{{productlocation.Product.Name}}</td>                              
+                        <td>{{productlocation.District}}</td>                              
+                        <td>{{productlocation.Column}}</td>                              
+                        <td>{{productlocation.Row}}</td>                              
+                        <td>
+                            <div class="btn-group">
+                                <a class="btn btn-primary" ng-click="SelectProduct(productlocation)">Select</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>                                   
+                               
+        </div>
         <div class="col-md-4" id="qualitycheckProductSelect"  ng-show="selectedproduct != null">
             <h2> Product</h2>
             <hr/>
