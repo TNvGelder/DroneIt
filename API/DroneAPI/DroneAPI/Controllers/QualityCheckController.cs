@@ -82,6 +82,23 @@ namespace DroneAPI.Controllers
             return s;
         }
 
+        [EnableCors("*", "*", "GET")]
+        [HttpGet]
+        public string GetQualityChecks()
+        {
+            List<QualityCheck> q = db.QualityChecks.Where(d => d.EndDate != null).OrderByDescending(z=>z.EndDate).ToList();
+
+            if (q == null) return "null";
+
+            var s = JsonConvert.SerializeObject(q, Formatting.Indented,
+                   new JsonSerializerSettings
+                   {
+                       ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                   });
+
+            return s;
+        }
+
         // Create Commands
         private void CreateCommands(QualityCheck qc)
         {

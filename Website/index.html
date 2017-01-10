@@ -31,7 +31,7 @@
 	            <div class="collapse navbar-collapse navbar-ex1-collapse">
 	                <ul class="nav navbar-nav side-nav">
 	                  	<li >
-	                        <a href="#/qualitycheck"><i class="fa fa-fw fa-dashboard"></i> Quality check</a>
+	                        <a href="#/qualitycheckindex"><i class="fa fa-fw fa-dashboard"></i> Quality check</a>
 	                    </li>
 	                    <!--<li>
 	                        <a href="#/warehouse"><i class="fa fa-fw fa-building"></i> Warehouse Management</a>
@@ -63,6 +63,14 @@
 			        templateUrl : "pages/QualityCheckOverview.html", 
 			        controller : "QualityCheckOverviewController"
 			    })
+			    .when("/qualitycheckindex/", {
+			        templateUrl : "pages/QualityCheckIndex.html", 
+			        controller : "QualityCheckIndexController"
+			    })
+			    .when("/qualitycheckhistory/", {
+			        templateUrl : "pages/QualityCheckHistory.html", 
+			        controller : "QualityCheckHistoryController"
+			    })
 			    .when("/products/", {
 			        templateUrl : "pages/ProductOverview.html", 
 			        controller : "ProductOverviewController"
@@ -82,6 +90,8 @@
 		</script>
 
 		<script type="text/javascript" src="controllers/HomeController.js"></script>
+		<script type="text/javascript" src="controllers/QualityCheckIndexController.js"></script>
+		<script type="text/javascript" src="controllers/QualityCheckHistoryController.js"></script>
 		<script type="text/javascript" src="controllers/ProductOverviewController.js"></script>
 		<script type="text/javascript" src="controllers/QualityCheckStateController.js"></script>
 		<script type="text/javascript" src="controllers/QualityCheckOverviewController.js"></script>

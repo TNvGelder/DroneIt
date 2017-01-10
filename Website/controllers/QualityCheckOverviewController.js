@@ -93,6 +93,8 @@ app.controller("QualityCheckOverviewController", function ($scope, $http, $locat
 		$(".graphicview").removeClass("hide");
 		$(".listview").addClass("hide");
 		$scope.view = "graphic";
+		$scope.selectedproduct = null;
+		$scope.selectedrow = null;	
  		$scope.ResizeCanvas();
 	}
 
@@ -102,15 +104,14 @@ app.controller("QualityCheckOverviewController", function ($scope, $http, $locat
 		$(".listview").removeClass("hide");
 		$(".graphicview").addClass("hide");
 		$scope.view = "list";
+		$scope.selectedproduct = null;	
+		$scope.selectedrow = null;
 
 	}
 
-	$scope.drawWarehouse = function() {
-		
+	$scope.drawWarehouse = function() {		
 		console.log($scope.selectedWarehouse);
-		console.log("drawing warehouse");
-		
-		
+		console.log("drawing warehouse");				
 	}
 
 	$scope.UpdateWarehouseDrawing = function() {
@@ -132,7 +133,9 @@ app.controller("QualityCheckOverviewController", function ($scope, $http, $locat
 				$location.path("QualityCheckState");
 		    }, 
 		    function errorCallback(response) {
-		    	alert("Something went wrong.")
+		    	//alert("Something went wrong.")
+
+				$location.path("QualityCheckState");
 		    	console.log(response);		    
 		    }
 		);

@@ -118,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\QualityChecksController.cs" />
     <Compile Include="Controllers\WarehouseController.cs" />
     <Compile Include="Controllers\QualityCheckController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
