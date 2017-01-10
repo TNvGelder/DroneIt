@@ -1,6 +1,7 @@
 Debug/
 Release/
 obj/
+Website/images/
 *.cache
 API/DroneAPI/DroneAPI/bin/DroneAPI.dll.config
 *.pdb
