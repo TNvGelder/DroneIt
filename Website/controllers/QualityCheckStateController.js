@@ -10,8 +10,7 @@ app.controller("QualityCheckStateController", function ($scope, $http, $location
 		        if(response.data == "null"){
 					$location.path("qualitycheck");
 		        }else{
-		       	 	$scope.ActiveQualitycheck = JSON.parse(response.data);
-		        	console.log($scope.ActiveQualitycheck);		        	
+		       	 	$scope.ActiveQualitycheck = JSON.parse(response.data);	        	
 		        }
 		    }, 
 		    function errorCallback(response) {
@@ -26,9 +25,7 @@ app.controller("QualityCheckStateController", function ($scope, $http, $location
 		$http.put("http://localhost:62553/api/QualityCheck/PutQualityCheck", $scope.ActiveQualitycheck)
 		.then(
 			function successCallback(response) {				
-		        console.log(response);		             
-		 
-					$location.path("qualitycheck");
+		        $location.path("qualitycheck");
 		    }, 
 		    function errorCallback(response) {
 		    	alert("Geen verbinding met de API");		 
@@ -37,8 +34,9 @@ app.controller("QualityCheckStateController", function ($scope, $http, $location
 	    );
 	}
 
-
 	$scope.GetActiveQualitycheck();
-
+	setInterval(function(){
+		$scope.GetActiveQualitycheck();
+	}, 1000);
 });
 
