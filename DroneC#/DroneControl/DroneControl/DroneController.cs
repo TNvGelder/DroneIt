@@ -203,6 +203,8 @@ namespace DroneControl {
             if (TurnTo >= 360) {
                 TurnTo -= 360;
             }
+            Console.WriteLine("North " + North);
+            Console.WriteLine("TurnTo " + TurnTo);
 
             while (true)
             {

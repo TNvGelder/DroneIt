@@ -121,20 +121,16 @@ namespace DroneAPI.Controllers
             
             // start command
             _droneCommandProcessor.AddCommand(new Command { name = "Start" });
-            /*
+            
             MovementCommandFactory mFactory = new MovementCommandFactory();
             _droneCommandProcessor.AddListCommand(mFactory.GetMovementCommands(path));
 
             DistrictCommandFactory dFactory = new DistrictCommandFactory();
             _droneCommandProcessor.AddListCommand(dFactory.GetCommands(GiveEndPosition(pl), pl));
-            */
-            _droneCommandProcessor.AddCommand(new Command { name = "Forward", value = 2 });
-            _droneCommandProcessor.AddCommand(new Command { name = "Backward", value = 2 });
-
-
+            
             // take picture command
-            //_droneCommandProcessor.AddCommand(new Command { name = "TakePicture", value = qc.Id });
-            _droneCommandProcessor.AddCommand(new Command { name = "Turn", value = 90 });
+            _droneCommandProcessor.AddCommand(new Command { name = "TakePicture", value = qc.Id });
+
             // land command
             _droneCommandProcessor.AddCommand(new Command { name = "Land" });
             _droneCommandProcessor.Execute();

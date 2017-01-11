@@ -19,7 +19,6 @@ namespace DroneControl.Commands
             ApiConnection.Instance.UpdateQualityCheck("Landing");
 
             _controller.Land();
-            _controller.Hover();
         }
 
         public void Undo()

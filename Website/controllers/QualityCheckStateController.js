@@ -35,8 +35,8 @@ app.controller("QualityCheckStateController", function ($scope, $http, $location
 	}
 
 	$scope.GetActiveQualitycheck();
-	/*setInterval(function(){
+	setInterval(function(){
 		$scope.GetActiveQualitycheck();
-	}, 1000);*/
+	}, 1000);
 });
 
