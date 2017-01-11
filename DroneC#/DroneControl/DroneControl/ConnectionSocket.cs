@@ -109,7 +109,8 @@ namespace DroneControl
             }
             droneCommandProcessor.Execute();
 
-            //ApiConnection.Instance.UpdateQualityCheck("Done");
+            ApiConnection.Instance.UpdateQualityCheck("Done");
+            Console.WriteLine("Done");
         }
     }
 }

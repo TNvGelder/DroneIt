@@ -54,12 +54,12 @@ namespace DroneAPI.Controllers
                 if (qualitycheck.Status.Equals("Done"))
                     ck.EndDate = DateTime.Now;
             }
-
+            
             if (qualitycheck.PictureFolderUrl != null)
                 ck.PictureFolderUrl = qualitycheck.PictureFolderUrl;
 
             db.Entry(ck).State = EntityState.Modified;
-
+            
             db.SaveChanges();
 
             return Ok();
@@ -80,6 +80,16 @@ namespace DroneAPI.Controllers
                    });
 
             return s;
+        }
+
+        [EnableCors("*", "*", "GET")]
+        [HttpGet]
+        public string GetQualityCheckID() {
+            QualityCheck q = db.QualityChecks.Where(d => d.EndDate == null).FirstOrDefault();
+
+            if (q == null) return "null";
+
+            return q.Id.ToString();
         }
 
         [EnableCors("*", "*", "GET")]
@@ -108,19 +118,23 @@ namespace DroneAPI.Controllers
             
             Position startNode = new Position(pl.District.Warehouse.StartNode.X, pl.District.Warehouse.StartNode.Y);
             LinkedList < Position > path = pathfinder.GetPath(startNode, this.GiveEndPosition(pl));
-
+            
             // start command
             _droneCommandProcessor.AddCommand(new Command { name = "Start" });
-
+            /*
             MovementCommandFactory mFactory = new MovementCommandFactory();
             _droneCommandProcessor.AddListCommand(mFactory.GetMovementCommands(path));
 
             DistrictCommandFactory dFactory = new DistrictCommandFactory();
             _droneCommandProcessor.AddListCommand(dFactory.GetCommands(GiveEndPosition(pl), pl));
+            */
+            _droneCommandProcessor.AddCommand(new Command { name = "Forward", value = 2 });
+            _droneCommandProcessor.AddCommand(new Command { name = "Backward", value = 2 });
+
 
             // take picture command
-            _droneCommandProcessor.AddCommand(new Command { name = "TakePicture", value = qc.Id });
-
+            //_droneCommandProcessor.AddCommand(new Command { name = "TakePicture", value = qc.Id });
+            _droneCommandProcessor.AddCommand(new Command { name = "Turn", value = 90 });
             // land command
             _droneCommandProcessor.AddCommand(new Command { name = "Land" });
             _droneCommandProcessor.Execute();
