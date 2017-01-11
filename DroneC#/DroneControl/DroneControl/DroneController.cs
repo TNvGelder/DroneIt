@@ -9,7 +9,9 @@ using AR.Drone.Media;
 using AR.Drone.WinApp;
 using System.IO;
 using System.Threading;
+using System.Windows.Forms;
 using AR.Drone.Client.Configuration;
+using DroneControl.Models;
 
 namespace DroneControl {
     enum DroneCamera { Front, Bottom }
@@ -18,7 +20,8 @@ namespace DroneControl {
     {
         private static volatile DroneController _instance;
         private static object syncRoot = new Object();
-        public readonly float Speed = 0.1F;
+        
+        private float _speed = 0.1F;
         private DroneClient _droneClient;
         private NavigationPacket _navigationPacket;
         private readonly VideoPacketDecoderWorker _videoPacketDecoderWorker;
@@ -29,6 +32,12 @@ namespace DroneControl {
         private Thread _th;
         public string DataPath { get; private set; }
         public string LivePath { get; private set; }
+
+        public float Speed
+        {
+            get { return _speed; }
+            set { _speed = value; }
+        }
         private DroneCamera _camera { get; set; }
         public NavigationData _navigationData { get; private set; }
         public int North { get; private set; }
@@ -111,6 +120,23 @@ namespace DroneControl {
             System.Threading.Thread.Sleep((int)Time);
         }
 
+        public void Move(FlyDirection direction)
+        {
+            if (direction == FlyDirection.Forward)
+            {
+                Forward();
+            }else if (direction == FlyDirection.Backward)
+            {
+                Backward();
+            }else if (direction == FlyDirection.Left)
+            {
+                Left();
+            }else if (direction == FlyDirection.Right)
+            {
+                Right();
+            }
+        }
+
         /// <summary>
         /// Lets the drone fly backwards.
         /// </summary>
@@ -146,6 +172,7 @@ namespace DroneControl {
         /// <param name="meters"></param>
         public void Left(float meters) {
             Console.WriteLine("Left");
+            
             float Time = meters / this.Speed * 200;
             Left();
             System.Threading.Thread.Sleep(Convert.ToInt16(Time));
@@ -311,6 +338,7 @@ namespace DroneControl {
             _droneClient.Progress(FlightMode.Progressive, roll: 0, pitch: 0, yaw: 0, gaz: 0);
             System.Threading.Thread.Sleep(Time);
         }
+
 
         /// <summary>
         /// This method will handle every packet that's coming from the drone.
