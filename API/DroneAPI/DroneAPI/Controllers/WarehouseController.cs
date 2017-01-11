@@ -31,6 +31,21 @@ namespace DroneAPI.Controllers
             return s;
         }
 
-      
+        [EnableCors("*", "*", "GET")]
+        [HttpGet]
+        public string GetWarehouse(int id)
+        {
+            Warehouse warehouses = db.Warehouses.Find(id);
+
+            // format warehouses to json, this is used because not all properties are needed
+            var s = JsonConvert.SerializeObject(warehouses, Formatting.Indented,
+                            new JsonSerializerSettings
+                            {
+                                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                            });
+            return s;
+        }
+
+
     }
 }

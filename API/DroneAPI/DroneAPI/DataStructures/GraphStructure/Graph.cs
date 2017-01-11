@@ -106,6 +106,24 @@ namespace DroneAPI.DataStructures.GraphStructure
             return result;
         }
 
+        public List<T> GetPathList(T startValue, T endValue)
+        {
+            Dijkstra(startValue, endValue);
+            List<T> result = new List<T>();
+            GraphNode<T> currentNode = getNode(endValue);
+            if (currentNode.Prev != null)//There is a path between startValue and endValue
+            {
+                result.Add(currentNode.Value);
+                while (currentNode.Prev != null)
+                {
+                    currentNode = currentNode.Prev;
+                    result.Add(currentNode.Value);
+                }
+            }
+            result.Reverse();
+            return result;
+        }
+
         //Returns the node or creates the node if it does not exist.
         private GraphNode<T> getNode(T value)
         {

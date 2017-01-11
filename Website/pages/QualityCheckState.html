@@ -8,8 +8,29 @@
 </div>
 
 <div class="row">
+  
    <div class="col-md-8 liveDronePath">
-   live drone path
+    <div ng-show="loaded == null" class="text-center top-buffer"> <i class=" fa fa-spinner fa-pulse fa-5x"></i></div>
+
+                    <div id="warehousecanvas" >
+                        <div id="startposition" style="height:{{(100/activeWarehouse.Height)*100}}%; width:{{(100/activeWarehouse.Width)*100}}%;  left:{{(100/activeWarehouse.Width)*activeWarehouse.StartNode.X}}%; bottom:{{(100/activeWarehouse.Height) * activeWarehouse.StartNode.Y}}%;">
+                        </div>
+                       <div class="WarehouseDistrict" ng-repeat="District in activeWarehouse.Districts" style="height:{{(100/activeWarehouse.Height)*100}}%; width:{{((100/activeWarehouse.Width)*100) * District.Columns}}%; left:{{(100/activeWarehouse.Width)*District.X}}%; bottom:{{(100/activeWarehouse.Height) * District.Y}}%; transform: rotate({{District.Orientation}}deg); transform-origin: 0% 100%; " >     <div class="warehousecolumn" style="height:100%; width:{{100/ District.Columns}}%;" ng-repeat="i in getNumber(District.Columns) track by $index">
+                                <div class="productbutton"  ng-show="getActiveProduct(District,$index+1).length > 0">
+                               </div>          
+                                <span>{{$index+1}}</span>
+                            </div>
+                       </div>
+                        <div class="graphnodes" ng-repeat="District in activeWarehouse.Districts" >
+                            <div class="startNode Node" style="height:{{(100/activeWarehouse.Height)*25}}%; width:{{(100/activeWarehouse.Width)*25}}%;  left:{{(100/activeWarehouse.Width)*District.StartGraphNode.X}}%; bottom:{{(100/activeWarehouse.Height) * District.StartGraphNode.Y}}%;">
+                            </div>
+                             <div class="endNode Node" style="height:{{(100/activeWarehouse.Height)*25}}%; width:{{(100/activeWarehouse.Width)*25}}%;  left:{{(100/activeWarehouse.Width)*District.EndGraphNode.X}}%; bottom:{{(100/activeWarehouse.Height) * District.EndGraphNode.Y}}%;">
+                            </div>
+                       </div>
+                    </div>
+                    <canvas id="hiddencanvas">
+                    </canvas>
+                
    </div>
    <div class="col-md-4 LiveDroneStatus">
     <h2> Live Status</h2>

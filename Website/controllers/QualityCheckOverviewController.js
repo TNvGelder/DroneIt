@@ -33,17 +33,19 @@ app.controller("QualityCheckOverviewController", function ($scope, $http, $locat
 	$scope.ResizeCanvas = function() {
 		var width = $("#warehousecanvas").width();
   		var w = $scope.selectedWarehouse.Width;
-  		var h = 1000;
+  		var h = $scope.selectedWarehouse.Height;
+  		
   		var re = (100/w) * h;
 
   		var Height = width / 100 * re;
 		console.log(Height);
   		$("#warehousecanvas").height(Height);
-  		$(".producttr").parent().parent().parent().parent().find(".productbutton").show();
-
-  	
+  		$(".producttr").parent().parent().parent().parent().find(".productbutton").show(); 	
 
 	}
+
+
+
 	$scope.LoadWarehouses = function() {
 		$http.get("http://localhost:62553/api/Warehouse/GetWarehouses")
 		.then(
@@ -77,7 +79,6 @@ app.controller("QualityCheckOverviewController", function ($scope, $http, $locat
 		    function errorCallback(response) {
 		    	alert("Geen verbinding met de API");
 		    	console.log(response);
-
 		    }
 	    );
 	}
@@ -106,7 +107,6 @@ app.controller("QualityCheckOverviewController", function ($scope, $http, $locat
 		$scope.view = "list";
 		$scope.selectedproduct = null;	
 		$scope.selectedrow = null;
-
 	}
 
 	$scope.drawWarehouse = function() {		
@@ -134,7 +134,6 @@ app.controller("QualityCheckOverviewController", function ($scope, $http, $locat
 		    }, 
 		    function errorCallback(response) {
 		    	//alert("Something went wrong.")
-
 				$location.path("QualityCheckState");
 		    	console.log(response);		    
 		    }
@@ -148,7 +147,6 @@ app.controller("QualityCheckOverviewController", function ($scope, $http, $locat
 			for (var x = 0; x < warehouse.Districts[i].ProductLocations.length; x++) {
 				warehouse.Districts[i].ProductLocations[x].District = warehouse.Districts[i].Name;
 				products.push(warehouse.Districts[i].ProductLocations[x]);
-
 			}
 		}
 		return products;

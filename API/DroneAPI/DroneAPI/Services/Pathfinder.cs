@@ -38,5 +38,10 @@ namespace DroneAPI.Services
         {
             return _pathGraph.GetPath(startPosition, endPosition);
         }
+
+        public List<Position> GetPathList(Position startPosition, Position endPosition)
+        {
+            return _pathGraph.GetPathList(startPosition, endPosition);
+        }
     }
 }

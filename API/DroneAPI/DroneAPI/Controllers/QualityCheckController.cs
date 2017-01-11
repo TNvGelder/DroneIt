@@ -108,6 +108,7 @@ namespace DroneAPI.Controllers
             
             Position startNode = new Position(pl.District.Warehouse.StartNode.X, pl.District.Warehouse.StartNode.Y);
             LinkedList < Position > path = pathfinder.GetPath(startNode, this.GiveEndPosition(pl));
+            List<Position> path2 = pathfinder.GetPathList(startNode, this.GiveEndPosition(pl));
 
             // start command
             _droneCommandProcessor.AddCommand(new Command { name = "Start" });
