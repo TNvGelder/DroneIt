@@ -108,7 +108,18 @@ namespace DroneAPI.Controllers
             
             Position startNode = new Position(pl.District.Warehouse.StartNode.X, pl.District.Warehouse.StartNode.Y);
             LinkedList < Position > path = pathfinder.GetPath(startNode, this.GiveEndPosition(pl));
+
+
+            // save path to qualitycheck for webpage view
             List<Position> path2 = pathfinder.GetPathList(startNode, this.GiveEndPosition(pl));
+            var s = JsonConvert.SerializeObject(path2, Formatting.Indented,
+            new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+            qc.JSONPath = s;
+            db.Entry(qc).State = EntityState.Modified;
+            db.SaveChanges();
 
             // start command
             _droneCommandProcessor.AddCommand(new Command { name = "Start" });

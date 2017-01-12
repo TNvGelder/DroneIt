@@ -110,6 +110,86 @@ namespace DroneAPI.Migrations
                 context.SaveChanges();
             }
 
+            if(context.Warehouses.ToList().Count < 2)
+            {
+                // Instantiate Nodes
+                GraphNodeDal start = new GraphNodeDal { X = 400, Y = 150, Edges = new List<EdgeDal>() };
+                GraphNodeDal startDistrict1 = new GraphNodeDal { X = 300, Y = 1200, Edges = new List<EdgeDal>() };
+                GraphNodeDal endDistrict1 = new GraphNodeDal { X = 300, Y = 300, Edges = new List<EdgeDal>() };
+                GraphNodeDal startDistrict2 = new GraphNodeDal { X = 500, Y = 300, Edges = new List<EdgeDal>() };
+                GraphNodeDal endDistrict2 = new GraphNodeDal { X = 500, Y = 1200, Edges = new List<EdgeDal>() };        
+
+                context.GraphNodes.AddOrUpdate(p => p.Id, start, startDistrict1, endDistrict1, startDistrict2, endDistrict2);
+                context.SaveChanges();
+
+                EdgeDal district1edge1 = new EdgeDal { DestinationGraphNode = endDistrict1 };
+                EdgeDal district1edge2 = new EdgeDal { DestinationGraphNode = startDistrict1 };
+                EdgeDal district2edge1 = new EdgeDal { DestinationGraphNode = endDistrict2 };
+                EdgeDal district2edge2 = new EdgeDal { DestinationGraphNode = startDistrict2 };
+                EdgeDal startedge1 = new EdgeDal { DestinationGraphNode = endDistrict1 };
+                EdgeDal startedge2 = new EdgeDal { DestinationGraphNode = startDistrict2 };
+
+                context.Edges.AddOrUpdate(p => p.Id, district1edge1, district1edge2, district2edge1, district2edge2, startedge1, startedge2);
+                context.SaveChanges();
+
+                startDistrict1.Edges.Add(district1edge1);
+                startDistrict2.Edges.Add(district2edge1);       
+                endDistrict2.Edges.Add(district2edge2);
+                endDistrict1.Edges.Add(district1edge2);
+                start.Edges.Add(startedge1);
+                start.Edges.Add(startedge2);
+
+                context.GraphNodes.AddOrUpdate(p => p.Id, start, startDistrict1, endDistrict1, startDistrict2, endDistrict2);
+                context.SaveChanges();
+
+                // Warehouse
+                Warehouse warehouse = new Warehouse();
+                warehouse.Name = "Warehouse Demo";
+                warehouse.Height = 1300;
+                warehouse.Width = 800;
+                warehouse.StartNode = start;
+
+                context.Warehouses.AddOrUpdate(p => p.Name, warehouse);
+                context.SaveChanges();
+
+                // Districts
+                District district1 = new District { StartGraphNode = startDistrict1, EndGraphNode = endDistrict1, Name = "Left District", Orientation = 90, X = 100, Y = 1200, Columns = 9, Rows = 2, Warehouse = warehouse };
+                District district2 = new District { StartGraphNode = startDistrict2, EndGraphNode = endDistrict2, Name = "Right District", Orientation = 270, X = 700, Y = 300, Columns = 9, Rows = 2, Warehouse = warehouse };
+                context.Districts.AddOrUpdate(p => p.Name, district1, district2);
+                context.SaveChanges();
+
+                startDistrict1.District = district1;
+                endDistrict1.District = district1;
+                startDistrict2.District = district2;
+                endDistrict2.District = district2;
+
+                context.Edges.AddOrUpdate(p => p.Id, district1edge1, district1edge2, district2edge1, district2edge2 ,startedge1, startedge2);
+                context.SaveChanges();
+
+                // Add some products
+                Product p1 = new Product() { Name = "Banaan" };
+                Product p2 = new Product() { Name = "Fietsband" };
+                Product p3 = new Product() { Name = "River Ice Tea" };
+                Product p4 = new Product() { Name = "Asus Laptops" };
+                Product p5 = new Product() { Name = "AR Drone" };
+                Product p6 = new Product() { Name = "Coca cola Light" };
+                Product p7 = new Product() { Name = "Logitech G35" };
+                Product p8 = new Product() { Name = "Koffie" };
+
+                context.Products.AddOrUpdate(p1, p2, p3, p4, p5, p6, p7, p8);
+                context.SaveChanges();
+
+                // Assign locations to the products
+                ProductLocation pl1 = new ProductLocation() { Product = p1, Column = 2, Row = 2, District = district1 };
+                ProductLocation pl2 = new ProductLocation() { Product = p2, Column = 6, Row = 1, District = district1 };
+                ProductLocation pl3 = new ProductLocation() { Product = p3, Column = 4, Row = 1, District = district2 };
+                ProductLocation pl4 = new ProductLocation() { Product = p4, Column = 1, Row = 2, District = district2 };
+                ProductLocation pl5 = new ProductLocation() { Product = p5, Column = 5, Row = 2, District = district2 };
+
+                context.Locations.AddOrUpdate(pl1, pl2, pl3, pl4, pl5);
+                context.SaveChanges();
+            }
+
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 

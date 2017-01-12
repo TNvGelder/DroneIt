@@ -13,5 +13,6 @@ namespace DroneAPI.Models
         public virtual ProductLocation ProductLocation { get; set; }
         public string Status { get; set; }
         public string PictureFolderUrl { get; set; }
+        public string JSONPath { get; set; }
     }
 }

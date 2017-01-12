@@ -147,6 +147,10 @@
     <Compile Include="Migrations\201612211102215_qualitycheckstatus.Designer.cs">
       <DependentUpon>201612211102215_qualitycheckstatus.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701111240289_JsonQualitypath.cs" />
+    <Compile Include="Migrations\201701111240289_JsonQualitypath.Designer.cs">
+      <DependentUpon>201701111240289_JsonQualitypath.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Command.cs" />
     <Compile Include="Models\District.cs" />
     <Compile Include="Models\EdgeDal.cs" />
@@ -192,6 +196,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612211102215_qualitycheckstatus.resx">
       <DependentUpon>201612211102215_qualitycheckstatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701111240289_JsonQualitypath.resx">
+      <DependentUpon>201701111240289_JsonQualitypath.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
