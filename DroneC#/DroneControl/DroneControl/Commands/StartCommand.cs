@@ -16,7 +16,7 @@ namespace DroneControl.Commands
 
         public void Execute() {
             ApiConnection.Instance.UpdateQualityCheck("Starting the engines");
-
+            Sound.Instance.R2D2f();
             _controller.Start();
             _controller.Calibrate();
             _controller.Takeoff();

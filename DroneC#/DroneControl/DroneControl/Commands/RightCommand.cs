@@ -16,7 +16,7 @@ namespace DroneControl.Commands
 
         public void Execute() {
             ApiConnection.Instance.UpdateQualityCheck("Go right " + _meters + " meters");
-
+            Sound.Instance.R2D2e();
             _controller.Right((int)_meters);
             _controller.Hover();
         }

@@ -18,7 +18,7 @@ namespace DroneControl.Commands
 
         public void Execute() {
             ApiConnection.Instance.UpdateQualityCheck("Turning to " + _degrees);
-
+            Sound.Instance.R2D2b();
             _UndoDegrees = _controller.PointOfView;
             _controller.TurnToWorldDegrees(_degrees);
             _controller.Hover();

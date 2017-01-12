@@ -42,6 +42,10 @@
     <Reference Include="Emgu.CV.World">
       <HintPath>..\..\..\emgucv-windesktop 3.1.0.2282\bin\Emgu.CV.World.dll</HintPath>
     </Reference>
+    <Reference Include="Interop.WMPLib">
+      <HintPath>.\Interop.WMPLib.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -80,6 +84,7 @@
     <Compile Include="Services\LineNavigator.cs" />
     <Compile Include="Services\LineProcessor.cs" />
     <Compile Include="ApiConnection.cs" />
+    <Compile Include="Sound.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

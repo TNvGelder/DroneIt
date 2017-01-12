@@ -17,7 +17,7 @@ namespace DroneControl.Commands
         public void Execute()
         {
             ApiConnection.Instance.UpdateQualityCheck("Landing");
-
+            Sound.Instance.R2D2f();
             _controller.Land();
         }
 

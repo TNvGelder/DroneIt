@@ -15,7 +15,7 @@ namespace DroneControl.Commands {
 
         public void Execute() {
             ApiConnection.Instance.UpdateQualityCheck("Rise " + _meters + " meters");
-
+            Sound.Instance.R2D2c();
             _controller.Rise((float)_meters);
             _controller.Hover();
         }

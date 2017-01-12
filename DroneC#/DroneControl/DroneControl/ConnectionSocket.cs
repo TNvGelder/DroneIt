@@ -110,6 +110,7 @@ namespace DroneControl
             droneCommandProcessor.Execute();
 
             ApiConnection.Instance.UpdateQualityCheck("Done");
+            Sound.Instance.R2D2a();
             Console.WriteLine("Done");
         }
     }

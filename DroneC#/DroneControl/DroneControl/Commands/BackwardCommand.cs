@@ -18,7 +18,7 @@ namespace DroneControl.Commands
         public void Execute()
         {
             ApiConnection.Instance.UpdateQualityCheck("Go backward " + _meters + " meters");
-
+            Sound.Instance.R2D2e();
             _controller.Backward((float)_meters);
             _controller.Hover();
         }

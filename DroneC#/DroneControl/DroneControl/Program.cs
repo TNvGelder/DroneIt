@@ -1,18 +1,6 @@
-﻿using AR.Drone.Avionics;
-using AR.Drone.Avionics.Objectives;
-using AR.Drone.Client;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net;
-using System.Net.Sockets;
-using LineTrackingTest.Services;
+﻿using System;
 using AR.Drone.Infrastructure;
 using System.Windows.Forms;
-using DroneControl.Commands;
 
 namespace DroneControl {
     class Program {
