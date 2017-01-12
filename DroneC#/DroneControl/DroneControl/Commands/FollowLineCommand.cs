@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using DroneControl.Models;
+using DroneControl.Services;
 using Emgu.CV;
 using LineTrackingTest.Models;
 using LineTrackingTest.Services;
@@ -33,27 +35,45 @@ namespace DroneControl.Commands
 
         //private void 
 
+        private FlyDirection getDirection(PositioningState state)
+        {
+            if (state == PositioningState.Left)
+            {
+                return FlyDirection.Right;
+            }
+            else if (state == PositioningState.Right)
+            {
+                return FlyDirection.Left;
+            }
+            else
+            {
+                return FlyDirection.None;
+            }
+        }
+
+        private bool onLost(PositioningState state)
+        {
+            FlyDirection direction = getDirection(state);
+            return !LineNavigator.FindLine(_controller, 2, direction); //Try to find back the line
+           
+        }
+
         private void followLine(bool isForward)
         {
-            //_controller.Forward();
-            bool lineEndReached = false;
             PositioningState prevState = PositioningState.Init;
             int startPointOfView = _controller.PointOfView;
+            bool landed = false;
             Console.WriteLine("StartCamDetect");
-            while (!lineEndReached)
+            Bitmap bmp = _controller.GetBitmapFromBottomCam();
+            while (!CircleProcessor.IsCircleInCenter(bmp) && !landed)
             {
-                //getbitmap
-                Bitmap bmp = _controller.GetBitmapFromBottomCam();
                 PositioningState state = LineProcessor.ProcessLine(bmp);
                 
-                Console.WriteLine(state);
                 System.Threading.Thread.Sleep(10);
                 if (state != prevState)
                 {
-                    prevState = state;
-                    switch (state)
-                    {
-                        case PositioningState.Correct:
+                    Console.WriteLine(state);
+                    if ( state == PositioningState.Correct) { 
                             if (isForward)
                             {
                                 _controller.Forward();
@@ -62,30 +82,32 @@ namespace DroneControl.Commands
                             {
                                 _controller.Backward();
                             }
-                            //System.Threading.Thread.Sleep(100);
                             Console.WriteLine("Forward");
-                            break;
-                        case PositioningState.Lost:
-                            lineEndReached = true;
-                            Console.WriteLine("Land");
-                            _controller.Land();
-                            break;
-                        case PositioningState.Left:
-                            Console.WriteLine("Turn + left");
-                            //_controller.Turn(startPointOfView);
-                            _controller.Left();
-                            break;
-                        case PositioningState.Right:
-                            Console.WriteLine("Turn + right");
-                            //_controller.Turn(startPointOfView);
-                            _controller.Right();
-                            break;
                     }
-
+                    else if (state == PositioningState.Lost)
+                    {
+                        landed = onLost(prevState);
+                    }
+                    else
+                    {
+                        _controller.Speed = 0.1F/6;
+                        if (state == PositioningState.Left)
+                        {
+                            Console.WriteLine("'To the right");
+                            _controller.Right();
+                        }
+                        else if (state == PositioningState.Right)
+                        {
+                            Console.WriteLine("To the left");
+                            _controller.Left();
+                        }
+                    }
+                   
+                    prevState = state;
 
                 }
-                
 
+                bmp = _controller.GetBitmapFromBottomCam();
             }
             Console.WriteLine("Done");
         }

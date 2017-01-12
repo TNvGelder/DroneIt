@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net.Mime;
 using System.Text;
@@ -26,7 +27,9 @@ namespace LineTrackingTest.Services
         private static int _sat1 = 100;//100, 150
         private static int _sat2 = 200;//200, 255
 
-        
+        private static int count = 0;
+
+        private static string path = "ImageProcessing/";
 
         /// <summary>
         /// Tries to find the line in the image and returns a group of lines at the edges of the detected line.
@@ -35,11 +38,12 @@ namespace LineTrackingTest.Services
         /// <returns></returns>
         private static LineSegment2D[] filterLines(Image<Bgr, Byte> img)
         {
-            img.Save("../../TestImage/DroneInput.png");
+            if (!Directory.Exists(path))
+                System.IO.Directory.CreateDirectory(path);
             Image<Hsv, Byte> hsvImage = img.Convert<Hsv, Byte>();
             int width = img.Size.Width;
             //hsvImage.ROI = new Rectangle(0, img.Size.Height / 2 - _regionHeight / 2, width, _regionHeight);
-            hsvImage.Save("../../TestImage/FilteredImage.png");
+            //hsvImage.Save("../../TestImage/FilteredImage.png");
 
             Image<Gray, Byte>[] channels = hsvImage.Split();
             Image<Gray, Byte> imgHue = channels[0];
@@ -47,7 +51,10 @@ namespace LineTrackingTest.Services
 
             Image<Gray, byte> hueFilter = imgHue.InRange(new Gray(_hue1), new Gray(_hue2));
             Image<Gray, byte> satFilter = imgSat.InRange(new Gray(_sat1), new Gray(_sat2));
-            hueFilter = hueFilter.And(satFilter);
+            //hueFilter.Save("../../TestImage/GrayImage.png");
+            hueFilter = channels[2].InRange(new Gray(0), new Gray(30)); ;
+            
+            //hueFilter = hueFilter.And(satFilter);
 
             CvInvoke.Dilate(hueFilter, hueFilter, null, new Point(), 1, BorderType.Default, default(MCvScalar));
             CvInvoke.Erode(hueFilter, hueFilter, null, new Point(), 2, BorderType.Default, default(MCvScalar));
@@ -61,18 +68,19 @@ namespace LineTrackingTest.Services
             {
                 img.Draw(line, new Bgr(Color.Green), 3);
             }
-            img.Save("../../TestImage/OutputImage.png");
-
+            img.Save(path + "OutputImage"+count+".png");
+            
             return lines;
         }
 
         /// <summary>
-        /// Takes a bitmap of a line to check where the drone flies
+        /// Takes a bitmap of a line to check where the drone flies compared to the line
         /// </summary>
         /// <param name="bitmap"></param>
         /// <returns>PositioningState</returns>
         public static PositioningState ProcessLine(Bitmap bitmap)
         {
+            
             Image<Bgr, Byte> img = new Image<Bgr, Byte>(bitmap);
             int width = img.Size.Width;
 
@@ -115,84 +123,20 @@ namespace LineTrackingTest.Services
                 }
 
             }
-
+            img.Save(path + "DroneInput" + count + result+ ".png");
+            count+= 1;
             return result;
         }
 
-        public static bool IsCircleInCenter(Bitmap bitmap)
-        {
-            Image<Bgr, Byte> img = new Image<Bgr, Byte>(bitmap);
+        
 
-            img.Save("../../TestImage/DroneInput.png");
-            Image<Hsv, Byte> hsvImage = img.Convert<Hsv, Byte>();
-
-            hsvImage.Save("../../TestImage/FilteredImage.png");
-
-            Image<Gray, Byte>[] channels = hsvImage.Split();
-            Image<Gray, Byte> imgGray = channels[2];
-            //Image<Gray, Byte> imgHue = channels[0];
-            //Image<Gray, Byte> imgSat = channels[1];
-            //Image<Gray, byte> hueFilter = imgHue.And(imgSat);
-            //Image<Gray, byte> hueFilter = imgHue.InRange(new Gray(_hue1), new Gray(_hue2));
-            //Image<Gray, byte> satFilter = imgSat.InRange(new Gray(_sat1), new Gray(_sat2));
-            //hueFilter = hueFilter.And(satFilter);
-            imgGray = imgGray.InRange(new Gray(0), new Gray(20));
-
-            CvInvoke.Dilate(imgGray, imgGray, null, new Point(), 1, BorderType.Default, default(MCvScalar));
-            CvInvoke.Erode(imgGray, imgGray, null, new Point(), 2, BorderType.Default, default(MCvScalar));
-            CvInvoke.Blur(imgGray, imgGray, new Size(20, 20), new Point());
-            CircleF[]circles = imgGray.HoughCircles(new Gray(12), new Gray(260), 1, 10,50,50)[0];
-            img = imgGray.Convert<Bgr, Byte>();
-            foreach (CircleF circle in circles)
-            {
-                img.Draw(circle, new Bgr(Color.Green), 3);
-            }
-            img.Save("../../TestImage/OutputImage.png");
-
-            return true;
-        }
-
-        public static bool Test(Bitmap bitmap)
-        {
-            Image<Bgr, Byte> img = new Image<Bgr, Byte>(bitmap);
-            img.Save("../../TestImage/DroneInput.png");
-            Image<Hsv, Byte> hsvImage = img.Convert<Hsv, Byte>();
-
-            hsvImage.Save("../../TestImage/FilteredImage.png");
-
-            Image<Gray, Byte>[] channels = hsvImage.Split();
-            Image<Gray, Byte> Img_Source_Gray = channels[0];
-            Image<Bgr, byte> Img_Result_Bgr = new Image<Bgr, byte>(Img_Source_Gray.Width, Img_Source_Gray.Height);
-            //CvInvoke.CvtColor();
-            //CvInvoke.CvtColor(Img_Source_Gray.Ptr, Img_Result_Bgr.Ptr, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
-            Gray cannyThreshold = new Gray(12);
-            Gray circleAccumulatorThreshold = new Gray(26);
-            double Resolution = 1;
-            double MinDistance = 10.0;
-            int MinRadius = 0;
-            int MaxRadius = 0;
-
-            CircleF[] HoughCircles = Img_Source_Gray.HoughCircles(
-                                    cannyThreshold,
-                                    circleAccumulatorThreshold,
-                                    Resolution, //Resolution of the accumulator used to detect centers of the circles
-                                    MinDistance, //min distance 
-                                    MinRadius, //min radius
-                                    MaxRadius //max radius
-                                    )[0]; //Get the circles from the first channel
-            #region draw circles
-            foreach (CircleF circle in HoughCircles)
-                Img_Result_Bgr.Draw(circle, new Bgr(Color.Red), 2);
-            #endregion
-
-            //imageBox1.Image = Img_Result_Bgr;
-            return true;
-        }
 
         public static bool IsLineVisible(Bitmap bitmap)
         {
             Image<Bgr, Byte> img = new Image<Bgr, Byte>(bitmap);
             LineSegment2D[] lines = filterLines(img);
+            img.Save(path + "DroneInput" + count + ".png");
+            count += 1;
             return (lines.Length > 0);
         }
     }

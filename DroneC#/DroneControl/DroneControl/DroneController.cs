@@ -118,23 +118,7 @@ namespace DroneControl {
             System.Threading.Thread.Sleep((int)Time);
         }
 
-        public void Move(FlyDirection direction)
-        {
-            if (direction == FlyDirection.Forward)
-            {
-                Forward();
-            }else if (direction == FlyDirection.Backward)
-            {
-                Backward();
-            }else if (direction == FlyDirection.Left)
-            {
-                Left();
-            }else if (direction == FlyDirection.Right)
-            {
-                Right();
-            }
-        }
-
+        
         /// <summary>
         /// Lets the drone fly backwards.
         /// </summary>
@@ -160,7 +144,7 @@ namespace DroneControl {
         /// </summary>
         public void Left()
         {
-            _droneClient.Progress(FlightMode.Progressive, roll: this.Speed/6);
+            _droneClient.Progress(FlightMode.Progressive, roll: this.Speed);
         }
 
         /// <summary>
@@ -181,7 +165,7 @@ namespace DroneControl {
         /// </summary>
         public void Right()
         {
-            _droneClient.Progress(FlightMode.Progressive, roll: -this.Speed/6);
+            _droneClient.Progress(FlightMode.Progressive, roll: -this.Speed);
         }
 
         /// <summary>

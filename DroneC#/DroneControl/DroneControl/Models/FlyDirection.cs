@@ -10,6 +10,7 @@ namespace DroneControl.Models
         Forward,
         Backward,
         Left,
-        Right
+        Right,
+        None
     }
 }
