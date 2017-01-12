@@ -20,7 +20,7 @@ namespace DroneControl {
     {
         private static volatile DroneController _instance;
         private static object syncRoot = new Object();
-        private float _speed = 0.1f;
+        private float _speed = 0.05f;
         private DroneClient _droneClient;
         private NavigationPacket _navigationPacket;
         private readonly VideoPacketDecoderWorker _videoPacketDecoderWorker;
@@ -144,7 +144,7 @@ namespace DroneControl {
         /// </summary>
         public void Left()
         {
-            _droneClient.Progress(FlightMode.Progressive, roll: this.Speed);
+            _droneClient.Progress(FlightMode.Progressive, roll: -this.Speed);
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace DroneControl {
         /// </summary>
         public void Right()
         {
-            _droneClient.Progress(FlightMode.Progressive, roll: -this.Speed);
+            _droneClient.Progress(FlightMode.Progressive, roll: this.Speed);
         }
 
         /// <summary>

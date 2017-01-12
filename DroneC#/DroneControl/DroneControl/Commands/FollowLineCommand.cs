@@ -60,6 +60,7 @@ namespace DroneControl.Commands
 
         private void followLine(bool isForward)
         {
+            float oldSpeed = _controller.Speed;
             PositioningState prevState = PositioningState.Init;
             int startPointOfView = _controller.PointOfView;
             bool landed = false;
@@ -101,6 +102,7 @@ namespace DroneControl.Commands
                             Console.WriteLine("To the left");
                             _controller.Left();
                         }
+                        _controller.Speed = oldSpeed;
                     }
                    
                     prevState = state;
