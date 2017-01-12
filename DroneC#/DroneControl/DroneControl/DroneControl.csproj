@@ -58,7 +58,6 @@
     <Compile Include="Command.cs" />
     <Compile Include="Commands\BackwardCommand.cs" />
     <Compile Include="Commands\FallCommand.cs" />
-    <Compile Include="Commands\FindLineCommand.cs" />
     <Compile Include="Commands\FollowLineCommand.cs" />
     <Compile Include="Commands\ForwardCommand.cs" />
     <Compile Include="Commands\IDroneCommand.cs" />
