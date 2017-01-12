@@ -8,13 +8,11 @@ app.controller("QualityCheckStateController", function ($scope, $http, $location
 	$scope.GetActiveQualitycheckState = function() {
 		$http.get("http://localhost:62553/api/QualityCheck/GetQualityCheck")
 		.then(
-			function successCallback(response) {				
-		        console.log(response);	
-		        if(response.data == "null"){
+			function successCallback(response) {	
+		        if(response.data == "null" && response.data == 0){
 					$location.path("qualitycheck");
 		        }else{
-
-		       	 	$scope.ActiveQualitycheck = JSON.parse(response.data);	         	
+					$scope.ActiveQualitycheck = JSON.parse(response.data);	         	
 		       	 	console.log($scope.activeWarehouse);
 		       	 	if( $scope.activeWarehouse == null){
 						$scope.LoadWarehouse();

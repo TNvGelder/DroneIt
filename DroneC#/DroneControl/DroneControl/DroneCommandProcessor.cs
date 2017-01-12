@@ -14,15 +14,18 @@ namespace DroneControl {
     public class DroneCommandProcessor
     {
         private Queue<IDroneCommand> _commands;
+        private Stack<IDroneCommand> _commandsUndo;
         private Thread _th { get; set; }
 
         public DroneCommandProcessor() {
             _commands = new Queue<IDroneCommand>();
+            _commandsUndo = new Stack<IDroneCommand>();
             _th = new Thread(Executing);
         }
 
         public void AddCommand(IDroneCommand command) {
-            this._commands.Enqueue(command);
+            _commands.Enqueue(command);
+            _commandsUndo.Push(command);
         }
 
         public void AddListCommand(List<IDroneCommand> commands) {
@@ -32,12 +35,19 @@ namespace DroneControl {
         }
         
         public void Execute() {
-            _th.Start();
+            //_th.Start();
+            Executing();
         }
 
         public void Executing() {
             while (_commands.Count > 0) {
                 _commands.Dequeue().Execute();
+            }
+        }
+
+        public void Undo() {
+            while (_commandsUndo.Count > 0) {
+                _commandsUndo.Pop().Undo();
             }
         }
     }

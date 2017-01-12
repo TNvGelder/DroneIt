@@ -28,13 +28,13 @@ namespace DroneControl {
         }
 
         private int getQualityCheckID() {
-            var request = (HttpWebRequest)WebRequest.Create("http://localhost:" + _port + "/api/QualityCheck/GetQualityCheck");
+            var request = (HttpWebRequest)WebRequest.Create("http://localhost:" + _port + "/api/QualityCheck/GetQualityCheckID");
 
             var response = (HttpWebResponse)request.GetResponse();
 
             var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
-            int id = int.Parse(responseString.Substring(responseString.LastIndexOf("Id") + 6, 1));
+            int id = int.Parse(responseString.Substring(1, responseString.Length - 2));
             return id;
         }
 
@@ -42,7 +42,7 @@ namespace DroneControl {
             var request = (HttpWebRequest)WebRequest.Create("http://localhost:" + _port + "/api/QualityCheck/PutQualityCheck/" + getQualityCheckID());
 
             var postData = "id=" + getQualityCheckID();
-            postData += "&status=" + status;
+            postData += "&Status=" + status;
             var data = Encoding.ASCII.GetBytes(postData);
 
             request.Method = "PUT";
@@ -58,7 +58,7 @@ namespace DroneControl {
             var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
         }
 
-        public void UpdateQualityCheck(int id, string imagePath) {
+        public void UpdateQualityCheckImagePath(int id, string imagePath) {
             var request = (HttpWebRequest)WebRequest.Create("http://localhost:" + _port + "/api/QualityCheck/PutQualityCheck/" + id);
 
             var postData = "id=" + id;

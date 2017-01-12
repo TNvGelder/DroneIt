@@ -20,8 +20,7 @@ namespace DroneControl {
     {
         private static volatile DroneController _instance;
         private static object syncRoot = new Object();
-        
-        private float _speed = 0.1F;
+        private float _speed = 0.1f;
         private DroneClient _droneClient;
         private NavigationPacket _navigationPacket;
         private readonly VideoPacketDecoderWorker _videoPacketDecoderWorker;
@@ -32,7 +31,6 @@ namespace DroneControl {
         private Thread _th;
         public string DataPath { get; private set; }
         public string LivePath { get; private set; }
-
         public float Speed
         {
             get { return _speed; }
@@ -111,10 +109,10 @@ namespace DroneControl {
         /// The speed if from a constant value
         /// </summary>
         /// <param name="meters"></param>
-        public void Forward(float meters)
+        public void Forward(double meters)
         {
             Console.WriteLine("For" + meters);
-            float Time = meters / this.Speed * 200;
+            double Time = meters / this.Speed * 200;
             Console.WriteLine(Time);
             Forward();
             System.Threading.Thread.Sleep((int)Time);
@@ -150,9 +148,9 @@ namespace DroneControl {
         /// The speed if from a constant value 
         /// </summary>
         /// <param name="meters"></param>
-        public void Backward(float meters) {
+        public void Backward(double meters) {
             Console.WriteLine("Back");
-            float Time = meters / this.Speed * 200;
+            double Time = meters / this.Speed * 200;
             Backward();
             System.Threading.Thread.Sleep(Convert.ToInt16(Time));
         }
@@ -170,10 +168,10 @@ namespace DroneControl {
         /// The speed if from a constant value 
         /// </summary>
         /// <param name="meters"></param>
-        public void Left(float meters) {
+        public void Left(double meters) {
             Console.WriteLine("Left");
-            
-            float Time = meters / this.Speed * 200;
+
+            double Time = meters / this.Speed * 200;
             Left();
             System.Threading.Thread.Sleep(Convert.ToInt16(Time));
         }
@@ -191,67 +189,56 @@ namespace DroneControl {
         /// The speed if from a constant value 
         /// </summary>
         /// <param name="meters"></param>
-        public void Right(float meters) {
+        public void Right(double meters) {
             Console.WriteLine("Left");
-            float Time = meters / this.Speed * 200;
+            double Time = meters / this.Speed * 200;
             Right();
             System.Threading.Thread.Sleep(Convert.ToInt16(Time));
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="time"></param>
-        public void FlatTrim(int time)
+        public void Turn(int turnTo)
         {
-            _droneClient.FlatTrim();
-            System.Threading.Thread.Sleep(time);
-        }
+            Console.WriteLine("North " + North);
+            Console.WriteLine("TurnTo " + turnTo);
 
-        public void Turn(int degrees)
-        {
-            Console.WriteLine("Turn " + degrees);
-            int TurnTo = (Convert.ToInt16(degrees) + Convert.ToInt16((this.North)));
-            if (TurnTo >= 360) {
-                TurnTo -= 360;
+            int CurrentDegrees = degreesConverter(Convert.ToInt16(_navigationData.Degrees));
+            int DistanceRight = 0;
+            int DistanceLeft = 0;
+
+            if (turnTo > CurrentDegrees) {
+                DistanceRight = turnTo - CurrentDegrees;
+                DistanceLeft = (360 - turnTo) + CurrentDegrees;
+            } else if (CurrentDegrees > turnTo) {
+                DistanceRight = (360 - CurrentDegrees) + turnTo;
+                DistanceLeft = CurrentDegrees - turnTo;
+            }
+
+            if (DistanceLeft < DistanceRight) {
+                _droneClient.Progress(FlightMode.Progressive, yaw: -0.2f);
+                //Console.WriteLine("Go Left");
+            } else {
+                _droneClient.Progress(FlightMode.Progressive, yaw: 0.2f);
+                //Console.WriteLine("Go Right");
             }
 
             while (true)
             {
-                int CurrentDegrees = degreesConverter(Convert.ToInt16(_navigationData.Degrees));
-                //Console.WriteLine(" ------------- ");
-                //Console.WriteLine(" ------------- ");
-                //Console.WriteLine(" ------------- ");
-                //Console.WriteLine("North: " + North.ToString());
-                //Console.WriteLine("Current: " + CurrentDegrees.ToString());
-                //Console.WriteLine("Turn To: " + TurnTo.ToString());
-                //Console.WriteLine("Turn " + TurnTo + " - " + CurrentDegrees);
-
-                int DistanceRight = 0;
-                int DistanceLeft = 0;
-
-                if (TurnTo > CurrentDegrees) {
-                    DistanceRight = TurnTo - CurrentDegrees;
-                    DistanceLeft = (360 - TurnTo) + CurrentDegrees;
-                } else if (CurrentDegrees > TurnTo) {
-                    DistanceRight = (360 - CurrentDegrees) + TurnTo;
-                    DistanceLeft = CurrentDegrees - TurnTo;
-                }
-               // _droneClient.Progress(FlightMode.Progressive, yaw: 0.3f);
-                if (DistanceLeft < DistanceRight) {
-                    _droneClient.Progress(FlightMode.Progressive, yaw: -0.2f);
-                    //Console.WriteLine("Go Left");
-                } else {
-                    _droneClient.Progress(FlightMode.Progressive, yaw: 0.2f);
-                    //Console.WriteLine("Go Right");
-                }
-                if (CurrentDegrees == TurnTo) {
+                CurrentDegrees = degreesConverter(Convert.ToInt16(_navigationData.Degrees));
+                if (CurrentDegrees == turnTo) {
                     //Console.WriteLine("FINISH");
                     break;
                 }
-
-                System.Threading.Thread.Sleep(10);
+                //System.Threading.Thread.Sleep(10);
             }
+        }
+
+        public void TurnToWorldDegrees(int degrees) {
+            Console.WriteLine("Turn " + degrees);
+            int turnTo = (Convert.ToInt16(degrees) + Convert.ToInt16((this.North)));
+            if (turnTo >= 360) {
+                turnTo -= 360;
+            }
+            Turn(turnTo);
         }
 
         /// <summary>--
@@ -259,11 +246,15 @@ namespace DroneControl {
         /// The parameter time is the Threading time for wait.
         /// </summary>
         /// <param name="time"></param>
-        public void Takeoff(int time = 13000)
+        public void Takeoff(int time = 8000)
         {
             Console.WriteLine("Takeoff");
             _droneClient.Takeoff();
             System.Threading.Thread.Sleep(time);
+            setNorth();
+        }
+
+        private void setNorth() {
             North = Convert.ToInt16(_navigationData.Degrees);
             if (North < 0) {
                 North = (Convert.ToInt16(North) + 360);
@@ -299,7 +290,7 @@ namespace DroneControl {
         /// The speed is the speed of the propellors and the time is the duration of the action.
         /// </summary>
         /// <param name="meters"></param>
-        public void Rise(float meters)
+        public void Rise(double meters)
         {
             Console.WriteLine("Rise");
             int Time = Convert.ToInt16((meters / Speed) * 200);
@@ -312,7 +303,7 @@ namespace DroneControl {
         /// The speed is het speed of the propellors and the time is the duration of the action.
         /// </summary>
         /// <param name="meters"></param>
-        public void Fall(float meters)
+        public void Fall(double meters)
         {
             int Time = Convert.ToInt16((meters / Speed) * 200);
             _droneClient.Progress(FlightMode.Progressive, gaz: -Speed);
@@ -332,10 +323,10 @@ namespace DroneControl {
         /// This method let hover the drone.
         /// </summary>
         /// <param name="Time"></param>
-        public void Hover(int Time = 2000)
+        public void Hover(int Time = 3000)
         {
             Console.WriteLine("Hover");
-            _droneClient.Progress(FlightMode.Progressive, roll: 0, pitch: 0, yaw: 0, gaz: 0);
+            _droneClient.Progress(FlightMode.Hover);
             System.Threading.Thread.Sleep(Time);
         }
 
@@ -373,8 +364,6 @@ namespace DroneControl {
         ////////////////////////////////////////////////////
         private unsafe void OnVideoPacketAcquired(VideoPacket packet)
         {
-            /*if (_packetRecorderWorker != null && _packetRecorderWorker.IsAlive)
-                _packetRecorderWorker.EnqueuePacket(packet);*/
             if (_videoPacketDecoderWorker.IsAlive)
                 _videoPacketDecoderWorker.EnqueuePacket(packet);
         }

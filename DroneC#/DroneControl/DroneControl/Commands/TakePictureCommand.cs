@@ -25,19 +25,52 @@ namespace DroneControl.Commands {
             Console.WriteLine("Cheese <:-)");
 
             _controller.Start();
-            _bitmap = _controller.GetBitmapFromFrontCam();
-            
+
             if (!Directory.Exists(_websitePath + _subDestPath))
                 Directory.CreateDirectory(_websitePath + _subDestPath);
 
+            // Center image
+            _bitmap = _controller.GetBitmapFromFrontCam();
             _bitmap.Save(_websitePath + _subDestPath + "0.png");
 
-            ApiConnection.Instance.UpdateQualityCheck(_id, _subDestPath);
+            // Bottom left image
+            //_controller.Left(0.25);
+            //_controller.Hover();
+            //_controller.Fall(0.25);
+            //_controller.Hover();
+            _bitmap = _controller.GetBitmapFromFrontCam();
+            _bitmap.Save(_websitePath + _subDestPath + "1.png");
+
+            // Top left image
+            //_controller.Rise(0.5);
+            //_controller.Hover();
+            _bitmap = _controller.GetBitmapFromFrontCam();
+            _bitmap.Save(_websitePath + _subDestPath + "2.png");
+
+            // Top right image
+            //_controller.Right(0.5);
+            //_controller.Hover();
+            _bitmap = _controller.GetBitmapFromFrontCam();
+            _bitmap.Save(_websitePath + _subDestPath + "3.png");
+
+            // Bottom right image
+            //_controller.Fall(0.5);
+            //_controller.Hover();
+            _bitmap = _controller.GetBitmapFromFrontCam();
+            _bitmap.Save(_websitePath + _subDestPath + "4.png");
+
+            // Go to center
+            //_controller.Left(0.25);
+            //_controller.Hover();
+            //_controller.Rise(0.25);
+            //_controller.Hover();
+
+            ApiConnection.Instance.UpdateQualityCheckImagePath(_id, _subDestPath);
         }
 
         public void Undo() {
-            if (!File.Exists(_websitePath + _subDestPath + "0.png"))
-                File.Delete(_websitePath + _subDestPath + "0.png");
+            if (!Directory.Exists(_websitePath + _subDestPath))
+                Directory.Delete(_websitePath + _subDestPath);
         }
     }
 }
