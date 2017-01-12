@@ -76,7 +76,7 @@ namespace DroneControl {
             _videoPacketDecoderWorker.Start();
 
             _droneClient = new DroneClient("192.168.1.1");
-
+            
             _frameNumber = 0;
             DateTime dt = DateTime.Now;
             _frameTag = dt.Year.ToString() + dt.Month.ToString("00") + dt.Day.ToString("00") + dt.Hour.ToString("00") + dt.Minute.ToString("00") + "_";
@@ -199,10 +199,10 @@ namespace DroneControl {
             }
 
             if (DistanceLeft < DistanceRight) {
-                _droneClient.Progress(FlightMode.Progressive, yaw: -0.2f);
+                _droneClient.Progress(FlightMode.CombinedYaw, yaw: -0.2f);
                 //Console.WriteLine("Go Left");
             } else {
-                _droneClient.Progress(FlightMode.Progressive, yaw: 0.2f);
+                _droneClient.Progress(FlightMode.CombinedYaw, yaw: 0.2f);
                 //Console.WriteLine("Go Right");
             }
 
