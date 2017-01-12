@@ -76,6 +76,8 @@ app.controller("QualityCheckStateController", function ($scope, $http, $location
 	
 	$scope.CancelQualityCheck = function() {
 		$scope.ActiveQualitycheck.Status = "Done";
+		$scope.loaded = 0;
+		clearInterval(interval);
 		$http.put("http://localhost:62553/api/QualityCheck/PutQualityCheck", $scope.ActiveQualitycheck)
 		.then(
 			function successCallback(response) {				
@@ -165,9 +167,13 @@ app.controller("QualityCheckStateController", function ($scope, $http, $location
 	}
 
 	$scope.GetActiveQualitycheckState();
-	setInterval(function(){
-		$scope.GetActiveQualitycheckState();
+	var interval = setInterval(function(){
+		
+		console.log("refresh");
+			$scope.GetActiveQualitycheckState();
+		
 	}, 1000);
+	console.log(interval);
 
 });
 

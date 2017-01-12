@@ -3,7 +3,7 @@ app.controller("AddProductController", function ($scope, $http, $location) {
 
 	//Saves a product by submitting it to the API
 	$scope.SaveProduct = function() {
-		$http.post( "http://localhost:62553/api/Products", { Name: $scope.ProductName })
+		$http.post( "http://localhost:62553/api/Products/PostProduct", { Name: $scope.ProductName })
 		.then(
 			function successCallback(response) {
 				$location.path("/products")
