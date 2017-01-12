@@ -201,34 +201,34 @@ namespace DroneControl {
             Console.WriteLine("North " + North);
             Console.WriteLine("TurnTo " + turnTo);
 
+            int CurrentDegrees = degreesConverter(Convert.ToInt16(_navigationData.Degrees));
+            int DistanceRight = 0;
+            int DistanceLeft = 0;
+
+            if (turnTo > CurrentDegrees) {
+                DistanceRight = turnTo - CurrentDegrees;
+                DistanceLeft = (360 - turnTo) + CurrentDegrees;
+            } else if (CurrentDegrees > turnTo) {
+                DistanceRight = (360 - CurrentDegrees) + turnTo;
+                DistanceLeft = CurrentDegrees - turnTo;
+            }
+
+            if (DistanceLeft < DistanceRight) {
+                _droneClient.Progress(FlightMode.Progressive, yaw: -0.2f);
+                //Console.WriteLine("Go Left");
+            } else {
+                _droneClient.Progress(FlightMode.Progressive, yaw: 0.2f);
+                //Console.WriteLine("Go Right");
+            }
+
             while (true)
             {
-                int CurrentDegrees = degreesConverter(Convert.ToInt16(_navigationData.Degrees));
-
-                int DistanceRight = 0;
-                int DistanceLeft = 0;
-
-                if (turnTo > CurrentDegrees) {
-                    DistanceRight = turnTo - CurrentDegrees;
-                    DistanceLeft = (360 - turnTo) + CurrentDegrees;
-                } else if (CurrentDegrees > turnTo) {
-                    DistanceRight = (360 - CurrentDegrees) + turnTo;
-                    DistanceLeft = CurrentDegrees - turnTo;
-                }
-
-                if (DistanceLeft < DistanceRight) {
-                    _droneClient.Progress(FlightMode.Progressive, yaw: -0.2f);
-                    //Console.WriteLine("Go Left");
-                } else {
-                    _droneClient.Progress(FlightMode.Progressive, yaw: 0.2f);
-                    //Console.WriteLine("Go Right");
-                }
+                CurrentDegrees = degreesConverter(Convert.ToInt16(_navigationData.Degrees));
                 if (CurrentDegrees == turnTo) {
                     //Console.WriteLine("FINISH");
                     break;
                 }
-
-                System.Threading.Thread.Sleep(10);
+                //System.Threading.Thread.Sleep(10);
             }
         }
 
