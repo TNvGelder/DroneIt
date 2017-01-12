@@ -199,21 +199,22 @@ namespace DroneControl {
             }
 
             if (DistanceLeft < DistanceRight) {
-                _droneClient.Progress(FlightMode.CombinedYaw, yaw: -0.2f);
-                //Console.WriteLine("Go Left");
+                _droneClient.Progress(FlightMode.CombinedYaw, yaw: -0.1f);
+                Console.WriteLine("Go Left");
             } else {
-                _droneClient.Progress(FlightMode.CombinedYaw, yaw: 0.2f);
-                //Console.WriteLine("Go Right");
+                _droneClient.Progress(FlightMode.CombinedYaw, yaw: 0.1f);
+                Console.WriteLine("Go Right");
             }
 
             while (true)
             {
                 CurrentDegrees = degreesConverter(Convert.ToInt16(_navigationData.Degrees));
+                //Console.WriteLine(CurrentDegrees);
                 if (CurrentDegrees == turnTo) {
-                    //Console.WriteLine("FINISH");
+                    Console.WriteLine("FINISH");
                     break;
                 }
-                //System.Threading.Thread.Sleep(10);
+                System.Threading.Thread.Sleep(50);
             }
         }
 
