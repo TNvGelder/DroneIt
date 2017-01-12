@@ -199,10 +199,10 @@ namespace DroneControl {
             }
 
             if (DistanceLeft < DistanceRight) {
-                _droneClient.Progress(FlightMode.CombinedYaw, yaw: -0.1f);
+                _droneClient.Progress(FlightMode.CombinedYaw, yaw: -0.2f);
                 Console.WriteLine("Go Left");
             } else {
-                _droneClient.Progress(FlightMode.CombinedYaw, yaw: 0.1f);
+                _droneClient.Progress(FlightMode.CombinedYaw, yaw: 0.2f);
                 Console.WriteLine("Go Right");
             }
 
@@ -214,7 +214,7 @@ namespace DroneControl {
                     Console.WriteLine("FINISH");
                     break;
                 }
-                System.Threading.Thread.Sleep(50);
+                System.Threading.Thread.Sleep(10);
             }
         }
 
@@ -232,7 +232,7 @@ namespace DroneControl {
         /// The parameter time is the Threading time for wait.
         /// </summary>
         /// <param name="time"></param>
-        public void Takeoff(int time = 8000)
+        public void Takeoff(int time = 10000)
         {
             Console.WriteLine("Takeoff");
             _droneClient.Takeoff();
