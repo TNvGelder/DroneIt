@@ -69,5 +69,9 @@ namespace DroneControl {
         public void R2D2f() {
             play("R2D2f.WAV");
         }
+
+        public void Harmen() {
+            play("Harmen.WAV");
+        }
     }
 }
