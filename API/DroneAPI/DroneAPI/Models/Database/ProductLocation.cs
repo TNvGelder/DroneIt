@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace DroneAPI.Models
+namespace DroneAPI.Models.Database
 {
     /// <summary>
     /// Links Product to a Location

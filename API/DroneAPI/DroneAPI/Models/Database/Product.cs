@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace DroneAPI.Models
+namespace DroneAPI.Models.Database
 {
     /// <summary>
     /// Simple product

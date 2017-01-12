@@ -6,6 +6,11 @@ using DroneAPI.DataStructures;
 
 namespace DroneAPI.Models
 {
+    /// <summary>
+    /// This Graphnode Class provides a point in the GraphStructure. 
+    /// This Node a flyable point for the drone
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class GraphNode<T>
     {
         public T Value { get; set; }

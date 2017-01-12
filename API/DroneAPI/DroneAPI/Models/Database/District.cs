@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace DroneAPI.Models
+namespace DroneAPI.Models.Database
 {
     /// <summary>
     /// District where Products are stored

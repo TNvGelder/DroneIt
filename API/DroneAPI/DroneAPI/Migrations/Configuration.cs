@@ -1,6 +1,6 @@
 namespace DroneAPI.Migrations
 {
-    using Models;
+    using Models.Database;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;

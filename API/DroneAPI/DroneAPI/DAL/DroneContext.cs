@@ -1,4 +1,4 @@
-﻿using DroneAPI.Models;
+﻿using DroneAPI.Models.Database;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 

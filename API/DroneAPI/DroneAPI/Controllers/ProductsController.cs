@@ -11,6 +11,7 @@ using System.Web.Http.Description;
 using DroneAPI.DAL;
 using DroneAPI.Models;
 using System.Web.Http.Cors;
+using DroneAPI.Models.Database;
 
 namespace DroneAPI.Migrations
 {
