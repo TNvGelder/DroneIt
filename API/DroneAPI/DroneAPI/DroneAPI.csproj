@@ -159,6 +159,7 @@
     <Compile Include="Models\QualityCheck.cs" />
     <Compile Include="Models\Warehouse.cs" />
     <Compile Include="Processors\DroneProcessors\DroneCommandProcessor.cs" />
+    <Compile Include="Processors\DroneProcessors\DroneCommandSender.cs" />
     <Compile Include="Services\MathUtility.cs" />
     <Compile Include="Factorys\MovementCommandFactory.cs" />
     <Compile Include="Global.asax.cs">

@@ -182,12 +182,13 @@ namespace DroneControl {
 
         public void Turn(int turnTo)
         {
-            Console.WriteLine("North " + North);
-            Console.WriteLine("TurnTo " + turnTo);
-
             int CurrentDegrees = degreesConverter(Convert.ToInt16(_navigationData.Degrees));
             int DistanceRight = 0;
             int DistanceLeft = 0;
+
+            Console.WriteLine("CurrentDegrees " + CurrentDegrees);
+            Console.WriteLine("North " + North);
+            Console.WriteLine("TurnTo " + turnTo);
 
             if (turnTo > CurrentDegrees) {
                 DistanceRight = turnTo - CurrentDegrees;
