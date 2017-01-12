@@ -196,15 +196,10 @@ namespace DroneControl {
             System.Threading.Thread.Sleep(Convert.ToInt16(Time));
         }
 
-        public void Turn(int degrees)
+        public void Turn(int turnTo)
         {
-            Console.WriteLine("Turn " + degrees);
-            int TurnTo = (Convert.ToInt16(degrees) + Convert.ToInt16((this.North)));
-            if (TurnTo >= 360) {
-                TurnTo -= 360;
-            }
             Console.WriteLine("North " + North);
-            Console.WriteLine("TurnTo " + TurnTo);
+            Console.WriteLine("TurnTo " + turnTo);
 
             while (true)
             {
@@ -213,12 +208,12 @@ namespace DroneControl {
                 int DistanceRight = 0;
                 int DistanceLeft = 0;
 
-                if (TurnTo > CurrentDegrees) {
-                    DistanceRight = TurnTo - CurrentDegrees;
-                    DistanceLeft = (360 - TurnTo) + CurrentDegrees;
-                } else if (CurrentDegrees > TurnTo) {
-                    DistanceRight = (360 - CurrentDegrees) + TurnTo;
-                    DistanceLeft = CurrentDegrees - TurnTo;
+                if (turnTo > CurrentDegrees) {
+                    DistanceRight = turnTo - CurrentDegrees;
+                    DistanceLeft = (360 - turnTo) + CurrentDegrees;
+                } else if (CurrentDegrees > turnTo) {
+                    DistanceRight = (360 - CurrentDegrees) + turnTo;
+                    DistanceLeft = CurrentDegrees - turnTo;
                 }
 
                 if (DistanceLeft < DistanceRight) {
@@ -228,13 +223,22 @@ namespace DroneControl {
                     _droneClient.Progress(FlightMode.Progressive, yaw: 0.2f);
                     //Console.WriteLine("Go Right");
                 }
-                if (CurrentDegrees == TurnTo) {
+                if (CurrentDegrees == turnTo) {
                     //Console.WriteLine("FINISH");
                     break;
                 }
 
                 System.Threading.Thread.Sleep(10);
             }
+        }
+
+        public void TurnToWorldDegrees(int degrees) {
+            Console.WriteLine("Turn " + degrees);
+            int turnTo = (Convert.ToInt16(degrees) + Convert.ToInt16((this.North)));
+            if (turnTo >= 360) {
+                turnTo -= 360;
+            }
+            Turn(turnTo);
         }
 
         /// <summary>--
