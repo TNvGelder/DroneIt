@@ -147,11 +147,13 @@ namespace LineTrackingTest.Services
 
         public bool IsLineVisible(Bitmap bitmap)
         {
+
             Image<Bgr, Byte> img = new Image<Bgr, Byte>(bitmap);
-            LineSegment2D[] lines = filterLines(img);
-            img.Save(path + "DroneInput" + count + ".png");
-            count += 1;
-            return (lines.Length > 0);
+            return ProcessLine(bitmap) == PositioningState.Correct;
+            //LineSegment2D[] lines = filterLines(img);
+            //img.Save(path + "DroneInput" + count + ".png");
+            //count += 1;
+            //return (lines.Length > 0);
         }
     }
 }

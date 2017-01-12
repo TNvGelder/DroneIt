@@ -36,18 +36,23 @@ namespace DroneControl.Services
 
             Image<Gray, Byte>[] channels = hsvImage.Split();
             Image<Gray, Byte> imgGray = channels[2];
-            imgGray = imgGray.InRange(new Gray(0), new Gray(20));
+            imgGray = imgGray.InRange(new Gray(200), new Gray(255));
 
             CvInvoke.Dilate(imgGray, imgGray, null, new Point(), 1, BorderType.Default, default(MCvScalar));
             CvInvoke.Erode(imgGray, imgGray, null, new Point(), 2, BorderType.Default, default(MCvScalar));
             CvInvoke.Blur(imgGray, imgGray, new Size(20, 20), new Point());
-            CircleF[] circles = imgGray.HoughCircles(new Gray(12), new Gray(100), 1, 200, 70, 400)[0];
+            CircleF[] circles = imgGray.HoughCircles(new Gray(12), new Gray(50), 1, 200, 50, 100)[0];
             img = imgGray.Convert<Bgr, Byte>();
             foreach (CircleF circle in circles)
             {
                 img.Draw(circle, new Bgr(Color.Green), 3);
             }
             img.Save("../../TestImage/CircleOutputImage.png");
+
+            if (circles.Length > 0)
+            {
+                Console.WriteLine("Circle detected");
+            }
 
             return circles.Length > 0;
         }
