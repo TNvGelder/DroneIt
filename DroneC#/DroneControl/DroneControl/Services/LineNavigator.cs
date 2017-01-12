@@ -14,13 +14,39 @@ namespace DroneControl.Services
     /// </summary>
     class LineNavigator
     {
-        public static void FindLine(DroneController controller, float maxMeters, FlyDirection direction)
+        private static void move(DroneController controller, FlyDirection direction)
         {
+            if (direction == FlyDirection.Forward)
+            {
+                controller.Forward();
+            }
+            else if (direction == FlyDirection.Backward)
+            {
+                controller.Backward();
+            }
+            else if (direction == FlyDirection.Left)
+            {
+                controller.Left();
+            }
+            else if (direction == FlyDirection.Right)
+            {
+                controller.Right();
+            }
+        }
+
+        public static bool FindLine(DroneController controller, float maxMeters, FlyDirection direction)
+        {
+            if (direction == FlyDirection.None)
+            {
+                controller.Land();
+                return false;
+            }
             float speed = .1F/3;
             float time = maxMeters/speed*200;
             float oldSpeed = controller.Speed;
             controller.Speed = speed;
-            controller.Move(direction);
+            move(controller, direction);
+            
             Stopwatch s = new Stopwatch();
             s.Start();
             bool lineDetected = false;
@@ -39,6 +65,7 @@ namespace DroneControl.Services
             }
             controller.Speed = oldSpeed;
             s.Stop();
+            return lineDetected;
         }
     }
 }
