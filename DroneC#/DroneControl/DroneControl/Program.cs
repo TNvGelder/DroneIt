@@ -12,7 +12,6 @@ using System.Net.Sockets;
 using LineTrackingTest.Services;
 using AR.Drone.Infrastructure;
 using System.Windows.Forms;
-using System.Drawing;
 using DroneControl.Commands;
 
 namespace DroneControl {

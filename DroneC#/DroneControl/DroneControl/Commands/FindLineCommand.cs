@@ -46,7 +46,7 @@ namespace DroneControl.Commands
             {
                 //getbitmap
                 Bitmap bmp = _controller.GetBitmapFromBottomCam();
-                PositioningState state = LineProcessor.ProcessLine(bmp);
+                PositioningState state = LineProcessor.Instance.ProcessLine(bmp);
                 
                 Console.WriteLine(state);
                 System.Threading.Thread.Sleep(10);

@@ -14,7 +14,25 @@ namespace DroneControl.Services
     /// </summary>
     class LineNavigator
     {
-        private static void move(DroneController controller, FlyDirection direction)
+        private static volatile LineNavigator _instance;
+        private static object syncRoot = new Object();
+        public static LineNavigator Instance
+        {
+            get
+            {
+                if (_instance == null) {
+                    lock (syncRoot) {
+                        if (_instance == null)
+                            _instance = new LineNavigator();
+                    }
+                }
+                return _instance;
+            }
+        }
+
+        private LineNavigator() { }
+
+        private void move(DroneController controller, FlyDirection direction)
         {
             if (direction == FlyDirection.Forward)
             {
@@ -34,7 +52,7 @@ namespace DroneControl.Services
             }
         }
 
-        public static bool FindLine(DroneController controller, float maxMeters, FlyDirection direction)
+        public bool FindLine(DroneController controller, float maxMeters, FlyDirection direction)
         {
             if (direction == FlyDirection.None)
             {
@@ -53,7 +71,7 @@ namespace DroneControl.Services
             while (!lineDetected && s.Elapsed < TimeSpan.FromMilliseconds(time))
             {
                 Bitmap bmp = controller.GetBitmapFromBottomCam();
-                lineDetected = LineProcessor.IsLineVisible(bmp);
+                lineDetected = LineProcessor.Instance.IsLineVisible(bmp);
             }
             if (lineDetected)
             {

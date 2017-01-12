@@ -19,24 +19,41 @@ namespace LineTrackingTest.Services
     /// </summary>
     class LineProcessor
     {
-        public static double MaxPosRatio = .65;//Max allowed distance from side of picture to line
+        private static volatile LineProcessor _instance;
+        private static object syncRoot = new Object();
+        public static LineProcessor Instance
+        {
+            get
+            {
+                if (_instance == null) {
+                    lock (syncRoot) {
+                        if (_instance == null)
+                            _instance = new LineProcessor();
+                    }
+                }
+                return _instance;
+            }
+        }
+        public double MaxPosRatio = .65;//Max allowed distance from side of picture to line
 
-        private static int _regionHeight = 100;
-        private static int _hue1 = 160;//170, 0
-        private static int _hue2 = 180;//180, 10
-        private static int _sat1 = 100;//100, 150
-        private static int _sat2 = 200;//200, 255
+        private int _regionHeight = 100;
+        private int _hue1 = 160;//170, 0
+        private int _hue2 = 180;//180, 10
+        private int _sat1 = 100;//100, 150
+        private int _sat2 = 200;//200, 255
 
-        private static int count = 0;
+        private int count = 0;
 
-        private static string path = "ImageProcessing/";
+        private string path = "ImageProcessing/";
+
+        private LineProcessor() { }
 
         /// <summary>
         /// Tries to find the line in the image and returns a group of lines at the edges of the detected line.
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        private static LineSegment2D[] filterLines(Image<Bgr, Byte> img)
+        private LineSegment2D[] filterLines(Image<Bgr, Byte> img)
         {
             if (!Directory.Exists(path))
                 System.IO.Directory.CreateDirectory(path);
@@ -78,7 +95,7 @@ namespace LineTrackingTest.Services
         /// </summary>
         /// <param name="bitmap"></param>
         /// <returns>PositioningState</returns>
-        public static PositioningState ProcessLine(Bitmap bitmap)
+        public PositioningState ProcessLine(Bitmap bitmap)
         {
             
             Image<Bgr, Byte> img = new Image<Bgr, Byte>(bitmap);
@@ -128,10 +145,7 @@ namespace LineTrackingTest.Services
             return result;
         }
 
-        
-
-
-        public static bool IsLineVisible(Bitmap bitmap)
+        public bool IsLineVisible(Bitmap bitmap)
         {
             Image<Bgr, Byte> img = new Image<Bgr, Byte>(bitmap);
             LineSegment2D[] lines = filterLines(img);

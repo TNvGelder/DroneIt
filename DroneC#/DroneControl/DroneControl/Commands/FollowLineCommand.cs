@@ -54,20 +54,21 @@ namespace DroneControl.Commands
         private bool onLost(PositioningState state)
         {
             FlyDirection direction = getDirection(state);
-            return !LineNavigator.FindLine(_controller, 2, direction); //Try to find back the line
+            return !LineNavigator.Instance.FindLine(_controller, 2, direction); //Try to find back the line
            
         }
 
         private void followLine(bool isForward)
         {
+            float oldSpeed = _controller.Speed;
             PositioningState prevState = PositioningState.Init;
             int startPointOfView = _controller.PointOfView;
             bool landed = false;
             Console.WriteLine("StartCamDetect");
             Bitmap bmp = _controller.GetBitmapFromBottomCam();
-            while (!CircleProcessor.IsCircleInCenter(bmp) && !landed)
+            while (!CircleProcessor.Instance.IsCircleInCenter(bmp) && !landed)
             {
-                PositioningState state = LineProcessor.ProcessLine(bmp);
+                PositioningState state = LineProcessor.Instance.ProcessLine(bmp);
                 
                 System.Threading.Thread.Sleep(10);
                 if (state != prevState)
@@ -101,6 +102,7 @@ namespace DroneControl.Commands
                             Console.WriteLine("To the left");
                             _controller.Left();
                         }
+                        _controller.Speed = oldSpeed;
                     }
                    
                     prevState = state;

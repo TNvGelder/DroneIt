@@ -11,8 +11,25 @@ namespace DroneControl.Services
 {
     class CircleProcessor
     {
+        private static volatile CircleProcessor _instance;
+        private static object syncRoot = new Object();
+        public static CircleProcessor Instance
+        {
+            get
+            {
+                if (_instance == null) {
+                    lock (syncRoot) {
+                        if (_instance == null)
+                            _instance = new CircleProcessor();
+                    }
+                }
+                return _instance;
+            }
+        }
 
-        public static bool IsCircleInCenter(Bitmap bitmap)
+        private CircleProcessor() { }
+
+        public bool IsCircleInCenter(Bitmap bitmap)
         {
             Image<Bgr, Byte> img = new Image<Bgr, Byte>(bitmap);
             Image<Hsv, Byte> hsvImage = img.Convert<Hsv, Byte>();

@@ -20,7 +20,7 @@ namespace DroneControl {
     {
         private static volatile DroneController _instance;
         private static object syncRoot = new Object();
-        private float _speed = 0.1f;
+        private float _speed = 0.05f;
         private DroneClient _droneClient;
         private NavigationPacket _navigationPacket;
         private readonly VideoPacketDecoderWorker _videoPacketDecoderWorker;
@@ -76,7 +76,7 @@ namespace DroneControl {
             _videoPacketDecoderWorker.Start();
 
             _droneClient = new DroneClient("192.168.1.1");
-
+            
             _frameNumber = 0;
             DateTime dt = DateTime.Now;
             _frameTag = dt.Year.ToString() + dt.Month.ToString("00") + dt.Day.ToString("00") + dt.Hour.ToString("00") + dt.Minute.ToString("00") + "_";
@@ -144,7 +144,7 @@ namespace DroneControl {
         /// </summary>
         public void Left()
         {
-            _droneClient.Progress(FlightMode.Progressive, roll: this.Speed);
+            _droneClient.Progress(FlightMode.Progressive, roll: -this.Speed);
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace DroneControl {
         /// </summary>
         public void Right()
         {
-            _droneClient.Progress(FlightMode.Progressive, roll: -this.Speed);
+            _droneClient.Progress(FlightMode.Progressive, roll: this.Speed);
         }
 
         /// <summary>
@@ -182,12 +182,13 @@ namespace DroneControl {
 
         public void Turn(int turnTo)
         {
-            Console.WriteLine("North " + North);
-            Console.WriteLine("TurnTo " + turnTo);
-
             int CurrentDegrees = degreesConverter(Convert.ToInt16(_navigationData.Degrees));
             int DistanceRight = 0;
             int DistanceLeft = 0;
+
+            Console.WriteLine("CurrentDegrees " + CurrentDegrees);
+            Console.WriteLine("North " + North);
+            Console.WriteLine("TurnTo " + turnTo);
 
             if (turnTo > CurrentDegrees) {
                 DistanceRight = turnTo - CurrentDegrees;
@@ -198,10 +199,10 @@ namespace DroneControl {
             }
 
             if (DistanceLeft < DistanceRight) {
-                _droneClient.Progress(FlightMode.Progressive, yaw: -0.2f);
+                _droneClient.Progress(FlightMode.CombinedYaw, yaw: -0.2f);
                 //Console.WriteLine("Go Left");
             } else {
-                _droneClient.Progress(FlightMode.Progressive, yaw: 0.2f);
+                _droneClient.Progress(FlightMode.CombinedYaw, yaw: 0.2f);
                 //Console.WriteLine("Go Right");
             }
 

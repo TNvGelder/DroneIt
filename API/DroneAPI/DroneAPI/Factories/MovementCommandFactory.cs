@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using DroneAPI.Processors.DroneProcessors;
 
-namespace DroneAPI.Factorys
+namespace DroneAPI.Factories
 {
     public class MovementCommandFactory
     {
