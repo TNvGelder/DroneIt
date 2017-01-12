@@ -26,13 +26,13 @@ namespace DroneAPI.Factorys
             if (p.X == d.StartGraphNode.X && p.Y == d.StartGraphNode.Y)
             {
                 // calulate values for from start
-                aisleDirection = (d.Orientation - 90 + 360)%360;
+                aisleDirection = (d.Orientation + 90 + 360)%360;
                 length = pl.Column + 0.5;
             }
             else
             {
                 // calulate values for from end
-                aisleDirection = (d.Orientation + 90 + 360)%360;
+                aisleDirection = (d.Orientation - 90 + 360)%360;
                 length = d.Columns - pl.Column + 0.5;
             }
 
