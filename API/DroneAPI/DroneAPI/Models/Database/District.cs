@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
+/**
+ * @author: Harmen Hilvers
+ * Model containing district used to strore products in warehouse
+ * */
 namespace DroneAPI.Models.Database
 {
-    /// <summary>
-    /// District where Products are stored
-    /// </summary>
     public class District
     {
         public int Id { get; set; }
