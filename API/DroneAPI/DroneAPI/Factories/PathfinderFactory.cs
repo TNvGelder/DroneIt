@@ -15,7 +15,7 @@ namespace DroneAPI.Factories
         public static Pathfinder GetPathfinderFromWarehouse(Warehouse warehouse)
         {
             _pathfinder = new Pathfinder();
-            List<GraphNodeDal> GraphNodes = new List<GraphNodeDal>();
+            List<GraphNode> GraphNodes = new List<GraphNode>();
             GraphNodes.Add(warehouse.StartNode);            
 
             foreach (District district in warehouse.Districts)
@@ -24,11 +24,11 @@ namespace DroneAPI.Factories
                 GraphNodes.Add(district.EndGraphNode);
             }
 
-            foreach (GraphNodeDal gn in GraphNodes)
+            foreach (GraphNode gn in GraphNodes)
             {
                 Position start = new Position { X = gn.X, Y = gn.Y };
-                foreach (EdgeDal edge in gn.Edges)
-                    _pathfinder.AddPath(start, new Position { X = edge.DestinationGraphNode.X, Y = edge.DestinationGraphNode.Y });
+                foreach (Edge edge in gn.Edges)
+                    _pathfinder.AddPath(start, new Position { X = edge.EndGraphNode.X, Y = edge.EndGraphNode.Y });
             }
 
             return _pathfinder;

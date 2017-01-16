@@ -22,8 +22,8 @@ namespace DroneAPI.Models.Database
        
         public virtual Warehouse Warehouse { get; set; }
 
-        public virtual GraphNodeDal StartGraphNode {get;set;}
-        public virtual GraphNodeDal EndGraphNode {get;set;}
+        public virtual GraphNode StartGraphNode {get;set;}
+        public virtual GraphNode EndGraphNode {get;set;}
         public virtual ICollection<ProductLocation> ProductLocations { get; set; }
     }
 }

@@ -20,21 +20,21 @@ namespace DroneAPI.Migrations
             if (!context.Warehouses.Any())
             {
                 // Instantiate Nodes
-                GraphNodeDal start = new GraphNodeDal { X = 400, Y = 150, Edges = new List<EdgeDal>() };
-                GraphNodeDal startDistrict1 = new GraphNodeDal { X = 300, Y = 1200, Edges = new List<EdgeDal>() };
-                GraphNodeDal endDistrict1 = new GraphNodeDal { X = 300, Y = 300, Edges = new List<EdgeDal>() };
-                GraphNodeDal startDistrict2 = new GraphNodeDal { X = 500, Y = 300, Edges = new List<EdgeDal>() };
-                GraphNodeDal endDistrict2 = new GraphNodeDal { X = 500, Y = 1200, Edges = new List<EdgeDal>() };
+                GraphNode start = new GraphNode { X = 400, Y = 150, Edges = new List<Edge>() };
+                GraphNode startDistrict1 = new GraphNode { X = 300, Y = 1200, Edges = new List<Edge>() };
+                GraphNode endDistrict1 = new GraphNode { X = 300, Y = 300, Edges = new List<Edge>() };
+                GraphNode startDistrict2 = new GraphNode { X = 500, Y = 300, Edges = new List<Edge>() };
+                GraphNode endDistrict2 = new GraphNode { X = 500, Y = 1200, Edges = new List<Edge>() };
 
                 context.GraphNodes.AddOrUpdate(p => p.Id, start, startDistrict1, endDistrict1, startDistrict2, endDistrict2);
                 context.SaveChanges();
 
-                EdgeDal district1edge1 = new EdgeDal { DestinationGraphNode = endDistrict1 };
-                EdgeDal district1edge2 = new EdgeDal { DestinationGraphNode = startDistrict1 };
-                EdgeDal district2edge1 = new EdgeDal { DestinationGraphNode = endDistrict2 };
-                EdgeDal district2edge2 = new EdgeDal { DestinationGraphNode = startDistrict2 };
-                EdgeDal startedge1 = new EdgeDal { DestinationGraphNode = endDistrict1 };
-                EdgeDal startedge2 = new EdgeDal { DestinationGraphNode = startDistrict2 };
+                Edge district1edge1 = new Edge { EndGraphNode = endDistrict1 };
+                Edge district1edge2 = new Edge { EndGraphNode = startDistrict1 };
+                Edge district2edge1 = new Edge { EndGraphNode = endDistrict2 };
+                Edge district2edge2 = new Edge { EndGraphNode = startDistrict2 };
+                Edge startedge1 = new Edge { EndGraphNode = endDistrict1 };
+                Edge startedge2 = new Edge { EndGraphNode = startDistrict2 };
 
                 context.Edges.AddOrUpdate(p => p.Id, district1edge1, district1edge2, district2edge1, district2edge2, startedge1, startedge2);
                 context.SaveChanges();
@@ -101,26 +101,26 @@ namespace DroneAPI.Migrations
 
             {
                 // Instantiate Nodes
-                GraphNodeDal start = new GraphNodeDal { X = 0, Y = 0, Edges = new List<EdgeDal>() };
-                GraphNodeDal startDistrict1 = new GraphNodeDal { X = 100, Y = 900, Edges = new List<EdgeDal>() };
-                GraphNodeDal endDistrict1 = new GraphNodeDal { X = 100, Y = 100, Edges = new List<EdgeDal>() };
-                GraphNodeDal startDistrict2 = new GraphNodeDal { X = 400, Y = 100, Edges = new List<EdgeDal>() };
-                GraphNodeDal endDistrict2 = new GraphNodeDal { X = 400, Y = 900, Edges = new List<EdgeDal>() };
-                GraphNodeDal startDistrict3 = new GraphNodeDal { X = 500, Y = 1100, Edges = new List<EdgeDal>() };
-                GraphNodeDal endDistrict3 = new GraphNodeDal { X = 500, Y = 100, Edges = new List<EdgeDal>() };
+                GraphNode start = new GraphNode { X = 0, Y = 0, Edges = new List<Edge>() };
+                GraphNode startDistrict1 = new GraphNode { X = 100, Y = 900, Edges = new List<Edge>() };
+                GraphNode endDistrict1 = new GraphNode { X = 100, Y = 100, Edges = new List<Edge>() };
+                GraphNode startDistrict2 = new GraphNode { X = 400, Y = 100, Edges = new List<Edge>() };
+                GraphNode endDistrict2 = new GraphNode { X = 400, Y = 900, Edges = new List<Edge>() };
+                GraphNode startDistrict3 = new GraphNode { X = 500, Y = 1100, Edges = new List<Edge>() };
+                GraphNode endDistrict3 = new GraphNode { X = 500, Y = 100, Edges = new List<Edge>() };
 
                 context.GraphNodes.AddOrUpdate(p => p.Id, start, startDistrict1, endDistrict1, startDistrict2, endDistrict2, startDistrict3, endDistrict3);
                 context.SaveChanges();
 
-                EdgeDal district1edge1 = new EdgeDal { DestinationGraphNode = endDistrict1 };
-                EdgeDal district1edge2 = new EdgeDal { DestinationGraphNode = startDistrict1 };
-                EdgeDal district2edge1 = new EdgeDal { DestinationGraphNode = endDistrict2 };
-                EdgeDal district2edge2 = new EdgeDal { DestinationGraphNode = startDistrict2 };
-                EdgeDal district3edge1 = new EdgeDal { DestinationGraphNode = endDistrict3 };
-                EdgeDal district3edge2 = new EdgeDal { DestinationGraphNode = startDistrict3 };
-                EdgeDal startedge1 = new EdgeDal { DestinationGraphNode = endDistrict1 };
-                EdgeDal startedge2 = new EdgeDal { DestinationGraphNode = startDistrict2 };
-                EdgeDal startedge3 = new EdgeDal { DestinationGraphNode = endDistrict3 };
+                Edge district1edge1 = new Edge { EndGraphNode = endDistrict1 };
+                Edge district1edge2 = new Edge { EndGraphNode = startDistrict1 };
+                Edge district2edge1 = new Edge { EndGraphNode = endDistrict2 };
+                Edge district2edge2 = new Edge { EndGraphNode = startDistrict2 };
+                Edge district3edge1 = new Edge { EndGraphNode = endDistrict3 };
+                Edge district3edge2 = new Edge { EndGraphNode = startDistrict3 };
+                Edge startedge1 = new Edge { EndGraphNode = endDistrict1 };
+                Edge startedge2 = new Edge { EndGraphNode = startDistrict2 };
+                Edge startedge3 = new Edge { EndGraphNode = endDistrict3 };
 
                 context.Edges.AddOrUpdate(p => p.Id, district1edge1, district1edge2, district2edge1, district2edge2, district3edge1, district3edge2, startedge1, startedge2, startedge3);
                 context.SaveChanges();

@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DroneAPI.Models.Database.District">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQACAEAAAAAAAAQAAAAAAAAICAAAAAgAYBA=</HashCode>
+      <FileName>Models\Database\District.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DroneAPI.Models.Database.GraphNode">
+    <Position X="2.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACgQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAA=</HashCode>
+      <FileName>Models\Database\GraphNodeDal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DroneAPI.Models.Database.Edge">
+    <Position X="5.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Models\Database\EdgeDal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DroneAPI.Models.Database.Product">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Models\Database\Product.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DroneAPI.Models.Database.ProductLocation">
+    <Position X="0.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAQAAAAAAAAAAAABAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Database\ProductLocation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DroneAPI.Models.Database.QualityCheck">
+    <Position X="4" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACCAAEAAAAAAAAAAAAAAAgAAAAAAAAAAAAAECAABA=</HashCode>
+      <FileName>Models\Database\QualityCheck.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DroneAPI.Models.Database.Warehouse">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAQAABQAAAAAAAAAAAEQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Database\Warehouse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DroneAPI.Models.Drone">
+    <Position X="9.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAQAiAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Drone.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DroneAPI.Models.Command">
+    <Position X="11.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Command.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="DroneAPI.Models.Position" BaseTypeListCollapsed="true">
+    <Position X="8" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEgAAAAAAAAAAAAAAAAAAAAAAAYAA=</HashCode>
+      <FileName>Models\Position.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

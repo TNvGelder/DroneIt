@@ -6,12 +6,12 @@ using System.Web;
 
 namespace DroneAPI.Models.Database
 {
-    public class EdgeDal
+    public class Edge
     {
         public int Id { get; set; }
         [JsonIgnore]
-        public GraphNodeDal GraphNodeDal { get; set; }
-        public virtual GraphNodeDal DestinationGraphNode { get; set; }
+        public GraphNode StartGraphNode { get; set; }
+        public virtual GraphNode EndGraphNode { get; set; }
 
     }
 }

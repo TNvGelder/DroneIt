@@ -113,6 +113,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Diagrams\DataStructure-Diagram.cd" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -149,6 +150,14 @@
     <Compile Include="Migrations\201701111240289_JsonQualitypath.Designer.cs">
       <DependentUpon>201701111240289_JsonQualitypath.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701121411052_Table-Changed.cs" />
+    <Compile Include="Migrations\201701121411052_Table-Changed.Designer.cs">
+      <DependentUpon>201701121411052_Table-Changed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701121421379_Chang_Edge_names.cs" />
+    <Compile Include="Migrations\201701121421379_Chang_Edge_names.Designer.cs">
+      <DependentUpon>201701121421379_Chang_Edge_names.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Command.cs" />
     <Compile Include="Models\Database\District.cs" />
     <Compile Include="Models\Database\EdgeDal.cs" />
@@ -173,6 +182,7 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <Fakes Include="Fakes\EngineIoClientDotNet.fakes" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -198,6 +208,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201701111240289_JsonQualitypath.resx">
       <DependentUpon>201701111240289_JsonQualitypath.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701121411052_Table-Changed.resx">
+      <DependentUpon>201701121411052_Table-Changed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701121421379_Chang_Edge_names.resx">
+      <DependentUpon>201701121421379_Chang_Edge_names.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

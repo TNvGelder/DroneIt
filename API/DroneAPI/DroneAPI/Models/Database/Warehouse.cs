@@ -18,7 +18,7 @@ namespace DroneAPI.Models.Database
         public int Width { get; set; }
         public int Height { get; set; }
         
-        public virtual GraphNodeDal StartNode { get; set; }
+        public virtual GraphNode StartNode { get; set; }
        
         public virtual ICollection<District> Districts { get; set; }
     }
