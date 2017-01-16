@@ -2,6 +2,11 @@
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
+/**
+ * @author: Harmen Hilvers
+ * contains context 
+ * */
+
 namespace DroneAPI.DAL
 {
     public class DroneContext : DbContext

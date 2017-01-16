@@ -5,11 +5,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
+/**
+ * @author: Henk-Jan
+ * Model containing product information
+ * */
 namespace DroneAPI.Models.Database
 {
-    /// <summary>
-    /// Simple product
-    /// </summary>
+
     public class Product
     {
         public int Id { get; set; }

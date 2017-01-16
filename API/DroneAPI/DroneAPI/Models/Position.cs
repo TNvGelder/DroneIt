@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
+/**
+ * @author: Harmen Hilvers
+ * Model containing position information
+ * */
+
 namespace DroneAPI.Models
 {
     public struct Position : IEquatable<Position>

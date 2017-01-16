@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+/**
+ * @author: Harmen Hilvers
+ * Model containing Drone info
+ * */
 
 namespace DroneAPI.Models
 {

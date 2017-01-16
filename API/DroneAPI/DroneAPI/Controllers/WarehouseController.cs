@@ -7,6 +7,12 @@ using DroneAPI.DAL;
 using System.Web.Http.Cors;
 using Newtonsoft.Json;
 
+
+/**
+ * @author: Harmen Hilvers
+ * Controller for handling warehouse get calls 
+ * */
+
 namespace DroneAPI.Controllers
 {
     public class WarehouseController : ApiController
@@ -30,6 +36,7 @@ namespace DroneAPI.Controllers
             return s;
         }
 
+        // GET api/Warehouse/GetWarehouse/1
         [EnableCors("*", "*", "GET")]
         [HttpGet]
         public string GetWarehouse(int id)

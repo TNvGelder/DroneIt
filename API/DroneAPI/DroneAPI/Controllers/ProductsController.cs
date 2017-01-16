@@ -12,7 +12,10 @@ using DroneAPI.DAL;
 using DroneAPI.Models;
 using System.Web.Http.Cors;
 using DroneAPI.Models.Database;
-
+/**
+ * @author: Henk jan Leusink
+ * Controller for handling product functionality
+ * */
 namespace DroneAPI.Migrations
 {
     public class ProductsController : ApiController
@@ -22,8 +25,8 @@ namespace DroneAPI.Migrations
         // GET: api/Products
         [EnableCors("*", "*", "GET")]
         public IQueryable<Product> GetProducts()
-        {
-            Warehouse wr = _db.Warehouses.FirstOrDefault();
+        {           
+            // return all products
             return _db.Products;
         }
 
@@ -32,6 +35,7 @@ namespace DroneAPI.Migrations
         [ResponseType(typeof(Product))]
         public IHttpActionResult GetProduct(int id)
         {
+            // find product by id in database
             Product product = _db.Products.Find(id);
             if (product == null)
             {
