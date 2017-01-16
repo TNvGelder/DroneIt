@@ -17,14 +17,14 @@ namespace DroneAPI.Migrations
 {
     public class ProductsController : ApiController
     {
-        private DroneContext db = new DroneContext();
+        private DroneContext _db = new DroneContext();
 
         // GET: api/Products
         [EnableCors("*", "*", "GET")]
         public IQueryable<Product> GetProducts()
         {
-            Warehouse wr = db.Warehouses.FirstOrDefault();
-            return db.Products;
+            Warehouse wr = _db.Warehouses.FirstOrDefault();
+            return _db.Products;
         }
 
         // GET: api/Products/5
@@ -32,7 +32,7 @@ namespace DroneAPI.Migrations
         [ResponseType(typeof(Product))]
         public IHttpActionResult GetProduct(int id)
         {
-            Product product = db.Products.Find(id);
+            Product product = _db.Products.Find(id);
             if (product == null)
             {
                 return NotFound();
@@ -58,11 +58,11 @@ namespace DroneAPI.Migrations
                 return BadRequest();
             }
 
-            db.Entry(product).State = EntityState.Modified;
+            _db.Entry(product).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -89,8 +89,8 @@ namespace DroneAPI.Migrations
                 return BadRequest(ModelState);
             }
 
-            db.Products.Add(product);
-            db.SaveChanges();
+            _db.Products.Add(product);
+            _db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = product.Id }, product);
         }
@@ -100,14 +100,14 @@ namespace DroneAPI.Migrations
         [ResponseType(typeof(Product))]
         public IHttpActionResult DeleteProduct(int id)
         {
-            Product product = db.Products.Find(id);
+            Product product = _db.Products.Find(id);
             if (product == null)
             {
                 return NotFound();
             }
 
-            db.Products.Remove(product);
-            db.SaveChanges();
+            _db.Products.Remove(product);
+            _db.SaveChanges();
 
             return Ok(product);
         }
@@ -116,14 +116,14 @@ namespace DroneAPI.Migrations
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool ProductExists(int id)
         {
-            return db.Products.Count(e => e.Id == id) > 0;
+            return _db.Products.Count(e => e.Id == id) > 0;
         }
     }
 }
