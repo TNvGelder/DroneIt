@@ -69,7 +69,7 @@ namespace LineTrackingTest.Services
             Image<Gray, byte> hueFilter = imgHue.InRange(new Gray(_hue1), new Gray(_hue2));
             Image<Gray, byte> satFilter = imgSat.InRange(new Gray(_sat1), new Gray(_sat2));
             //hueFilter.Save("../../TestImage/GrayImage.png");
-            hueFilter = channels[2].InRange(new Gray(0), new Gray(30)); ;
+            hueFilter = channels[2].InRange(new Gray(0), new Gray(40)); ;
             
             //hueFilter = hueFilter.And(satFilter);
 

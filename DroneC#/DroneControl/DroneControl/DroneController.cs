@@ -190,28 +190,28 @@ namespace DroneControl {
             Console.WriteLine("North " + North);
             Console.WriteLine("TurnTo " + turnTo);
 
-            if (turnTo > CurrentDegrees) {
-                DistanceRight = turnTo - CurrentDegrees;
-                DistanceLeft = (360 - turnTo) + CurrentDegrees;
-            } else if (CurrentDegrees > turnTo) {
-                DistanceRight = (360 - CurrentDegrees) + turnTo;
-                DistanceLeft = CurrentDegrees - turnTo;
-            }
-
-            if (DistanceLeft < DistanceRight) {
-                _droneClient.Progress(FlightMode.CombinedYaw, yaw: -0.2f);
-                Console.WriteLine("Go Left");
-            } else {
-                _droneClient.Progress(FlightMode.CombinedYaw, yaw: 0.2f);
-                Console.WriteLine("Go Right");
-            }
-
             while (true)
             {
                 CurrentDegrees = degreesConverter(Convert.ToInt16(_navigationData.Degrees));
-                //Console.WriteLine(CurrentDegrees);
+
+                if (turnTo > CurrentDegrees) {
+                    DistanceRight = turnTo - CurrentDegrees;
+                    DistanceLeft = (360 - turnTo) + CurrentDegrees;
+                } else if (CurrentDegrees > turnTo) {
+                    DistanceRight = (360 - CurrentDegrees) + turnTo;
+                    DistanceLeft = CurrentDegrees - turnTo;
+                }
+
+                if (DistanceLeft < DistanceRight) {
+                    // Go left
+                    _droneClient.Progress(FlightMode.CombinedYaw, yaw: -0.2f);
+                } else {
+                    // Go right
+                    _droneClient.Progress(FlightMode.CombinedYaw, yaw: 0.2f);
+                }
+
                 if (CurrentDegrees == turnTo) {
-                    Console.WriteLine("FINISH");
+                    // Finish
                     break;
                 }
                 System.Threading.Thread.Sleep(10);
