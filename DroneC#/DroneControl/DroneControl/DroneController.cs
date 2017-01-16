@@ -232,7 +232,7 @@ namespace DroneControl {
         /// The parameter time is the Threading time for wait.
         /// </summary>
         /// <param name="time"></param>
-        public void Takeoff(int time = 10000)
+        public void Takeoff(int time = 15000)
         {
             Console.WriteLine("Takeoff");
             _droneClient.Takeoff();
