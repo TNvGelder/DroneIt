@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using DroneAPI.Processors.DroneProcessors;
-
+/**
+ * @author: Albert David
+ * Factory used to generate commands to fly to a district Graphnode
+ * */
 namespace DroneAPI.Factories
 {
     public class MovementCommandFactory
@@ -15,14 +18,10 @@ namespace DroneAPI.Factories
             get { return _factory; }
         }
 
-        public MovementCommandFactory() {
-        }
+        public MovementCommandFactory() {        }
 
-        /// <summary>
-        /// Creates different dronecommands based on the given path.
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
+
+        // Creates different dronecommands based on the given path. 
         public List<Command> GetMovementCommands(LinkedList<Position> path)
         {
             List<Command> result = new List<Command>();

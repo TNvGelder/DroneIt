@@ -6,12 +6,13 @@ using DroneAPI.DataStructures.PriorityQueue;
 using DroneAPI.Models;
 using DroneAPI.Services;
 
+/**
+ * @author: Twan van Gelder
+ * class containing graph functionality
+ * */
 namespace DroneAPI.DataStructures.GraphStructure
 {
-    /// <summary>
-    /// The graph class can be used to store values in a graph and to look for the shortest path between points in the graph.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
+    // The graph class can be used to store values in a graph and to look for the shortest path between points in the graph.
     public class Graph<T>
     {
         private Dictionary<T, GraphNode<T>> _nodeDictionary = new Dictionary<T, GraphNode<T>>();
@@ -22,19 +23,13 @@ namespace DroneAPI.DataStructures.GraphStructure
             GraphNode<T> startNode = getNode(start);
             GraphNode<T> destNode = getNode(destination);
             startNode.Adjacent.Add(new Edge<T>(destNode, cost));
-        }
+        }              
 
-        
-        /// <summary>
-        /// Algorithm to find the shortest weighted path in a graph. (Shortest distance)
-        /// This method uses a startvalue as well as an end value that need to be given.
-        /// If the endpoint is reached in the algorithm the distance to nodes further away will not be determined.
-        /// </summary>
-        /// <param name="startValue"></param>
-        /// <param name="endValue"></param>
+        // Algorithm to find the shortest weighted path in a graph. (Shortest distance)
+        // This method uses a startvalue as well as an end value that need to be given.
+        // If the endpoint is reached in the algorithm the distance to nodes further away will not be determined.
         private void Dijkstra(T startValue, T endValue)
-        {
-            
+        {            
             BinaryHeap<Edge<T>> priorityQueue = new BinaryHeap<Edge<T>>();
 
             if (!_nodeDictionary.ContainsKey(startValue) || !_nodeDictionary.ContainsKey(endValue))
@@ -80,7 +75,7 @@ namespace DroneAPI.DataStructures.GraphStructure
 
             
         }
-
+        // method to check if dictuonary contains value
         public bool ContainsValue(T value)
         {
             return _nodeDictionary.ContainsKey(value);
@@ -106,6 +101,8 @@ namespace DroneAPI.DataStructures.GraphStructure
             return result;
         }
 
+        //Returns all the values from the shortest path from the startValue to endValue.
+        //Returns an empty linkedlist if there is no possible path.
         public List<T> GetPathList(T startValue, T endValue)
         {
             Dijkstra(startValue, endValue);

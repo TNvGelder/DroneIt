@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using DroneAPI.Models;
-
+/**
+ * @author: Twan van Gelder
+ * class that determines edge between 2 graphnode destinations
+ * */
 namespace DroneAPI.DataStructures
 {
     //The Edge class provides data about a connected node and what the cost is to reach the node using that edge.

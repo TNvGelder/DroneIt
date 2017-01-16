@@ -1,6 +1,10 @@
 ﻿using DroneAPI.Models;
 using System;
 
+/**
+ * @author: Albert David
+ * Helper class for calculations
+ * */
 namespace DroneAPI.Services
 {
     public static class MathUtility

@@ -160,8 +160,8 @@
     </Compile>
     <Compile Include="Models\Command.cs" />
     <Compile Include="Models\Database\District.cs" />
-    <Compile Include="Models\Database\EdgeDal.cs" />
-    <Compile Include="Models\Database\GraphNodeDal.cs" />
+    <Compile Include="Models\Database\Edge.cs" />
+    <Compile Include="Models\Database\GraphNode.cs" />
     <Compile Include="Models\Database\Product.cs" />
     <Compile Include="Models\Database\ProductLocation.cs" />
     <Compile Include="Models\Database\QualityCheck.cs" />

@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
+/**
+ * @author: Harmen Hilvers
+ * Model containing information and state of a Qualitycheck
+ * */
 namespace DroneAPI.Models.Database
 {
     public class QualityCheck

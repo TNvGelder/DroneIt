@@ -30,7 +30,10 @@ namespace DroneAPI.Controllers
         [ResponseType(typeof(ProductLocation))]
         public QualityCheck PostQualityCheck(ProductLocation product)
         {
-            if (_db.QualityChecks.Any(d => d.EndDate == null)) return null;
+            if (_db.QualityChecks.Any(d => d.EndDate == null))
+            {
+                return null;
+            }
 
             // get correct object from database by id
             ProductLocation pr = _db.Locations.Find(product.Id);
@@ -59,25 +62,35 @@ namespace DroneAPI.Controllers
         public IHttpActionResult PutQualityCheck(QualityCheck qualitycheck)
         {
             // return error when qualitycheck is empty
-            if (qualitycheck == null) return InternalServerError();
+            if (qualitycheck == null)
+            {
+                return InternalServerError();
+            }
 
             // getcorrect object from database by id
             QualityCheck ck = _db.QualityChecks.Find(qualitycheck.Id);
 
             // return error when qualitycheck does not excist
-            if (ck == null) return InternalServerError();
+            if (ck == null)
+            {
+                return InternalServerError();
+            }
 
             // update status for qualitycheck
             if (qualitycheck.Status != null)
             {
                 ck.Status = qualitycheck.Status;
                 if (qualitycheck.Status.Equals("Done"))
+                {
                     ck.EndDate = DateTime.Now;
+                }
             }
 
             // update picture folder for qualitycheck
             if (qualitycheck.PictureFolderUrl != null)
+            {
                 ck.PictureFolderUrl = qualitycheck.PictureFolderUrl;
+            }
 
             _db.Entry(ck).State = EntityState.Modified;
             _db.SaveChanges();
@@ -92,7 +105,10 @@ namespace DroneAPI.Controllers
         {
             // get current active quality check, return null when not found
             QualityCheck q = _db.QualityChecks.Where(d => d.EndDate == null).FirstOrDefault();
-            if (q == null) return "null";
+            if (q == null)
+            {
+                return "null";
+            }
 
             // convert qualitycheck to JSON object string, to prevent Reference loop errors.
             var s = JsonConvert.SerializeObject(q, Formatting.Indented,
@@ -111,7 +127,10 @@ namespace DroneAPI.Controllers
         {
             // get current active quality check, return null when not found
             QualityCheck q = _db.QualityChecks.Where(d => d.EndDate == null).FirstOrDefault();
-            if (q == null) return "null";
+            if (q == null)
+            {
+                return "null";
+            }
 
             // return qualitycheck id
             return q.Id.ToString();
@@ -124,7 +143,10 @@ namespace DroneAPI.Controllers
         {
             // get all completed quality checks, return null when not found
             List<QualityCheck> q = _db.QualityChecks.Where(d => d.EndDate != null).OrderByDescending(z => z.EndDate).ToList();
-            if (q == null) return "null";
+            if (q == null)
+            {
+                return "null";
+            }
 
             // convert qualitycheck to JSON object string, to prevent Reference loop errors.
             var s = JsonConvert.SerializeObject(q, Formatting.Indented,
@@ -187,7 +209,7 @@ namespace DroneAPI.Controllers
 
         // method to determine wich graphnode is nearest to the productlocation and return its position
         private Position giveEndPosition(ProductLocation pl)
-        {            
+        {
             int half = pl.District.Columns / 2;
             Position result = new Position(pl.District.StartGraphNode.X, pl.District.StartGraphNode.Y);
             if (pl.Column > half)

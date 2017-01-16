@@ -2,6 +2,11 @@
 using System;
 using System.Collections.Generic;
 
+/**
+ * @author: Harmen Hilvers
+ * Class containing methods for Command Handling, Commands contain behaviour the drone needs to execute
+ * */
+
 namespace DroneAPI.Processors.DroneProcessors
 {
     public class DroneCommandProcessor

@@ -4,15 +4,14 @@ using System.Linq;
 using System.Web;
 using DroneAPI.Models;
 using DroneAPI.Models.Database;
-
+/**
+ * @author: Albert David
+ * Factory used to generate commands to fly within a district
+ * */
 namespace DroneAPI.Factories
-{
-    /// <summary>
-    /// Creates the commands for flying within a district
-    /// </summary>
+{ 
     public class DistrictCommandFactory : CommandFactory
     {
-
         public List<Command> GetCommands(Position p, ProductLocation pl)
         {
             List<Command> result = new List<Command>();

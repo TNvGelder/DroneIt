@@ -6,7 +6,7 @@ using System.Web;
 
 /**
  * @author: Harmen Hilvers
- * Model containing position information
+ * Model containing Warehouse 
  * */
 
 namespace DroneAPI.Models.Database

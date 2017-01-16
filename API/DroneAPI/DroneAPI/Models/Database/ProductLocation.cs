@@ -5,11 +5,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
+
+/**
+ * @author: Harmen Hilvers
+ * Model containing link from product to a location
+ * */
 namespace DroneAPI.Models.Database
 {
-    /// <summary>
-    /// Links Product to a Location
-    /// </summary>
+
     public class ProductLocation
     {
         public int Id { get; set; }

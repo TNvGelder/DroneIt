@@ -9,9 +9,17 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Script.Serialization;
 
+/**
+ * @author: Gerhard Kroes
+ * Processor handling connection between api and DroneControl, sends commands to DroneController
+ * */
+
 namespace DroneAPI.Processors.DroneProcessors {
     public class DroneCommandSender {
         private static DroneCommandSender instance;
+        private Socket _sender;
+        private Queue<Command> _commands;
+        
         public static DroneCommandSender Instance
         {
             get
@@ -22,22 +30,29 @@ namespace DroneAPI.Processors.DroneProcessors {
                 return instance;
             }
         }
-        private Socket _sender;
-        private Queue<Command> _commands;
 
         private DroneCommandSender() { }
 
+        // Method to send Commands to the DroneControl application
         public void SendData(Queue<Command> commands) {
             _commands = commands;
-
-            // Connect to a remote device.
+           
             try {
+                // Connect to a remote application.
                 connect();
+
+                // Sending the data
+                send();
+
+                // Disconnect from remote application
+                disconnect();
+
             } catch (Exception e) {
                 Console.WriteLine(e.ToString());
             }
         }
 
+        // method to connect to Dronecontrol application
         private void connect() {
             // Establish the remote endpoint for the socket.
             // This example uses port 11000 on the local computer.
@@ -53,10 +68,6 @@ namespace DroneAPI.Processors.DroneProcessors {
                 _sender.Connect(remoteEP);
 
                 Console.WriteLine("Socket connected to {0}", _sender.RemoteEndPoint.ToString());
-
-                // Sending the data
-                send();
-
             } catch (ArgumentNullException ane) {
                 Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
             } catch (SocketException se) {
@@ -66,6 +77,7 @@ namespace DroneAPI.Processors.DroneProcessors {
             }
         }
 
+        // method used to send data to the DroneControl
         private void send() {
             // Encode the data string into a byte array.
             string msgJson = new JavaScriptSerializer().Serialize(_commands.ToList<Command>());
@@ -82,10 +94,9 @@ namespace DroneAPI.Processors.DroneProcessors {
             int bytesRec = _sender.Receive(bytes);
 
             Console.WriteLine("Server message: {0}", Encoding.ASCII.GetString(bytes, 0, bytesRec));
-
-            disconnect();
+           
         }
-
+        // Method to disconnect from DroneControl application
         private void disconnect() {
             // Release the socket.
             _sender.Shutdown(SocketShutdown.Both);
