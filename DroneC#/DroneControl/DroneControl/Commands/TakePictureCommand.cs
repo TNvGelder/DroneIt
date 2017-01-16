@@ -24,8 +24,6 @@ namespace DroneControl.Commands {
             ApiConnection.Instance.UpdateQualityCheck("Taking pictures");
             Console.WriteLine("Cheese <:-)");
 
-            _controller.Start();
-
             if (!Directory.Exists(_websitePath + _subDestPath))
                 Directory.CreateDirectory(_websitePath + _subDestPath);
 
@@ -35,40 +33,40 @@ namespace DroneControl.Commands {
             Sound.Instance.Lazer();
 
             // Bottom left image
-            //_controller.Left(0.25);
-            //_controller.Hover();
-            //_controller.Fall(0.25);
-            //_controller.Hover();
+            _controller.Left(0.25);
+            _controller.Hover();
+            _controller.Fall(0.25);
+            _controller.Hover();
             _bitmap = _controller.GetBitmapFromFrontCam();
             _bitmap.Save(_websitePath + _subDestPath + "1.png");
             Sound.Instance.Lazer();
 
             // Top left image
-            //_controller.Rise(0.5);
-            //_controller.Hover();
+            _controller.Rise(0.5);
+            _controller.Hover();
             _bitmap = _controller.GetBitmapFromFrontCam();
             _bitmap.Save(_websitePath + _subDestPath + "2.png");
             Sound.Instance.Lazer();
 
             // Top right image
-            //_controller.Right(0.5);
-            //_controller.Hover();
+            _controller.Right(0.5);
+            _controller.Hover();
             _bitmap = _controller.GetBitmapFromFrontCam();
             _bitmap.Save(_websitePath + _subDestPath + "3.png");
             Sound.Instance.Lazer();
 
             // Bottom right image
-            //_controller.Fall(0.5);
-            //_controller.Hover();
+            _controller.Fall(0.5);
+            _controller.Hover();
             _bitmap = _controller.GetBitmapFromFrontCam();
             _bitmap.Save(_websitePath + _subDestPath + "4.png");
             Sound.Instance.Lazer();
 
             // Go to center
-            //_controller.Left(0.25);
-            //_controller.Hover();
-            //_controller.Rise(0.25);
-            //_controller.Hover();
+            _controller.Left(0.25);
+            _controller.Hover();
+            _controller.Rise(0.25);
+            _controller.Hover();
 
             ApiConnection.Instance.UpdateQualityCheckImagePath(_id, _subDestPath);
         }
