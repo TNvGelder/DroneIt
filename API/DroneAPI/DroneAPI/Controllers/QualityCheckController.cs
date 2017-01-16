@@ -19,7 +19,7 @@ namespace DroneAPI.Controllers
     public class QualityCheckController : ApiController
     {
         private DroneCommandProcessor _droneCommandProcessor;
-        private DroneContext db = new DroneContext();
+        private DroneContext _db = new DroneContext();
 
         // GET api/QualityCheck/5
         [EnableCors("*", "*", "POST")]
@@ -27,19 +27,17 @@ namespace DroneAPI.Controllers
 
         public QualityCheck PostQualityCheck(ProductLocation product)
         {
-            if (db.QualityChecks.Any(d => d.EndDate == null)) return null;
+            if (_db.QualityChecks.Any(d => d.EndDate == null)) return null;
 
-            ProductLocation pr = db.Locations.Find(product.Id);
+            ProductLocation pr = _db.Locations.Find(product.Id);
             QualityCheck qualitycheck = new QualityCheck();
             qualitycheck.StartDate = DateTime.Now;
             qualitycheck.ProductLocation = pr;
             qualitycheck.EndDate = null;
 
-            db.QualityChecks.Add(qualitycheck);
-            db.SaveChanges();
-            //Check if product has any locations
-            // DataRow[] result = db.Locations.Select("Product_Id = "+productId);
-            CreateCommands(qualitycheck);
+            _db.QualityChecks.Add(qualitycheck);
+            _db.SaveChanges();
+            createCommands(qualitycheck);
 
             return qualitycheck;
         }
@@ -48,7 +46,8 @@ namespace DroneAPI.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult PutQualityCheck(QualityCheck qualitycheck)
         {
-            QualityCheck ck = db.QualityChecks.Find(qualitycheck.Id);
+            if (qualitycheck == null) return InternalServerError();
+            QualityCheck ck = _db.QualityChecks.Find(qualitycheck.Id);
             
             if (qualitycheck.Status != null) {
                 ck.Status = qualitycheck.Status;
@@ -59,9 +58,9 @@ namespace DroneAPI.Controllers
             if (qualitycheck.PictureFolderUrl != null)
                 ck.PictureFolderUrl = qualitycheck.PictureFolderUrl;
 
-            db.Entry(ck).State = EntityState.Modified;
-            
-            db.SaveChanges();
+            _db.Entry(ck).State = EntityState.Modified;
+
+            _db.SaveChanges();
 
             return Ok();
         }
@@ -70,7 +69,7 @@ namespace DroneAPI.Controllers
         [HttpGet]
         public string GetQualityCheck()
         {
-            QualityCheck q = db.QualityChecks.Where(d => d.EndDate == null).FirstOrDefault();
+            QualityCheck q = _db.QualityChecks.Where(d => d.EndDate == null).FirstOrDefault();
 
             if (q == null) return "null";
 
@@ -86,7 +85,7 @@ namespace DroneAPI.Controllers
         [EnableCors("*", "*", "GET")]
         [HttpGet]
         public string GetQualityCheckID() {
-            QualityCheck q = db.QualityChecks.Where(d => d.EndDate == null).FirstOrDefault();
+            QualityCheck q = _db.QualityChecks.Where(d => d.EndDate == null).FirstOrDefault();
 
             if (q == null) return "null";
 
@@ -97,7 +96,7 @@ namespace DroneAPI.Controllers
         [HttpGet]
         public string GetQualityChecks()
         {
-            List<QualityCheck> q = db.QualityChecks.Where(d => d.EndDate != null).OrderByDescending(z=>z.EndDate).ToList();
+            List<QualityCheck> q = _db.QualityChecks.Where(d => d.EndDate != null).OrderByDescending(z=>z.EndDate).ToList();
 
             if (q == null) return "null";
 
@@ -111,25 +110,26 @@ namespace DroneAPI.Controllers
         }
 
         // Create Commands
-        private void CreateCommands(QualityCheck qc)
+        private void createCommands(QualityCheck qc)
         {
+     
             ProductLocation pl = qc.ProductLocation;
             _droneCommandProcessor = new DroneCommandProcessor();
             Pathfinder pathfinder = PathfinderFactory.GetPathfinderFromWarehouse(pl.District.Warehouse);
             
             Position startNode = new Position(pl.District.Warehouse.StartNode.X, pl.District.Warehouse.StartNode.Y);
-            LinkedList < Position > path = pathfinder.GetPath(startNode, this.GiveEndPosition(pl));
+            LinkedList < Position > path = pathfinder.GetPath(startNode, this.giveEndPosition(pl));
 			
             // save path to qualitycheck for webpage view
-            List<Position> path2 = pathfinder.GetPathList(startNode, this.GiveEndPosition(pl));
+            List<Position> path2 = pathfinder.GetPathList(startNode, this.giveEndPosition(pl));
             var s = JsonConvert.SerializeObject(path2, Formatting.Indented,
             new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             });
             qc.JSONPath = s;
-            db.Entry(qc).State = EntityState.Modified;
-            db.SaveChanges();
+            _db.Entry(qc).State = EntityState.Modified;
+            _db.SaveChanges();
 
             // start command
             _droneCommandProcessor.AddCommand(new Command { name = "Start" });
@@ -138,7 +138,7 @@ namespace DroneAPI.Controllers
             _droneCommandProcessor.AddListCommand(mFactory.GetMovementCommands(path));
 
             DistrictCommandFactory dFactory = new DistrictCommandFactory();
-            _droneCommandProcessor.AddListCommand(dFactory.GetCommands(GiveEndPosition(pl), pl));
+            _droneCommandProcessor.AddListCommand(dFactory.GetCommands(giveEndPosition(pl), pl));
             
             // take picture command
             _droneCommandProcessor.AddCommand(new Command { name = "TakePicture", value = qc.Id });
@@ -148,7 +148,7 @@ namespace DroneAPI.Controllers
             _droneCommandProcessor.Execute();
         }
 
-        private Position GiveEndPosition(ProductLocation pl) {
+        private Position giveEndPosition(ProductLocation pl) {
             int half = pl.District.Columns / 2;
             Position result = new Position(pl.District.StartGraphNode.X, pl.District.StartGraphNode.Y);
             if (pl.Column>half)
