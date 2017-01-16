@@ -41,7 +41,7 @@ namespace DroneControl.Services
             CvInvoke.Dilate(imgGray, imgGray, null, new Point(), 1, BorderType.Default, default(MCvScalar));
             CvInvoke.Erode(imgGray, imgGray, null, new Point(), 2, BorderType.Default, default(MCvScalar));
             CvInvoke.Blur(imgGray, imgGray, new Size(20, 20), new Point());
-            CircleF[] circles = imgGray.HoughCircles(new Gray(12), new Gray(50), 1, 200, 50, 100)[0];
+            CircleF[] circles = imgGray.HoughCircles(new Gray(12), new Gray(30), 1, 200, 50, 100)[0];
             img = imgGray.Convert<Bgr, Byte>();
             foreach (CircleF circle in circles)
             {
