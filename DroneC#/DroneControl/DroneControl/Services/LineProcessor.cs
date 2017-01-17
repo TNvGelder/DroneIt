@@ -20,13 +20,13 @@ namespace LineTrackingTest.Services
     class LineProcessor
     {
         private static volatile LineProcessor _instance;
-        private static object syncRoot = new Object();
+        private static object _syncRoot = new Object();
         public static LineProcessor Instance
         {
             get
             {
                 if (_instance == null) {
-                    lock (syncRoot) {
+                    lock (_syncRoot) {
                         if (_instance == null)
                             _instance = new LineProcessor();
                     }
@@ -36,14 +36,9 @@ namespace LineTrackingTest.Services
         }
         public double MaxPosRatio = .65;//Max allowed distance from side of picture to line
 
-        private int _regionHeight = 100;
-        private int _hue1 = 160;//170, 0
-        private int _hue2 = 180;//180, 10
-        private int _sat1 = 100;//100, 150
-        private int _sat2 = 200;//200, 255
-
         private int count = 0;
 
+        //Path for saving a log of the imageprocessing
         private string path = "ImageProcessing/";
 
         private LineProcessor() { }
@@ -59,19 +54,12 @@ namespace LineTrackingTest.Services
                 System.IO.Directory.CreateDirectory(path);
             Image<Hsv, Byte> hsvImage = img.Convert<Hsv, Byte>();
             int width = img.Size.Width;
-            //hsvImage.ROI = new Rectangle(0, img.Size.Height / 2 - _regionHeight / 2, width, _regionHeight);
-            //hsvImage.Save("../../TestImage/FilteredImage.png");
 
             Image<Gray, Byte>[] channels = hsvImage.Split();
             Image<Gray, Byte> imgHue = channels[0];
             Image<Gray, Byte> imgSat = channels[1];
 
-            Image<Gray, byte> hueFilter = imgHue.InRange(new Gray(_hue1), new Gray(_hue2));
-            Image<Gray, byte> satFilter = imgSat.InRange(new Gray(_sat1), new Gray(_sat2));
-            //hueFilter.Save("../../TestImage/GrayImage.png");
-            hueFilter = channels[2].InRange(new Gray(0), new Gray(40)); ;
-            
-            //hueFilter = hueFilter.And(satFilter);
+            Image<Gray, byte> hueFilter = channels[2].InRange(new Gray(0), new Gray(30));
 
             CvInvoke.Dilate(hueFilter, hueFilter, null, new Point(), 1, BorderType.Default, default(MCvScalar));
             CvInvoke.Erode(hueFilter, hueFilter, null, new Point(), 2, BorderType.Default, default(MCvScalar));
@@ -79,7 +67,7 @@ namespace LineTrackingTest.Services
 
             LineSegment2D[] lines = hueFilter.HoughLines(0, 0, 5, 5, 10, 7, 1)[0];
 
-            //Show lines in image for testing purposes
+            //Show lines in image for logging and testing purposes
             img = hueFilter.Convert<Bgr, Byte>();
             foreach (LineSegment2D line in lines)
             {
@@ -145,15 +133,15 @@ namespace LineTrackingTest.Services
             return result;
         }
 
+        /// <summary>
+        /// Checks if the line is visible and in the center of the image.
+        /// </summary>
+
         public bool IsLineVisible(Bitmap bitmap)
         {
 
             Image<Bgr, Byte> img = new Image<Bgr, Byte>(bitmap);
             return ProcessLine(bitmap) == PositioningState.Correct;
-            //LineSegment2D[] lines = filterLines(img);
-            //img.Save(path + "DroneInput" + count + ".png");
-            //count += 1;
-            //return (lines.Length > 0);
         }
     }
 }
