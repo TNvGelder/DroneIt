@@ -1,50 +1,54 @@
 ﻿using DroneControl.Commands;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Script.Serialization;
 
+/**
+ * @author: Gerhard Kroes
+ * */
 namespace DroneControl {
+    /// <summary>
+    /// Drone command processor it adds and execute commands
+    /// </summary>
     public class DroneCommandProcessor
     {
         private Queue<IDroneCommand> _commands;
         private Stack<IDroneCommand> _commandsUndo;
-        private Thread _th { get; set; }
 
         public DroneCommandProcessor() {
             _commands = new Queue<IDroneCommand>();
             _commandsUndo = new Stack<IDroneCommand>();
-            _th = new Thread(Executing);
         }
 
+        /// <summary>
+        /// Add a command to the list
+        /// </summary>
+        /// <param name="command"></param>
         public void AddCommand(IDroneCommand command) {
             _commands.Enqueue(command);
             _commandsUndo.Push(command);
         }
 
+        /// <summary>
+        /// Adds commands to the list
+        /// </summary>
+        /// <param name="commands"></param>
         public void AddListCommand(List<IDroneCommand> commands) {
             foreach(IDroneCommand command in commands) {
                 AddCommand(command);
             }
         }
-        
-        public void Execute() {
-            //_th.Start();
-            Executing();
-        }
 
-        public void Executing() {
+        /// <summary>
+        /// Execute command for command and remove the command in the undo list
+        /// </summary>
+        public void Execute() {
             while (_commands.Count > 0) {
                 _commands.Dequeue().Execute();
             }
         }
 
+        /// <summary>
+        /// Undo command for command and remove the command in the undo list
+        /// </summary>
         public void Undo() {
             while (_commandsUndo.Count > 0) {
                 _commandsUndo.Pop().Undo();

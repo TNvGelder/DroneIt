@@ -5,7 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+/**
+ * @author: Gerhard Kroes
+ * */
 namespace DroneControl.Commands {
+    /// <summary>
+    /// Take picture command moves and saves images
+    /// </summary>
     class TakePictureCommand : IDroneCommand {
         private DroneController _controller { get; set; }
         private int _id { get; set; }
@@ -20,6 +26,9 @@ namespace DroneControl.Commands {
             _websitePath = "../../../../../Website/";
         }
 
+        /// <summary>
+        /// Make 5 images and moves in a square
+        /// </summary>
         public void Execute() {
             ApiConnection.Instance.UpdateQualityCheck("Taking pictures");
             Console.WriteLine("Cheese <:-)");
@@ -68,9 +77,13 @@ namespace DroneControl.Commands {
             _controller.Rise(0.25);
             _controller.Hover();
 
+            // Send the image path to the api
             ApiConnection.Instance.UpdateQualityCheckImagePath(_id, _subDestPath);
         }
 
+        /// <summary>
+        /// Removes the folders and images
+        /// </summary>
         public void Undo() {
             if (!Directory.Exists(_websitePath + _subDestPath))
                 Directory.Delete(_websitePath + _subDestPath);
