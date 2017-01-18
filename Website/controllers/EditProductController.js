@@ -2,7 +2,7 @@ app.controller("EditProductController", function ($scope, $http, $location, $rou
     $scope.ProductID = $routeParams.Id;
 
 	//Loads the product from the API.
-	$http.get( "http://localhost:62553/api/Products/" + $scope.ProductID)
+	$http.get( "http://localhost:62553/api/Products/GetProduct/" + $scope.ProductID)
 	.then(
 		function successCallback(response) {
 			$scope.ProductName = response.data.Name;
@@ -14,10 +14,10 @@ app.controller("EditProductController", function ($scope, $http, $location, $rou
 
 	//Updates a product.
 	$scope.EditProduct = function() {
-		$http.put("http://localhost:62553/api/Products/" + $scope.ProductID, { Id: $scope.ProductID, Name: $scope.ProductName })
+		$http.put("http://localhost:62553/api/Products/PutProduct/" + $scope.ProductID, { Id: $scope.ProductID, Name: $scope.ProductName })
 		.then(
 			function successCallback(response) {
-				$location.path("/")
+				$location.path("/products")
 		    }, 
 		    function errorCallback(response) {
 		    	alert("Geen verbinding met de API");

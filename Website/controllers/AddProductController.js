@@ -3,10 +3,10 @@ app.controller("AddProductController", function ($scope, $http, $location) {
 
 	//Saves a product by submitting it to the API
 	$scope.SaveProduct = function() {
-		$http.post( "http://localhost:62553/api/Products", { Name: $scope.ProductName })
+		$http.post( "http://localhost:62553/api/Products/PostProduct", { Name: $scope.ProductName })
 		.then(
 			function successCallback(response) {
-				$location.path("/")
+				$location.path("/products")
 		    }, 
 		    function errorCallback(response) {
 		    	alert("Geen verbinding met de API");
@@ -16,6 +16,6 @@ app.controller("AddProductController", function ($scope, $http, $location) {
 
 	//Goes back to the overview page.
 	$scope.Cancel = function() {
-		$location.path("/");
+		$location.path("/products");
 	}
 });

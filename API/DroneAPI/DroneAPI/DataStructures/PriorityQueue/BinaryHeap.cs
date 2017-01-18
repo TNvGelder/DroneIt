@@ -4,6 +4,11 @@ using System.Linq;
 using System.Web;
 using DroneAPI.Models;
 
+/**
+ * @author: Twan van Gelder
+ * Datastructure for priorityQueue
+ * */
+
 namespace DroneAPI.DataStructures.PriorityQueue
 {
     public class BinaryHeap<T> where T : IComparable<T>
@@ -35,6 +40,7 @@ namespace DroneAPI.DataStructures.PriorityQueue
 
         public int Size { get { return _currentSize;} }
 
+        // add value to que
         public bool Add(T x)
         {
             if (_currentSize + 1 == _array.Length)
@@ -48,6 +54,7 @@ namespace DroneAPI.DataStructures.PriorityQueue
             return true;
         }
 
+        // increase size of array
         private void doubleArray()
         {
             T[] newArray;
@@ -65,12 +72,13 @@ namespace DroneAPI.DataStructures.PriorityQueue
             _array[_currentSize + 1] = x;
             _currentSize++;
         }
-
+        // empty 
         public void Clear()
         {
             _currentSize = 0;
         }
-
+        
+        // returns first value and removes it
         public T DeleteMin()
         {
             T minItem = Min;

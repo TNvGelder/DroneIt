@@ -4,8 +4,15 @@ using System.Linq;
 using System.Web;
 using DroneAPI.DataStructures;
 
+
+/**
+ * @author: Twan van Gelder
+ * class containing Graphnode information
+ * */
 namespace DroneAPI.Models
 {
+    // This Graphnode Class provides a point in the GraphStructure. 
+    // This Node a flyable point for the drone
     public class GraphNode<T>
     {
         public T Value { get; set; }

@@ -113,58 +113,75 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Diagrams\DataStructure-Diagram.cd" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\WarehouseController.cs" />
     <Compile Include="Controllers\QualityCheckController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
-    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="DAL\DroneContext.cs" />
     <Compile Include="DataStructures\GraphStructure\Edge.cs" />
     <Compile Include="DataStructures\GraphStructure\Graph.cs" />
     <Compile Include="DataStructures\GraphStructure\GraphNode.cs" />
     <Compile Include="DataStructures\PriorityQueue\BinaryHeap.cs" />
-    <Compile Include="Factorys\DroneFactory.cs" />
-    <Compile Include="Models\Command.cs" />
-    <Compile Include="Factorys\PathfinderFactory.cs" />
+    <Compile Include="DroneController\DroneCommandProcessor.cs" />
+    <Compile Include="DroneController\DroneCommandSender.cs" />
+    <Compile Include="Factories\CommandFactory.cs" />
+    <Compile Include="Factories\DistrictCommandFactory.cs" />
+    <Compile Include="Factories\PathfinderFactory.cs" />
     <Compile Include="Migrations\201612011442047_init.cs" />
     <Compile Include="Migrations\201612011442047_init.Designer.cs">
       <DependentUpon>201612011442047_init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\District.cs" />
-    <Compile Include="Models\EdgeDal.cs" />
-    <Compile Include="Models\GraphNodeDal.cs" />
-    <Compile Include="Models\Warehouse.cs" />
-    <Compile Include="Processors\DroneProcessors\Commands\FallCommand.cs" />
-    <Compile Include="Processors\DroneProcessors\Commands\RightCommand.cs" />
-    <Compile Include="Processors\DroneProcessors\Commands\RiseCommand.cs" />
-    <Compile Include="Processors\DroneProcessors\DroneCommandProcessor.cs" />
+    <Compile Include="Migrations\201612141240278_productlocation.cs" />
+    <Compile Include="Migrations\201612141240278_productlocation.Designer.cs">
+      <DependentUpon>201612141240278_productlocation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612201101170_qualitycheckmodel.cs" />
+    <Compile Include="Migrations\201612201101170_qualitycheckmodel.Designer.cs">
+      <DependentUpon>201612201101170_qualitycheckmodel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612211102215_qualitycheckstatus.cs" />
+    <Compile Include="Migrations\201612211102215_qualitycheckstatus.Designer.cs">
+      <DependentUpon>201612211102215_qualitycheckstatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701111240289_JsonQualitypath.cs" />
+    <Compile Include="Migrations\201701111240289_JsonQualitypath.Designer.cs">
+      <DependentUpon>201701111240289_JsonQualitypath.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701121411052_Table-Changed.cs" />
+    <Compile Include="Migrations\201701121411052_Table-Changed.Designer.cs">
+      <DependentUpon>201701121411052_Table-Changed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701121421379_Chang_Edge_names.cs" />
+    <Compile Include="Migrations\201701121421379_Chang_Edge_names.Designer.cs">
+      <DependentUpon>201701121421379_Chang_Edge_names.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Command.cs" />
+    <Compile Include="Models\Database\District.cs" />
+    <Compile Include="Models\Database\Edge.cs" />
+    <Compile Include="Models\Database\GraphNode.cs" />
+    <Compile Include="Models\Database\Product.cs" />
+    <Compile Include="Models\Database\ProductLocation.cs" />
+    <Compile Include="Models\Database\QualityCheck.cs" />
+    <Compile Include="Models\Database\Warehouse.cs" />
+    <Compile Include="Models\Position.cs" />
     <Compile Include="Services\MathUtility.cs" />
-    <Compile Include="Factorys\MovementCommandFactory.cs" />
+    <Compile Include="Factories\MovementCommandFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Drone.cs" />
-    <Compile Include="DataStructures\GraphStructure\Position.cs" />
-    <Compile Include="Models\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Pathfinder.cs" />
-    <Compile Include="Processors\DroneProcessors\Commands\BackwardCommand.cs" />
-    <Compile Include="Processors\DroneProcessors\Commands\ForwardCommand.cs" />
-    <Compile Include="Processors\DroneProcessors\Commands\IDroneCommand.cs" />
-    <Compile Include="Processors\DroneProcessors\Commands\LandCommand.cs" />
-    <Compile Include="Processors\DroneProcessors\Commands\LeftCommand.cs" />
-    <Compile Include="Processors\DroneProcessors\Commands\StartCommand.cs" />
-    <Compile Include="Processors\DroneProcessors\Commands\TurnCommand.cs" />
-    <Compile Include="Processors\DroneProcessors\DroneConnectionProcessor.cs" />
-    <Compile Include="Processors\DroneProcessors\DroneProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <Fakes Include="Fakes\EngineIoClientDotNet.fakes" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -178,6 +195,24 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201612011442047_init.resx">
       <DependentUpon>201612011442047_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612141240278_productlocation.resx">
+      <DependentUpon>201612141240278_productlocation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612201101170_qualitycheckmodel.resx">
+      <DependentUpon>201612201101170_qualitycheckmodel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612211102215_qualitycheckstatus.resx">
+      <DependentUpon>201612211102215_qualitycheckstatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701111240289_JsonQualitypath.resx">
+      <DependentUpon>201701111240289_JsonQualitypath.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701121411052_Table-Changed.resx">
+      <DependentUpon>201701121411052_Table-Changed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701121421379_Chang_Edge_names.resx">
+      <DependentUpon>201701121421379_Chang_Edge_names.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

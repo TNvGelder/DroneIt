@@ -1,54 +1,58 @@
 ﻿using DroneControl.Commands;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Script.Serialization;
 
+/**
+ * @author: Gerhard Kroes
+ * */
 namespace DroneControl {
+    /// <summary>
+    /// Drone command processor it adds and execute commands
+    /// </summary>
     public class DroneCommandProcessor
     {
         private Queue<IDroneCommand> _commands;
-        private Thread th { get; set; }
+        private Stack<IDroneCommand> _commandsUndo;
 
         public DroneCommandProcessor() {
-            this._commands = new Queue<IDroneCommand>();
-            th = new Thread(Executing);
+            _commands = new Queue<IDroneCommand>();
+            _commandsUndo = new Stack<IDroneCommand>();
         }
 
+        /// <summary>
+        /// Add a command to the list
+        /// </summary>
+        /// <param name="command"></param>
         public void AddCommand(IDroneCommand command) {
-            this._commands.Enqueue(command);
+            _commands.Enqueue(command);
+            _commandsUndo.Push(command);
         }
 
+        /// <summary>
+        /// Adds commands to the list
+        /// </summary>
+        /// <param name="commands"></param>
         public void AddListCommand(List<IDroneCommand> commands) {
             foreach(IDroneCommand command in commands) {
-                this.AddCommand(command);
+                AddCommand(command);
             }
         }
-        
-        public void Execute() {
-            th.Start();
-        }
 
-        public void Executing() {
+        /// <summary>
+        /// Execute command for command and remove the command in the undo list
+        /// </summary>
+        public void Execute() {
             while (_commands.Count > 0) {
                 _commands.Dequeue().Execute();
             }
         }
 
-        public List<Command> commandList() {
-            List<Command> commands = new List<Command>();
-
-            foreach (IDroneCommand dc in _commands) {
-                commands.Add(new Command { name = dc.GetName(), value = dc.GetValue() });
+        /// <summary>
+        /// Undo command for command and remove the command in the undo list
+        /// </summary>
+        public void Undo() {
+            while (_commandsUndo.Count > 0) {
+                _commandsUndo.Pop().Undo();
             }
-
-            return commands;
         }
     }
 }

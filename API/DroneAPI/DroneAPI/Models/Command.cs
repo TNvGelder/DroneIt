@@ -5,9 +5,13 @@ using System.Web;
 
 namespace DroneAPI.Models
 {
-	public class Command
-	{
+    /**
+     * @author: Albert David
+     * Model containing command info for DroneControl
+     * */
+    public class Command
+    {
         public string name { get; set; }
         public double value { get; set; }
-	}
+    }
 }

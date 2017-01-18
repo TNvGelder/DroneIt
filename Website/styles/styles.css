@@ -1,0 +1,125 @@
+html{
+	background: url("../content/images/warehouse-background_1_1920x1200.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.top-buffer { margin-top:10px; }
+.drawWarehouse a{
+	cursor: pointer;
+}
+.dronehomeimage{
+	padding:25px;
+}
+.warehousecolumn span{
+	position: absolute;
+	display: inline-block;
+	top: 0;
+	left: 0;pointer-events: none;
+	right: 0;
+	bottom: 0;
+	padding-top: 30%;
+}
+.warehousecolumn{
+	display: inline-block;
+	text-align: center;
+	border:1px solid black;
+	border-top: 1px solid red;
+	position: relative;
+}
+.productframe{
+	display: none;
+	position: absolute;
+	border: 1px solid grey;
+	background: white;
+}
+
+.productbutton{
+	background:#5cb85c;
+	height:100%;
+	width:100%;
+	position: absolute;
+	cursor: pointer;
+}
+#warehousecanvas{
+	overflow: hidden;
+	position: relative;
+	background: #FFF;
+}
+
+.productframe{
+	z-index: 3;
+}
+.graphnodes{
+	position: absolute;
+	height: 100%;
+width: 100%;
+}
+.WarehouseDistrict{
+	position: absolute;
+	z-index: 2;
+}
+
+#startposition{
+	background: url("../content/images/droneicon.png") ;
+	background-size: 100%;
+	position: absolute;
+}
+.Node{
+	border-radius:100%;
+	position: absolute;
+	background: green;
+}
+
+.liveDronePath{
+	border: 1px solid #eee;
+	min-height: 400px;
+	padding: -1px;
+}
+
+html>body{
+	background-color: transparent !important;
+}
+.homebuttons a{
+	height:100px;
+	padding:5px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+#page-wrapper{
+	background: white;
+}
+
+#qualitycheckContent{
+	margin-top:5px;
+	margin-bottom:5px;
+	min-height: 400px;
+
+}
+
+#warehouseSelect{
+	min-height: 400px;
+   /* border: 1px solid #eee;*/
+}
+
+.graphicview, .listview {
+	border-left: 1px solid #eee;
+border-right: 1px solid #eee;
+border-bottom: 1px solid #eee;
+}
+
+#qualitycheckProductSelect, #qualitycheckGraphicProductSelect{
+	height: 100%;
+}
+
+#hiddencanvas{
+	position: absolute;
+	top: 0;
+}
+@media screen and (min-width: 560px) {
+	#page-wrapper{
+		width: 80%;
+		margin: 0 auto;
+	}
+}

@@ -1,33 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
+﻿/**
+ * @author: Gerhard Kroes
+ * */
 namespace DroneControl.Commands
 {
+    /// <summary>
+    /// Moves the drone right and left
+    /// </summary>
 	public class RightCommand : IDroneCommand {
-        private object _controller { get; set; }
-        private double _squares { get; set; }
+        private DroneController _controller { get; set; }
+        private double _meters { get; set; }
 
-        public RightCommand(object controller, double meters) {
+        public RightCommand(DroneController controller, double meters) {
             _controller = controller;
-            _squares = meters;
+            _meters = meters;
         }
 
+        /// <summary>
+        /// Let the drone right for x meters
+        /// </summary>
         public void Execute() {
-            //_processor.Right(_squares);
+            // Send a status update to the api
+            ApiConnection.Instance.UpdateQualityCheck("Go right " + _meters + " meters");
+
+            // Make some sound
+            Sound.Instance.R2D2e();
+
+            _controller.Right((int)_meters);
+            _controller.Hover();
         }
 
+        /// <summary>
+        /// Let the drone left for x meters
+        /// </summary>
         public void Undo() {
-            //_processor.Left(_squares);
-        }
-
-        public string GetName() {
-            return "Right";
-        }
-
-        public double GetValue() {
-            return _squares;
+            _controller.Left((int)_meters);
+            _controller.Hover();
         }
     }
 }
