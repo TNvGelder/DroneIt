@@ -13,7 +13,7 @@ using System.Web.Script.Serialization;
  * @author: Gerhard Kroes
  * Processor handling connection between api and DroneControl, sends commands to DroneController
  * */
-namespace DroneAPI.Processors.DroneProcessors {
+namespace DroneAPI.DroneController {
     public class DroneCommandSender {
         private static DroneCommandSender instance;
         private Socket _sender;
