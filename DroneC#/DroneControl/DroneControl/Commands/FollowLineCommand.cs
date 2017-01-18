@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using DroneControl.Models;
+using DroneControl.PositioningHandlers;
 using DroneControl.Services;
 using Emgu.CV;
 using LineTrackingTest.Models;
@@ -16,15 +17,21 @@ namespace DroneControl.Commands
     /// @author: Twan van Gelder
     /// Command for navigating over a line to an endpoint.
     /// </summary>
-    class FollowLineCommand : IDroneCommand
+    public class FollowLineCommand : IDroneCommand
     {
-        private DroneController _controller { get; set; }
-        private double _meters { get; set; }
-
+        private DroneController _controller;
+        private double _meters;
+        private PositioningHandler _positioningHandler;
 
         public FollowLineCommand(DroneController controller)
         {
             _controller = controller;
+            PositioningHandler correct = new FollowCorrect(controller);
+            PositioningHandler lost = new LostHandler(controller);
+            PositioningHandler side = new SideCorrectionHandler(controller);
+            correct.Successor = lost;
+            lost.Successor = side;
+            _positioningHandler = correct;
         }
 
         public void Execute()
@@ -40,97 +47,21 @@ namespace DroneControl.Commands
         }
 
         /// <summary>
-        /// Converts a positioningstate to a corresponding direction
-        /// </summary>
-        /// <param name="state"></param>
-        /// <param name="isForward"></param>
-        /// <returns></returns>
-        private FlyDirection getDirection(PositioningState state)
-        {
-            if (state == PositioningState.Left)
-            {
-                return FlyDirection.Right;
-            }
-            else if (state == PositioningState.Right)
-            {
-                return FlyDirection.Left;
-            }
-            else
-            {
-                return FlyDirection.None;
-            }
-        }
-
-        /// <summary>
-        /// Handles the controls when the drone is positioned correctly above the line.
-        /// </summary>
-        private void onCorrect(bool isForward)
-        {
-            if (isForward)
-            {
-                _controller.Forward();
-            }
-            else
-            {
-                _controller.Backward();
-            }
-        }
-
-        /// <summary>
-        /// Handles the controls when the drone is lost.
-        /// </summary>
-        /// <param name="state"></param>
-        /// <param name="isForward"></param>
-        /// <returns></returns>
-        private bool onLost(PositioningState state)
-        {
-            FlyDirection direction = getDirection(state);
-            return !LineNavigator.Instance.FindLine(_controller, 2, direction); //Try to find back the line 
-        }
-
-        private void correctPosition(PositioningState state)
-        {
-            float oldSpeed = _controller.Speed;
-            //Correct drone position
-            _controller.Speed = 0.1F / 6;// Make the drone fly slower when it corrects itself
-                                         //so that it will not go too far
-            if (state == PositioningState.Left)
-            {
-                _controller.Right();
-            }
-            else if (state == PositioningState.Right)
-            {
-                _controller.Left();
-            }
-            _controller.Speed = oldSpeed;
-        }
-
-        /// <summary>
         /// Goes forward over the line until an endpoint. It will try to correct the position if it loses position.
         /// </summary>
         /// <param name="isForward"></param>
         private void followLine(bool isForward)
         {
             PositioningState prevState = PositioningState.Init;
-            bool landed = false;
+            bool isFlying =true;
             Bitmap bmp = _controller.GetBitmapFromBottomCam();
-            while (!CircleProcessor.Instance.IsCircleInCenter(bmp) && !landed)//Go forward and correct until endpoint is found
+            while (!CircleProcessor.Instance.IsCircleInCenter(bmp) && isFlying)//Go forward and correct until endpoint is found
             {
                 PositioningState state = LineProcessor.Instance.ProcessLine(bmp);
                 if (state != prevState)
                 {
-                    if ( state == PositioningState.Correct) { 
-                        onCorrect(isForward);   
-                    }
-                    else if (state == PositioningState.Lost)
-                    {
-                        landed = onLost(prevState);
-                    }
-                    else
-                    {
-                        correctPosition(state);
-                    }
                     prevState = state;
+                    isFlying = _positioningHandler.HandlePositioningChange(state, prevState, isForward);
                 }
                 System.Threading.Thread.Sleep(10);
                 bmp = _controller.GetBitmapFromBottomCam();
