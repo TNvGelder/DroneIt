@@ -45,7 +45,7 @@ namespace DroneControl.Commands
         /// <param name="state"></param>
         /// <param name="isForward"></param>
         /// <returns></returns>
-        private FlyDirection getDirection(PositioningState state, bool isForward)
+        private FlyDirection getDirection(PositioningState state)
         {
             if (state == PositioningState.Left)
             {
@@ -62,15 +62,47 @@ namespace DroneControl.Commands
         }
 
         /// <summary>
+        /// Handles the controls when the drone is positioned correctly above the line.
+        /// </summary>
+        private void onCorrect(bool isForward)
+        {
+            if (isForward)
+            {
+                _controller.Forward();
+            }
+            else
+            {
+                _controller.Backward();
+            }
+        }
+
+        /// <summary>
         /// Handles the controls when the drone is lost.
         /// </summary>
         /// <param name="state"></param>
         /// <param name="isForward"></param>
         /// <returns></returns>
-        private bool onLost(PositioningState state, bool isForward)
+        private bool onLost(PositioningState state)
         {
-            FlyDirection direction = getDirection(state, isForward);
+            FlyDirection direction = getDirection(state);
             return !LineNavigator.Instance.FindLine(_controller, 2, direction); //Try to find back the line 
+        }
+
+        private void correctPosition(PositioningState state)
+        {
+            float oldSpeed = _controller.Speed;
+            //Correct drone position
+            _controller.Speed = 0.1F / 6;// Make the drone fly slower when it corrects itself
+                                         //so that it will not go too far
+            if (state == PositioningState.Left)
+            {
+                _controller.Right();
+            }
+            else if (state == PositioningState.Right)
+            {
+                _controller.Left();
+            }
+            _controller.Speed = oldSpeed;
         }
 
         /// <summary>
@@ -79,55 +111,31 @@ namespace DroneControl.Commands
         /// <param name="isForward"></param>
         private void followLine(bool isForward)
         {
-            float oldSpeed = _controller.Speed;
             PositioningState prevState = PositioningState.Init;
             bool landed = false;
             Bitmap bmp = _controller.GetBitmapFromBottomCam();
             while (!CircleProcessor.Instance.IsCircleInCenter(bmp) && !landed)//Go forward and correct until endpoint is found
             {
                 PositioningState state = LineProcessor.Instance.ProcessLine(bmp);
-                
-                System.Threading.Thread.Sleep(10);
                 if (state != prevState)
                 {
-                    Console.WriteLine(state);
                     if ( state == PositioningState.Correct) { 
-                            if (isForward)
-                            {
-                                _controller.Forward();
-                            }
-                            else
-                            {
-                                _controller.Backward();
-                            }
+                        onCorrect(isForward);   
                     }
                     else if (state == PositioningState.Lost)
                     {
-                        landed = onLost(prevState, isForward);
+                        landed = onLost(prevState);
                     }
                     else
-                    {//Correct drone position
-                        _controller.Speed = 0.1F/6;// Make the drone fly slower when it corrects itself
-                        //so that it will not go too far
-                        if (state == PositioningState.Left)
-                        {
-                            _controller.Right();
-                        }
-                        else if (state == PositioningState.Right)
-                        {
-                            _controller.Left();
-                        }
-                        _controller.Speed = oldSpeed;
+                    {
+                        correctPosition(state);
                     }
-                   
                     prevState = state;
-
                 }
-
+                System.Threading.Thread.Sleep(10);
                 bmp = _controller.GetBitmapFromBottomCam();
             }
-            _controller.Hover();
-            
+            _controller.Hover();  
         }
 
         
