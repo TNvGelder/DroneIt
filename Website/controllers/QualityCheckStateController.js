@@ -1,3 +1,7 @@
+/*
+	@Author : Harmen Hilvers & Gerhard Kroes
+	Controller used for the Qualitycheck state page
+*/
 app.controller("QualityCheckStateController", function ($scope, $http, $location) {
 	$scope.ActiveQualitycheck = null;
 	$scope.activeWarehouse= null;
@@ -5,6 +9,7 @@ app.controller("QualityCheckStateController", function ($scope, $http, $location
 	$scope.currentWarehouseHeight= null;
 	$scope.currentWarehouseWidth= null;
 
+	// get the current active quality check, when there is no active quality check. Locate pageto the overviewpage
 	$scope.GetActiveQualitycheckState = function() {
 		$http.get("http://localhost:62553/api/QualityCheck/GetQualityCheck")
 		.then(
@@ -16,7 +21,6 @@ app.controller("QualityCheckStateController", function ($scope, $http, $location
 		       	 	console.log($scope.activeWarehouse);
 		       	 	if( $scope.activeWarehouse == null){
 						$scope.LoadWarehouse();
-
 		       	 	}
 		       	 	$scope.ResizeCanvas();
 		        }
@@ -28,6 +32,7 @@ app.controller("QualityCheckStateController", function ($scope, $http, $location
 	    );
 	}
 
+	// method to resize the warehouse canvas to be responsive
 	$scope.ResizeCanvas = function() {
 		var width = $("#warehousecanvas").width();
   		var w = $scope.activeWarehouse.Width;
@@ -40,13 +45,13 @@ app.controller("QualityCheckStateController", function ($scope, $http, $location
   		var canvas = document.getElementById('hiddencanvas');
 		canvas.width = width;
 		canvas.height = Height;
+
 		$scope.DrawLines();
 				
 		$scope.loaded= 1;
-		
-
 	}
 
+	// get the current warehouse data from the webapi
 	$scope.LoadWarehouse = function() {		
 		$http.get("http://localhost:62553/api/Warehouse/GetWarehouse?id="+ $scope.ActiveQualitycheck.ProductLocation.District.Warehouse.Id)
 		.then(
@@ -60,10 +65,12 @@ app.controller("QualityCheckStateController", function ($scope, $http, $location
 	    );
 	}
 
+	// method used to return array of the size of the given number
 	$scope.getNumber = function(num) {
 	    return new Array(num);   
 	}
 
+	// method to get the current active product location 
 	$scope.getActiveProduct = function(District,column) {
 	    var products = [];
 	    for (var i = 0; i < District.ProductLocations.length; i++) {
@@ -74,6 +81,7 @@ app.controller("QualityCheckStateController", function ($scope, $http, $location
 	    return products;
 	}
 	
+	// method to submit the cancilation of the quality check
 	$scope.CancelQualityCheck = function() {
 		$scope.ActiveQualitycheck.Status = "Done";
 		$scope.loaded = 0;
@@ -89,6 +97,8 @@ app.controller("QualityCheckStateController", function ($scope, $http, $location
 		    }
 	    );
 	}
+
+	// this method is used to calculate the correct positions from the warehouse coordinates to percentages for the view to be responsive
 	$scope.calculateCorrectPosition = function(locations) {		
 		for (var i = 0; i < locations.length; i++) {
 			//flip y coordinates
@@ -97,23 +107,18 @@ app.controller("QualityCheckStateController", function ($scope, $http, $location
 			// calculate y to percentages
 			$scope.currentWarehouseHeight = $("#warehousecanvas").height();
 			var heightpercentage = (100/$scope.activeWarehouse.Height ) * $scope.currentWarehouseHeight;
-			console.log("currentWarehouseHeight "+ $scope.currentWarehouseHeight);
-			console.log("percentage "+ heightpercentage);
-			console.log("positionY "+locations[i].Y);
 			locations[i].Y = ( heightpercentage/100 )* locations[i].Y;
 
+			// calculate x to percentages
 			$scope.currentWarehouseWidth = $("#warehousecanvas").width();
 			var widthpercentage = (100/$scope.activeWarehouse.Width ) * $scope.currentWarehouseWidth;
-			console.log("widthpercentage "+ widthpercentage);
-			console.log("positionX "+locations[i].X);
 			locations[i].X = ( widthpercentage/100 )* locations[i].X;
 
-			console.log("calculating");
-			console.log(locations[i]);
 		}
 		return locations;
 	}
 
+	// method to draw the path for the drone to take in the canvas
 	$scope.DrawLines = function() {
 	    if($scope.ActiveQualitycheck.JSONPath != null){
 
@@ -123,6 +128,7 @@ app.controller("QualityCheckStateController", function ($scope, $http, $location
 			// calculate coordinates of product
 	    	var DistrictX = $scope.ActiveQualitycheck.ProductLocation.District.X;
 	    	var DistrictY = $scope.ActiveQualitycheck.ProductLocation.District.Y;
+
 	    	// get productlocation
 	    	var productpoint = $scope.CalculateBearingPoint(DistrictX,DistrictY,$scope.ActiveQualitycheck.ProductLocation.District.Orientation, ( $scope.ActiveQualitycheck.ProductLocation.Column *100)-50);
 
@@ -131,6 +137,8 @@ app.controller("QualityCheckStateController", function ($scope, $http, $location
 			locations.push(frontproductlocation);	    	
 			locations.push(productpoint);
 			locations = $scope.calculateCorrectPosition(locations);
+
+			// loop through all locations and draw lines
 	    	for (var i = 0; i < locations.length; i++) {	    		
 	    		if(locations[i+1] == null) {continue;}	    		
 				var ctx=c.getContext("2d");
@@ -144,36 +152,30 @@ app.controller("QualityCheckStateController", function ($scope, $http, $location
 	    }
 	}
 
+	// method to calculate the bearing point to determine the correct X and Y for the next point
 	$scope.CalculateBearingPoint = function(X,Y, bearing, distance){
 		point = {X: X, Y: Y};		
 		angle =     90 - bearing-90;
 		bearing =  bearing * Math.PI / 180;
 		angle =    angle * Math.PI / 180;
-		console.log("point "+point);
-		console.log("angle "+angle);
-		console.log("bearing "+bearing);
+
 		dist_x = distance * Math.cos(angle);
 		dist_y = distance * Math.sin(angle)
 
-		console.log( dist_x, dist_y);
-     	console.log(point);
-
 		point.X = point.X + dist_x;
 		point.Y =  point.Y + dist_y;
-     	console.log(point);
 
 		return point;
 
 	}
 
 	$scope.GetActiveQualitycheckState();
-	var interval = setInterval(function(){
-		
-		console.log("refresh");
-			$scope.GetActiveQualitycheckState();
+
+	// set interval to refresh the qualitycheck state every second
+	var interval = setInterval(function(){		
+		$scope.GetActiveQualitycheckState();
 		
 	}, 1000);
-	console.log(interval);
 
 });
 

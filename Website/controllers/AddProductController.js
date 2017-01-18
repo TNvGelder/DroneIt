@@ -1,3 +1,7 @@
+/*
+	@Author : Henk-Jan Leusink
+	Controller used for the add product page
+*/
 app.controller("AddProductController", function ($scope, $http, $location) {
 	$scope.ProductName; 
 
