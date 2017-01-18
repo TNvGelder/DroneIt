@@ -10,18 +10,21 @@ using LineTrackingTest.Services;
 namespace DroneControl.Services
 {
     /// <summary>
-    /// 
+    /// This class is used for finding the line. 
+    /// It's not required that the line is visible for the drone for the navigation in this class.
     /// </summary>
     class LineNavigator
     {
         private static volatile LineNavigator _instance;
-        private static object syncRoot = new Object();
+        private static object _syncRoot = new Object();
+
+        //Gets or creates an instance of line navigator.
         public static LineNavigator Instance
         {
             get
             {
                 if (_instance == null) {
-                    lock (syncRoot) {
+                    lock (_syncRoot) {
                         if (_instance == null)
                             _instance = new LineNavigator();
                     }
@@ -32,6 +35,7 @@ namespace DroneControl.Services
 
         private LineNavigator() { }
 
+        //Moves the drone in a direction.
         private void move(DroneController controller, FlyDirection direction)
         {
             if (direction == FlyDirection.Forward)
@@ -51,7 +55,13 @@ namespace DroneControl.Services
                 controller.Right();
             }
         }
-
+        /// <summary>
+        /// Makes the drone fly in a direction for a maximum amount of meters until the line is found.
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="maxMeters"></param>
+        /// <param name="direction"></param>
+        /// <returns></returns>
         public bool FindLine(DroneController controller, float maxMeters, FlyDirection direction)
         {
             if (direction == FlyDirection.None)
@@ -63,8 +73,7 @@ namespace DroneControl.Services
             float time = maxMeters/speed*200;
             float oldSpeed = controller.Speed;
             controller.Speed = speed;
-            move(controller, direction);
-            
+            move(controller, direction);            
             Stopwatch s = new Stopwatch();
             s.Start();
             bool lineDetected = false;

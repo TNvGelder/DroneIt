@@ -11,6 +11,10 @@ using LineTrackingTest.Services;
 
 namespace DroneControl.Commands
 {
+    
+    /// <summary>
+    /// 
+    /// </summary>
     class FollowLineCommand : IDroneCommand
     {
         private DroneController _controller { get; set; }
@@ -35,7 +39,7 @@ namespace DroneControl.Commands
 
         //private void 
 
-        private FlyDirection getDirection(PositioningState state)
+        private FlyDirection getDirection(PositioningState state, bool isForward)
         {
             if (state == PositioningState.Left)
             {
@@ -51,9 +55,9 @@ namespace DroneControl.Commands
             }
         }
 
-        private bool onLost(PositioningState state)
+        private bool onLost(PositioningState state, bool isForward)
         {
-            FlyDirection direction = getDirection(state);
+            FlyDirection direction = getDirection(state, isForward);
             return !LineNavigator.Instance.FindLine(_controller, 2, direction); //Try to find back the line
            
         }
@@ -64,7 +68,6 @@ namespace DroneControl.Commands
             PositioningState prevState = PositioningState.Init;
             int startPointOfView = _controller.PointOfView;
             bool landed = false;
-            Console.WriteLine("StartCamDetect");
             Bitmap bmp = _controller.GetBitmapFromBottomCam();
             while (!CircleProcessor.Instance.IsCircleInCenter(bmp) && !landed)
             {
@@ -87,10 +90,13 @@ namespace DroneControl.Commands
                     }
                     else if (state == PositioningState.Lost)
                     {
-                        landed = onLost(prevState);
+                        Sound.Instance.R2D2a();
+                        landed = onLost(prevState, isForward);
+                        
                     }
                     else
                     {
+                        //Sound.Instance.R2D2e();
                         _controller.Speed = 0.1F/6;
                         if (state == PositioningState.Left)
                         {
@@ -111,6 +117,9 @@ namespace DroneControl.Commands
 
                 bmp = _controller.GetBitmapFromBottomCam();
             }
+            _controller.Hover();
+            
+            
             Console.WriteLine("Done");
         }
 

@@ -4,7 +4,13 @@ using System.IO;
 using System.Net;
 using System.Text;
 
+/**
+ * @author: Gerhard Kroes
+ * */
 namespace DroneControl {
+    /// <summary>
+    /// Connection class with the api
+    /// </summary>
     public class ApiConnection {
         private static volatile ApiConnection _instance;
         private static object syncRoot = new Object();
@@ -27,6 +33,10 @@ namespace DroneControl {
             _port = 62553;
         }
 
+        /// <summary>
+        /// Get the lates qualitycheck id
+        /// </summary>
+        /// <returns>ID</returns>
         private int getQualityCheckID() {
             var request = (HttpWebRequest)WebRequest.Create("http://localhost:" + _port + "/api/QualityCheck/GetQualityCheckID");
 
@@ -38,6 +48,10 @@ namespace DroneControl {
             return id;
         }
 
+        /// <summary>
+        /// Sends a status update to the active qualitycheck in the api
+        /// </summary>
+        /// <param name="status"></param>
         public void UpdateQualityCheck(string status) {
             var request = (HttpWebRequest)WebRequest.Create("http://localhost:" + _port + "/api/QualityCheck/PutQualityCheck/" + getQualityCheckID());
 
@@ -58,6 +72,11 @@ namespace DroneControl {
             var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
         }
 
+        /// <summary>
+        /// Sends a image path to a qualitycheck in the api
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="imagePath"></param>
         public void UpdateQualityCheckImagePath(int id, string imagePath) {
             var request = (HttpWebRequest)WebRequest.Create("http://localhost:" + _port + "/api/QualityCheck/PutQualityCheck/" + id);
 

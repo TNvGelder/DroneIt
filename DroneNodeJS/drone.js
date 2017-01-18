@@ -1,3 +1,6 @@
+/**
+ * @author: Gerhard Kroes
+**/
 var app = require('http').createServer();
 var io = require('socket.io').listen(app);
 var arDrone = require('ar-drone');

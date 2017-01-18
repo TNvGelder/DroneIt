@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
+﻿/**
+ * @author: Gerhard Kroes
+ * */
 namespace DroneControl.Commands
 {
+    /// <summary>
+    /// Forward command moves the drone forward and backward
+    /// </summary>
     public class ForwardCommand : IDroneCommand
     {
         private DroneController _controller { get; set; }
@@ -15,14 +16,24 @@ namespace DroneControl.Commands
             _meters = meters;
         }
 
+        /// <summary>
+        /// Go forward x meters
+        /// </summary>
         public void Execute()
         {
+            // Send a status update to the api
             ApiConnection.Instance.UpdateQualityCheck("Go forward " + _meters + " meters");
+
+            // Make some sound
             Sound.Instance.R2D2e();
+
             _controller.Forward((float)_meters);
             _controller.Hover();
         }
 
+        /// <summary>
+        /// Go backwards x meters
+        /// </summary>
         public void Undo()
         {
             _controller.Backward((float)_meters);
