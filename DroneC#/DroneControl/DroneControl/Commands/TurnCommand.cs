@@ -3,6 +3,9 @@
  * */
 namespace DroneControl.Commands
 {
+    /// <summary>
+    /// Turn command let the drone turn x degrees
+    /// </summary>
     public class TurnCommand : IDroneCommand
     {
         private DroneController _controller { get; set; }
@@ -15,7 +18,7 @@ namespace DroneControl.Commands
         }
 
         /// <summary>
-        /// Turn to degrees and saves current degrees
+        /// Turn to x degrees and saves current degrees
         /// </summary>
         public void Execute() {
             // Send a status update to the api
@@ -32,7 +35,7 @@ namespace DroneControl.Commands
         }
 
         /// <summary>
-        /// Turn back
+        /// Turns back
         /// </summary>
         public void Undo() {
             _controller.Turn(_UndoDegrees);

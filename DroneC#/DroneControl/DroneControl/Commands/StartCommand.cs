@@ -4,7 +4,7 @@
 namespace DroneControl.Commands
 {
     /// <summary>
-    /// 
+    /// Drone takeoff or lands
     /// </summary>
     public class StartCommand : IDroneCommand
     {

@@ -4,7 +4,7 @@
 namespace DroneControl.Commands
 {
     /// <summary>
-    /// 
+    /// Forward command moves the drone forward and backward
     /// </summary>
     public class ForwardCommand : IDroneCommand
     {
@@ -17,7 +17,7 @@ namespace DroneControl.Commands
         }
 
         /// <summary>
-        /// 
+        /// Go forward x meters
         /// </summary>
         public void Execute()
         {
@@ -32,7 +32,7 @@ namespace DroneControl.Commands
         }
 
         /// <summary>
-        /// 
+        /// Go backwards x meters
         /// </summary>
         public void Undo()
         {
