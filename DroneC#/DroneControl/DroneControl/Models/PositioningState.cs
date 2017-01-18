@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LineTrackingTest.Models
 {
-    enum PositioningState
+    public enum PositioningState
     {
         Correct,
         Left,
