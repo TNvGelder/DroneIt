@@ -15,6 +15,7 @@ using LineTrackingTest.Models;
 namespace LineTrackingTest.Services
 {
     /// <summary>
+    /// @Author: Twan van Gelder
     /// This class is used for detecting the position of the drone relative to lines in given images.
     /// </summary>
     class LineProcessor
@@ -53,22 +54,17 @@ namespace LineTrackingTest.Services
             if (!Directory.Exists(path))
                 System.IO.Directory.CreateDirectory(path);
             Image<Hsv, Byte> hsvImage = img.Convert<Hsv, Byte>();
-            int width = img.Size.Width;
-
             Image<Gray, Byte>[] channels = hsvImage.Split();
-            Image<Gray, Byte> imgHue = channels[0];
-            Image<Gray, Byte> imgSat = channels[1];
+            Image<Gray, byte> grayImg = channels[2].InRange(new Gray(0), new Gray(30));
 
-            Image<Gray, byte> hueFilter = channels[2].InRange(new Gray(0), new Gray(30));
+            //Decrease noise in the images
+            CvInvoke.Dilate(grayImg, grayImg, null, new Point(), 1, BorderType.Default, default(MCvScalar));
+            CvInvoke.Erode(grayImg, grayImg, null, new Point(), 2, BorderType.Default, default(MCvScalar));
+            CvInvoke.Blur(grayImg, grayImg, new Size(20, 20), new Point());
 
-            CvInvoke.Dilate(hueFilter, hueFilter, null, new Point(), 1, BorderType.Default, default(MCvScalar));
-            CvInvoke.Erode(hueFilter, hueFilter, null, new Point(), 2, BorderType.Default, default(MCvScalar));
-            CvInvoke.Blur(hueFilter, hueFilter, new Size(20, 20), new Point());
-
-            LineSegment2D[] lines = hueFilter.HoughLines(0, 0, 5, 5, 10, 7, 1)[0];
-
+            LineSegment2D[] lines = grayImg.HoughLines(0, 0, 5, 5, 10, 7, 1)[0];
             //Show lines in image for logging and testing purposes
-            img = hueFilter.Convert<Bgr, Byte>();
+            img = grayImg.Convert<Bgr, Byte>();
             foreach (LineSegment2D line in lines)
             {
                 img.Draw(line, new Bgr(Color.Green), 3);
@@ -85,12 +81,9 @@ namespace LineTrackingTest.Services
         /// <returns>PositioningState</returns>
         public PositioningState ProcessLine(Bitmap bitmap)
         {
-            
             Image<Bgr, Byte> img = new Image<Bgr, Byte>(bitmap);
             int width = img.Size.Width;
-
             LineSegment2D[] lines = filterLines(img);
-
             PositioningState result;
             if (lines.Length == 0)
             {

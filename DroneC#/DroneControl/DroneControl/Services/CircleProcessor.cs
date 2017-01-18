@@ -9,16 +9,22 @@ using Emgu.CV.Structure;
 
 namespace DroneControl.Services
 {
+    /// <summary>
+    /// @author: Twan van Gelder
+    /// 
+    /// </summary>
     class CircleProcessor
     {
         private static volatile CircleProcessor _instance;
-        private static object syncRoot = new Object();
+        private static object _syncRoot = new Object();
+
+        //Get an instance of circleprocessor 
         public static CircleProcessor Instance
         {
             get
             {
                 if (_instance == null) {
-                    lock (syncRoot) {
+                    lock (_syncRoot) {
                         if (_instance == null)
                             _instance = new CircleProcessor();
                     }

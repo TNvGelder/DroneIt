@@ -11,14 +11,16 @@ using LineTrackingTest.Services;
 
 namespace DroneControl.Commands
 {
-    
+
     /// <summary>
-    /// 
+    /// @author: Twan van Gelder
+    /// Command for navigating over a line to an endpoint.
     /// </summary>
     class FollowLineCommand : IDroneCommand
     {
         private DroneController _controller { get; set; }
         private double _meters { get; set; }
+
 
         public FollowLineCommand(DroneController controller)
         {
@@ -37,8 +39,12 @@ namespace DroneControl.Commands
             followLine(false);
         }
 
-        //private void 
-
+        /// <summary>
+        /// Converts a positioningstate to a corresponding direction
+        /// </summary>
+        /// <param name="state"></param>
+        /// <param name="isForward"></param>
+        /// <returns></returns>
         private FlyDirection getDirection(PositioningState state, bool isForward)
         {
             if (state == PositioningState.Left)
@@ -55,21 +61,29 @@ namespace DroneControl.Commands
             }
         }
 
+        /// <summary>
+        /// Handles the controls when the drone is lost.
+        /// </summary>
+        /// <param name="state"></param>
+        /// <param name="isForward"></param>
+        /// <returns></returns>
         private bool onLost(PositioningState state, bool isForward)
         {
             FlyDirection direction = getDirection(state, isForward);
-            return !LineNavigator.Instance.FindLine(_controller, 2, direction); //Try to find back the line
-           
+            return !LineNavigator.Instance.FindLine(_controller, 2, direction); //Try to find back the line 
         }
 
+        /// <summary>
+        /// Goes forward over the line until an endpoint. It will try to correct the position if it loses position.
+        /// </summary>
+        /// <param name="isForward"></param>
         private void followLine(bool isForward)
         {
             float oldSpeed = _controller.Speed;
             PositioningState prevState = PositioningState.Init;
-            int startPointOfView = _controller.PointOfView;
             bool landed = false;
             Bitmap bmp = _controller.GetBitmapFromBottomCam();
-            while (!CircleProcessor.Instance.IsCircleInCenter(bmp) && !landed)
+            while (!CircleProcessor.Instance.IsCircleInCenter(bmp) && !landed)//Go forward and correct until endpoint is found
             {
                 PositioningState state = LineProcessor.Instance.ProcessLine(bmp);
                 
@@ -86,26 +100,21 @@ namespace DroneControl.Commands
                             {
                                 _controller.Backward();
                             }
-                            Console.WriteLine("Forward");
                     }
                     else if (state == PositioningState.Lost)
                     {
-                        Sound.Instance.R2D2a();
                         landed = onLost(prevState, isForward);
-                        
                     }
                     else
-                    {
-                        //Sound.Instance.R2D2e();
-                        _controller.Speed = 0.1F/6;
+                    {//Correct drone position
+                        _controller.Speed = 0.1F/6;// Make the drone fly slower when it corrects itself
+                        //so that it will not go too far
                         if (state == PositioningState.Left)
                         {
-                            Console.WriteLine("'To the right");
                             _controller.Right();
                         }
                         else if (state == PositioningState.Right)
                         {
-                            Console.WriteLine("To the left");
                             _controller.Left();
                         }
                         _controller.Speed = oldSpeed;
@@ -119,10 +128,9 @@ namespace DroneControl.Commands
             }
             _controller.Hover();
             
-            
-            Console.WriteLine("Done");
         }
 
+        
         public string GetName()
         {
             return "Forward";
