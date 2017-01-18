@@ -5,6 +5,9 @@ using System.Text;
 
 namespace DroneControl.Models
 {
+    /// <summary>
+    /// @author: Twan van Gelder
+    /// </summary>
     public enum FlyDirection
     {
         Forward,

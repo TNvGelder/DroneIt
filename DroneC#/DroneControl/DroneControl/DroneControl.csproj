@@ -78,6 +78,10 @@
     <Compile Include="DroneController.cs" />
     <Compile Include="Models\FlyDirection.cs" />
     <Compile Include="Models\PositioningState.cs" />
+    <Compile Include="PositioningHandlers\FollowCorrect.cs" />
+    <Compile Include="PositioningHandlers\LostHandler.cs" />
+    <Compile Include="PositioningHandlers\PositioningHandler.cs" />
+    <Compile Include="PositioningHandlers\SideCorrectionHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CircleProcessor.cs" />

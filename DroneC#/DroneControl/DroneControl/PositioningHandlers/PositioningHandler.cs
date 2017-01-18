@@ -6,7 +6,12 @@ using LineTrackingTest.Models;
 
 namespace DroneControl.PositioningHandlers
 {
-    //DefenceHandlers deal with the attacking player in case they are strong enough or they will let their successor deal with the handler.
+    /// <summary>
+    /// @author: Twan van Gelder
+    /// Positioninghandlers decide how to control the drone from given positioningstates.
+    /// If a positioninghandler does not know how to deal with given input and there is a successor
+    /// the successor will handle the positioning.
+    /// </summary>
     public abstract class PositioningHandler
     {
         protected PositioningHandler successor;

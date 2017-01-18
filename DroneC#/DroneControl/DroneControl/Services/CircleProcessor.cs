@@ -53,13 +53,6 @@ namespace DroneControl.Services
             {
                 img.Draw(circle, new Bgr(Color.Green), 3);
             }
-            img.Save("../../TestImage/CircleOutputImage.png");
-
-            if (circles.Length > 0)
-            {
-                Console.WriteLine("Circle detected");
-            }
-
             return circles.Length > 0;
         }
     }

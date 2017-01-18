@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace LineTrackingTest.Models
 {
+    /// <summary>
+    /// @author: Twan van Gelder
+    /// Enum for showing the positioning relative to a line.
+    /// </summary>
     public enum PositioningState
     {
         Correct,
