@@ -14,8 +14,9 @@ using System.Web.Script.Serialization;
  * Processor handling connection between api and DroneControl, sends commands to DroneController
  * */
 namespace DroneAPI.DroneController {
+
     public class DroneCommandSender {
-        private static DroneCommandSender instance;
+        private static DroneCommandSender _instance;
         private Socket _sender;
         private Queue<Command> _commands;
         
@@ -23,10 +24,10 @@ namespace DroneAPI.DroneController {
         {
             get
             {
-                if (instance == null) {
-                    instance = new DroneCommandSender();
+                if (_instance == null) {
+                    _instance = new DroneCommandSender();
                 }
-                return instance;
+                return _instance;
             }
         }
 
@@ -95,6 +96,7 @@ namespace DroneAPI.DroneController {
             Console.WriteLine("Server message: {0}", Encoding.ASCII.GetString(bytes, 0, bytesRec));
            
         }
+
         // Method to disconnect from DroneControl application
         private void disconnect() {
             // Release the socket.
