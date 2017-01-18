@@ -166,14 +166,13 @@ app.controller("QualityCheckStateController", function ($scope, $http, $location
 
 	}
 
+	/**
+		* Gerhard Kroes
+	**/
 	$scope.GetActiveQualitycheckState();
 	var interval = setInterval(function(){
-		
-		console.log("refresh");
-			$scope.GetActiveQualitycheckState();
-		
+		$scope.GetActiveQualitycheckState();
 	}, 1000);
-	console.log(interval);
 
 });
 

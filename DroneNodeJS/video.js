@@ -1,3 +1,6 @@
+/**
+ * @author: Gerhard Kroes
+**/
 var arDrone = require('ar-drone');
 var PaVEParser = require('ar-drone/lib/video/PaVEParser');
 var output = require('fs').createWriteStream('vid.h264');

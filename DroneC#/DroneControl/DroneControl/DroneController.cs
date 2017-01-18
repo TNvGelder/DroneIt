@@ -13,9 +13,18 @@ using System.Windows.Forms;
 using AR.Drone.Client.Configuration;
 using DroneControl.Models;
 
+/**
+ * @author: Gerhard Kroes and Henk-jan Leusink
+ * */
 namespace DroneControl {
+    /// <summary>
+    /// Enum for the camera's in the drone
+    /// </summary>
     enum DroneCamera { Front, Bottom }
 
+    /// <summary>
+    /// Controller that controls the drone
+    /// </summary>
     public class DroneController
     {
         private static volatile DroneController _instance;
@@ -67,20 +76,27 @@ namespace DroneControl {
             }
         }
 
+        /// <summary>
+        /// Connects with the drone
+        /// </summary>
         private DroneController()
         {
+            // Sets paths
             DataPath = "Data/";
             LivePath = DataPath + "Live/";
 
+            // Starts the video stream
             _videoPacketDecoderWorker = new VideoPacketDecoderWorker(PixelFormat.BGR24, true, OnVideoPacketDecoded);
             _videoPacketDecoderWorker.Start();
 
+            // Connects with the drone
             _droneClient = new DroneClient("192.168.1.1");
             
             _frameNumber = 0;
             DateTime dt = DateTime.Now;
             _frameTag = dt.Year.ToString() + dt.Month.ToString("00") + dt.Day.ToString("00") + dt.Hour.ToString("00") + dt.Minute.ToString("00") + "_";
 
+            // Enable navigation data
             _droneClient.NavigationPacketAcquired += OnNavigationPacketAcquired;
             _droneClient.VideoPacketAcquired += OnVideoPacketAcquired;
             _droneClient.NavigationDataAcquired += data => _navigationData = data;
@@ -180,6 +196,10 @@ namespace DroneControl {
             System.Threading.Thread.Sleep(Convert.ToInt16(Time));
         }
 
+        /// <summary>
+        /// Turn to degrees
+        /// </summary>
+        /// <param name="turnTo"></param>
         public void Turn(int turnTo)
         {
             int CurrentDegrees = degreesConverter(Convert.ToInt16(_navigationData.Degrees));
@@ -218,6 +238,10 @@ namespace DroneControl {
             }
         }
 
+        /// <summary>
+        /// Turn with north degrees
+        /// </summary>
+        /// <param name="degrees"></param>
         public void TurnToWorldDegrees(int degrees) {
             Console.WriteLine("Turn " + degrees);
             int turnTo = (Convert.ToInt16(degrees) + Convert.ToInt16((this.North)));
@@ -240,6 +264,9 @@ namespace DroneControl {
             setNorth();
         }
 
+        /// <summary>
+        /// Set north degrees
+        /// </summary>
         private void setNorth() {
             North = Convert.ToInt16(_navigationData.Degrees);
             if (North < 0) {
@@ -389,6 +416,11 @@ namespace DroneControl {
             _frameBitmap.Save(LivePath + "live.png");
         }
 
+        /// <summary>
+        /// Convert the degrees with north degrees
+        /// </summary>
+        /// <param name="degrees"></param>
+        /// <returns></returns>
         private int degreesConverter(int degrees) {
             if (degrees < 0) {
                 degrees = (degrees + 360);
@@ -396,6 +428,10 @@ namespace DroneControl {
             return degrees;
         }
 
+        /// <summary>
+        /// Switch camera to
+        /// </summary>
+        /// <param name="vct"></param>
         private void switchCamera(VideoChannelType vct) {
             var configuration = new Settings();
             configuration.Video.Channel = vct;
@@ -403,6 +439,10 @@ namespace DroneControl {
             System.Threading.Thread.Sleep(100);
         }
 
+        /// <summary>
+        /// Switch camera to
+        /// </summary>
+        /// <param name="camera"></param>
         private void setCameraTo(DroneCamera camera) {
             if (camera == DroneCamera.Front) {
                 switchCamera(VideoChannelType.Horizontal);
@@ -411,6 +451,10 @@ namespace DroneControl {
             }
         }
 
+        /// <summary>
+        /// Gets a bitmap from bottom camera
+        /// </summary>
+        /// <returns>Bitmap</returns>
         public Bitmap GetBitmapFromBottomCam() {
             setCameraTo(DroneCamera.Bottom);
 
@@ -429,6 +473,10 @@ namespace DroneControl {
             return bm;
         }
 
+        /// <summary>
+        /// Gets a bitmap from front camera
+        /// </summary>
+        /// <returns>Bitmap</returns>
         public Bitmap GetBitmapFromFrontCam() {
             setCameraTo(DroneCamera.Front);
 

@@ -5,7 +5,13 @@ using System.Linq;
 using System.Text;
 using WMPLib;
 
+/**
+ * @author: Gerhard Kroes
+ * */
 namespace DroneControl {
+    /// <summary>
+    /// Sound class 
+    /// </summary>
     public class Sound {
         private static volatile Sound _instance;
         private static object syncRoot = new Object();
@@ -30,6 +36,10 @@ namespace DroneControl {
                 Directory.CreateDirectory(_path);
         }
 
+        /// <summary>
+        /// Plays the sound file
+        /// </summary>
+        /// <param name="fileName"></param>
         private void play(string fileName) {
             if (!File.Exists(_path + fileName))
                 File.Copy("../../" + _path + fileName, _path + fileName);

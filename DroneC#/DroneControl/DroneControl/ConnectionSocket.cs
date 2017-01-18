@@ -9,8 +9,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 
+/**
+ * @author: Gerhard Kroes
+ * */
 namespace DroneControl
 {
+    /// <summary>
+    /// Bind a socket and wait for connection
+    /// </summary>
     public class ConnectionSocket
     {
         private static volatile ConnectionSocket _instance;
@@ -18,11 +24,14 @@ namespace DroneControl
         private int _port { get; set; }
         private Thread th { get; set; }
 
+        /// <summary>
+        /// Set port and makes the thread
+        /// </summary>
         private ConnectionSocket() {
             _port = 11000;
             th = new Thread(StartListening);
         }
-
+        
         public static ConnectionSocket Instance {
             get {
                 if (_instance == null) {
@@ -35,6 +44,9 @@ namespace DroneControl
             }
         }
 
+        /// <summary>
+        /// Start the thread and start listening on the port
+        /// </summary>
         public void Start() {
             th.Start();
         }
@@ -86,6 +98,12 @@ namespace DroneControl
             Console.Read();
         }
 
+        /// <summary>
+        /// Receiving data from the socket recusief
+        /// </summary>
+        /// <param name="handler"></param>
+        /// <param name="data"></param>
+        /// <returns>string</returns>
         private string receiveData(Socket handler, string data = null) {
             byte[] bytes = new byte[1048576];
             int bytesRec = handler.Receive(bytes);
@@ -96,10 +114,21 @@ namespace DroneControl
             return receiveData(handler, data);
         }
 
+        /// <summary>
+        /// String to a list with commands
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns>List<Command></returns>
         private List<Command> stringToCommands(string data) {
             return new JavaScriptSerializer().Deserialize<List<Command>>(data.Substring(0, data.Length - 5));
         }
 
+        /// <summary>
+        /// Makes command factory and drone command processor
+        /// Adds commands to the drone command processor
+        /// And execute commands
+        /// </summary>
+        /// <param name="commandList"></param>
         private void executeCommands(List<Command> commandList) {
             CommandFactory commandFactory = new CommandFactory(DroneController.Instance);
             DroneCommandProcessor droneCommandProcessor = new DroneCommandProcessor();
@@ -108,6 +137,7 @@ namespace DroneControl
                 droneCommandProcessor.AddCommand(commandFactory.makeCommand(c.name, c.value));
             }
             droneCommandProcessor.Execute();
+            droneCommandProcessor.Undo();
 
             ApiConnection.Instance.UpdateQualityCheck("Done");
             Sound.Instance.Harmen();

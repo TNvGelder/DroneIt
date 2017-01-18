@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 
 /**
- * @author: Harmen Hilvers
+ * @author: Harmen Hilvers, Henk-Jan Leusink
  * Class containing methods for Command Handling, Commands contain behaviour the drone needs to execute
  * */
 
- 
-namespace DroneAPI.Processors.DroneProcessors
+namespace DroneAPI.DroneController
+
 {
     public class DroneCommandProcessor
     {
@@ -19,11 +19,13 @@ namespace DroneAPI.Processors.DroneProcessors
             _commands = new Queue<Command>();
         }
 
+        //Methode for adding a single command to the Queue
         public void AddCommand(Command command)
         {
             _commands.Enqueue(command);
         }
 
+        //Method for adding a List to the Queue
         public void AddListCommand(List<Command> commands)
         {
             foreach(Command command in commands)
@@ -32,6 +34,7 @@ namespace DroneAPI.Processors.DroneProcessors
             }
         }
         
+        //Sends the list with commands to the DroneController
         public void Execute()
         {
             DroneCommandSender.Instance.SendData(_commands);
