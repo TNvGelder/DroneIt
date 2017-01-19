@@ -182,8 +182,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Fakes Include="Fakes\EngineIoClientDotNet.fakes" />
-    <Content Include="ClassDiagram1.cd" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
