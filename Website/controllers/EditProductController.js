@@ -1,3 +1,7 @@
+/*
+	@Author : Henk-Jan Leusink
+	Controller used for the edit product page
+*/
 app.controller("EditProductController", function ($scope, $http, $location, $routeParams) {
     $scope.ProductID = $routeParams.Id;
 

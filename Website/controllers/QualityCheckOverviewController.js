@@ -1,3 +1,7 @@
+/*
+	@Author : Harmen Hilvers
+	Controller used for the qualitycheck overview page
+*/
 app.controller("QualityCheckOverviewController", function ($scope, $http, $location) {
 	$scope.warehouses= null;
 	$scope.selectedWarehouse= null;
@@ -5,17 +9,20 @@ app.controller("QualityCheckOverviewController", function ($scope, $http, $locat
 	$scope.selectedproduct = null;
 	$scope.selectedrow = null;
 	$scope.view = null;
-
 	$scope.ExecutedQualitycheck = null;
+
+	// method used to return array of the size of the given number
 	$scope.getNumber = function(num) {
 	    return new Array(num);   
 	}
 
-
+	// method used to set value of the selected product, this will trigger the product frame to show
 	$scope.showProductFrame = function(District,column) {	
 		$scope.selectedrow = $scope.getProductColumns(District,column);
 		console.log($scope.selectedrow);
 	}
+
+	// Returns all products that are contained in the specific district and column
 	$scope.getProductColumns = function(District,column) {
 	    var products = [];
 	    for (var i = 0; i < District.ProductLocations.length; i++) {
@@ -26,32 +33,31 @@ app.controller("QualityCheckOverviewController", function ($scope, $http, $locat
 	    return products;
 	}
 
+	// handles resizing of canvas when page size changes
 	$( window ).resize(function() {
  		$scope.ResizeCanvas();
 	});
 
+
+	// method to resize the warehouse canvas to be responsive
 	$scope.ResizeCanvas = function() {
 		var width = $("#warehousecanvas").width();
   		var w = $scope.selectedWarehouse.Width;
-  		var h = $scope.selectedWarehouse.Height;
-  		
+  		var h = $scope.selectedWarehouse.Height;  		
   		var re = (100/w) * h;
-
   		var Height = width / 100 * re;
-		console.log(Height);
+
   		$("#warehousecanvas").height(Height);
   		$(".producttr").parent().parent().parent().parent().find(".productbutton").show(); 	
 
 	}
 
-
-
+	// method to get all warehouses from api
 	$scope.LoadWarehouses = function() {
 		$http.get("http://localhost:62553/api/Warehouse/GetWarehouses")
 		.then(
 			function successCallback(response) {				
-		        $scope.warehouses = JSON.parse(response.data);
-		        console.log($scope.warehouses);
+		        $scope.warehouses = JSON.parse(response.data);	
 		        $scope.selectedWarehouse = $scope.warehouses[0];
 		        $scope.UpdateWarehouseDrawing();
  				$scope.ResizeCanvas();
@@ -64,12 +70,11 @@ app.controller("QualityCheckOverviewController", function ($scope, $http, $locat
 	    );
 	}
 
+	// method to get the current active qualitycheck, if there is a active quality check set page to qualitycheckstate
 	$scope.GetActiveQualitycheck = function() {
 		$http.get("http://localhost:62553/api/QualityCheck/GetQualityCheck")
 		.then(
-			function successCallback(response) {				
-		        console.log(response);	             
-		  
+			function successCallback(response) {	        
                 if(response.data != "null"){
 					$location.path("QualityCheckState");
 		        }else{		       
@@ -83,11 +88,13 @@ app.controller("QualityCheckOverviewController", function ($scope, $http, $locat
 	    );
 	}
 
+	// method to set the the current sellected products
 	$scope.SelectProduct = function(selectedproduct) {
 		$scope.selectedproduct = selectedproduct;
 		$scope.selectedrow = null;
 	}
 
+	// method to set the current view to graphic view
 	$scope.setGraphicView = function() {
 		$(".listviewmenu").removeClass("active");
 		$(".graphicviewmenu").addClass("active");
@@ -99,6 +106,7 @@ app.controller("QualityCheckOverviewController", function ($scope, $http, $locat
  		$scope.ResizeCanvas();
 	}
 
+	// method to set the current view to list view
 	$scope.setListView = function() {
 		$(".graphicviewmenu").removeClass("active");
 		$(".listviewmenu").addClass("active");
@@ -109,21 +117,16 @@ app.controller("QualityCheckOverviewController", function ($scope, $http, $locat
 		$scope.selectedrow = null;
 	}
 
-	$scope.drawWarehouse = function() {		
-		console.log($scope.selectedWarehouse);
-		console.log("drawing warehouse");				
-	}
-
+	// method to update warehouse data to selected warehouse
 	$scope.UpdateWarehouseDrawing = function() {
 		$scope.selectedproduct = null;	
-
 		$scope.products = $scope.GetProductsFromWarehouse($scope.selectedWarehouse);
 		console.log($scope.products);
-
-		$scope.drawWarehouse();
+		
 		$scope.setListView();
 	}
 
+	// method the execute a qualitycheck on the currend selected product
 	$scope.ExecuteQualityCheck = function() {
 		console.log("executing qualitycheck");
 		$http.post( "http://localhost:62553/api/QualityCheck/PostQualityCheck",  {id: $scope.selectedproduct.Id} )
@@ -133,7 +136,6 @@ app.controller("QualityCheckOverviewController", function ($scope, $http, $locat
 				$location.path("QualityCheckState");
 		    }, 
 		    function errorCallback(response) {
-		    	//alert("Something went wrong.")
 				$location.path("QualityCheckState");
 		    	console.log(response);		    
 		    }
@@ -141,6 +143,7 @@ app.controller("QualityCheckOverviewController", function ($scope, $http, $locat
 	
 	}
 
+	// method to get all products from warehouse as a list
 	$scope.GetProductsFromWarehouse = function(warehouse) {
 		var products = [];
 		for (var i = 0; i < warehouse.Districts.length; i++) {

@@ -1,3 +1,7 @@
+/*
+	@Author : Henk-Jan Leusink
+	controller that handles the productoverview	
+*/
 app.controller("ProductOverviewController", function ($scope, $http, $location) {
     $scope.products = [];
 
