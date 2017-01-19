@@ -13,12 +13,12 @@ using System.Web;
 
 namespace DroneAPI.Factories
 {
-    public class PathfinderFactory
-    {
+    public class PathfinderFactory : IPathfinderFactory {
         private static Pathfinder _pathfinder { get; set; }
+        public PathfinderFactory() { }
 
         // turn Warehouse into pathfinder object
-        public static Pathfinder GetPathfinderFromWarehouse(Warehouse warehouse)
+        public Pathfinder GetPathfinderFromWarehouse(Warehouse warehouse)
         {
             _pathfinder = new Pathfinder();
             List<GraphNode> GraphNodes = new List<GraphNode>();

@@ -168,7 +168,8 @@ namespace DroneAPI.Controllers
             _droneCommandProcessor = new DroneCommandProcessor();
 
             // Get Graph datastructure in pathfinder generated from selected warehouse
-            Pathfinder pathfinder = PathfinderFactory.GetPathfinderFromWarehouse(pl.District.Warehouse);
+            IPathfinderFactory pathfinderFactory = new PathfinderFactory();
+            Pathfinder pathfinder = pathfinderFactory.GetPathfinderFromWarehouse(pl.District.Warehouse);
 
             // Initiate start position (start position is drone start location)
             Position startNode = new Position(pl.District.Warehouse.StartNode.X, pl.District.Warehouse.StartNode.Y);
@@ -191,11 +192,11 @@ namespace DroneAPI.Controllers
             _droneCommandProcessor.AddCommand(new Command { name = "Start" });
 
             // add commands to the droneCommandProcessor from path, this generates the commands needed to move to the nearest graphnode to the productlocation
-            MovementCommandFactory mFactory = new MovementCommandFactory();
+            IMovementCommandFactory mFactory = new MovementCommandFactory();
             _droneCommandProcessor.AddListCommand(mFactory.GetMovementCommands(path));
 
             // add commands to move from the nearest graphnode to the position in front of the productlocation
-            DistrictCommandFactory dFactory = new DistrictCommandFactory();
+            IDistrictCommandFactory dFactory = new DistrictCommandFactory();
             _droneCommandProcessor.AddListCommand(dFactory.GetCommands(giveEndPosition(pl), pl));
 
             // add command to take picture, this also needs the current quality check id, needed for saving the pictures to the correct location

@@ -129,8 +129,10 @@
     <Compile Include="DataStructures\PriorityQueue\BinaryHeap.cs" />
     <Compile Include="DroneController\DroneCommandProcessor.cs" />
     <Compile Include="DroneController\DroneCommandSender.cs" />
-    <Compile Include="Factories\CommandFactory.cs" />
     <Compile Include="Factories\DistrictCommandFactory.cs" />
+    <Compile Include="Factories\IDistrictCommandFactory.cs" />
+    <Compile Include="Factories\IMovementCommandFactory.cs" />
+    <Compile Include="Factories\IPathfinderFactory.cs" />
     <Compile Include="Factories\PathfinderFactory.cs" />
     <Compile Include="Migrations\201612011442047_init.cs" />
     <Compile Include="Migrations\201612011442047_init.Designer.cs">

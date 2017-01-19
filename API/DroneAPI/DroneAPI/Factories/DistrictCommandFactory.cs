@@ -10,7 +10,7 @@ using DroneAPI.Models.Database;
  * */
 namespace DroneAPI.Factories
 { 
-    public class DistrictCommandFactory : CommandFactory
+    public class DistrictCommandFactory : IDistrictCommandFactory
     {
         public List<Command> GetCommands(Position p, ProductLocation pl)
         {
@@ -47,7 +47,7 @@ namespace DroneAPI.Factories
             return result;
         }
 
-        private LinkedListNode<Position> GetCurrentNode(LinkedList<Position> path)
+        public LinkedListNode<Position> GetCurrentNode(LinkedList<Position> path)
         {
             LinkedListNode<Position> currentNode = path.First;
 

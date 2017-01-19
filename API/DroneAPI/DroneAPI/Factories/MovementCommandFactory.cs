@@ -10,14 +10,9 @@ using DroneAPI.DroneController;
  * */
 namespace DroneAPI.Factories
 {
-    public class MovementCommandFactory
+    public class MovementCommandFactory : IMovementCommandFactory
     {
-        private static MovementCommandFactory _factory;
-        public static MovementCommandFactory Factory
-        {
-            get { return _factory; }
-        }
-
+    
         public MovementCommandFactory() {        }
 
 
